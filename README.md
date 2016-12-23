@@ -1,5 +1,6 @@
 [![npm](https://img.shields.io/npm/v/scenarist.svg)](https://www.npmjs.com/package/scenarist)
 [![Bower](https://img.shields.io/bower/v/scenarist.svg)](https://customelements.io/t2ym/scenarist/)
+
 # scenarist
 
 Class-based branching test scenario runner for mocha
@@ -154,34 +155,77 @@ Initial -(setup op)-> First checkpoint -(op)-> 2nd CP -> ... -> Final CP for sce
 
 ## Install
 
-```javascript
-	bower install --save-dev scenarist
+### Browsers
+
+```sh
+  bower install --save-dev scenarist
 ```
-### TODO: NodeJS
+
+### NodeJS
+
+```sh
+  npm install --save-dev scenarist
+```
 
 ## Import
 
-### Raw ES6 class version
+### Browsers
+
+#### Raw ES6 class version
 
 ```html
-	<script src="path/to/bower_components/scenarist/Suite.js"></script>
+  <script src="path/to/bower_components/scenarist/Suite.js"></script>
 ```
 
-### ES5 version
+#### ES5 version
 
-#### Note: `babel-polyfill/browser.js` is required for the ES5 version to work 
+##### Note: `babel-polyfill/browser.js` is required for the ES5 version to work 
 
 ```html
   <script src="path/to/node_modules/babel-polyfill/browser.js"></script>
   <script src="path/to/bower_components/scenarist/Suite.min.js"></script>
 ```
 
+### NodeJS
+
+#### Node 7.x with --harmony_async_await option
+
+##### Command Line
+```sh
+mocha -u tdd --harmony_async_await test.js
+```
+
+##### Test Script
+```javascript
+//require('babel-polyfill');
+const chai = require('chai');
+const assert = chai.assert;
+const Suite = require('scenarist/Suite.js');
+// test classes...
+```
+
+#### Node 6.x with Babel es2015 Transpilation
+
+##### Command Line
+```sh
+mocha -u tdd test.js
+```
+
+##### Test Script
+```javascript
+require('babel-polyfill');
+const chai = require('chai');
+const assert = chai.assert;
+const Suite = require('scenarist/Suite.min.js');
+// test classes...
+```
+
 ## Compatibility
 
 TBD
 
-- `Suite.js` requires ES6 + async/await (Chrome 55 or later)
-- `Suite.min.js` requires ES5 + babel-polyfill ( + ES6 class syntax for now )
+- `Suite.js` requires ES6 + async/await (Chrome 55 or later; Node 7.3.0 or later with --harmony_async_await)
+- `Suite.min.js` requires ES5 + babel-polyfill ( + ES6 class syntax for now; Firefox 50, Safari 10, Edge 14; Node 6.9.2 or later)
 
 ## API
 
@@ -191,7 +235,7 @@ TBD
 - `scope.test = class TestClass extends scope.classes.BaseClass {...}`
 - `scope.test = (base) => class TestClassMixin extends base {...}`
 - `scope.test = {...} // scenario object`
-- `scope.run(tests, target)
+- `scope.run(tests, target)`
 - ...
 
 ## License
