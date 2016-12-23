@@ -1,0 +1,25 @@
+{
+  "name": "scenarist",
+  "version": "0.0.1",
+  "description": "Class-based branching test scenario runner for mocha",
+  "main": "Suite.js",
+  "authors": [
+    "Tetsuya Mori <t2y3141592@gmail.com>"
+  ],
+  "license": "BSD-2-Clause",
+  "keywords": [
+    "mocha",
+    "ES6",
+    "ES2015",
+    "scenario",
+    "web-components"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

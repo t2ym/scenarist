@@ -1,0 +1,87 @@
+'use strict';
+
+const gulp = require('gulp');
+const runSequence = require('run-sequence');
+const babel = require('gulp-babel');
+const replace = require('gulp-replace');
+const rename = require('gulp-rename');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+
+gulp.task('umd', () => {
+  const name = 'Suite';
+  return gulp.src([ 'Suite.mjs' ])
+    .pipe(replace(`class ${name} {`, `
+(function (root, factory) {
+
+  'use strict';
+
+  /* istanbul ignore if: AMD is not tested */
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define([], function () {
+      return (root.${name} = root.${name} || factory());
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like enviroments that support module.exports,
+    // like Node.
+    module.exports = factory();
+  } else {
+    // Browser globals
+    root.${name} = root.${name} || factory();
+  }
+
+}(this, function () {
+// UMD Definition above, do not remove this line
+  'use strict';
+
+class ${name} {`
+    ))
+    .pipe(replace(`export default ${name};`, `
+  return ${name};
+})); // UMD Definition
+`
+    ))
+    .pipe(rename('Suite.js'))
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('es5', () => {
+  return gulp.src([ 'Suite.js' ])
+    .pipe(sourcemaps.init())
+    .pipe(babel({
+      "presets": [ /*'es2015'*/ ],
+      "plugins": [
+        'check-es2015-constants',
+        'transform-es2015-arrow-functions',
+        'transform-es2015-block-scoped-functions',
+        'transform-es2015-block-scoping',
+        'transform-es2015-classes',
+        'transform-es2015-computed-properties',
+        'transform-es2015-destructuring',
+        'transform-es2015-duplicate-keys',
+        'transform-es2015-for-of',
+        'transform-es2015-function-name',
+        'transform-es2015-literals',
+        //'transform-es2015-modules-commonjs',
+        'transform-es2015-object-super',
+        'transform-es2015-parameters',
+        'transform-es2015-shorthand-properties',
+        'transform-es2015-spread',
+        'transform-es2015-sticky-regex',
+        'transform-es2015-template-literals',
+        'transform-es2015-typeof-symbol',
+        'transform-es2015-unicode-regex',
+        'transform-regenerator'
+      ]
+    }))
+    .pipe(uglify({ mangle: false }))
+    .pipe(rename('Suite.min.js'))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('default', (done) => {
+  runSequence('umd', 'es5', done);
+});
