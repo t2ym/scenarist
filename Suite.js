@@ -181,7 +181,7 @@ class Suite {
       else {
         description = '';
       }
-      console.log('string', branch || chain[chain.length - 1], chain, description);
+      if (this.constructor.debug) { console.log('string', branch || chain[chain.length - 1], chain, description); }
       this.generateClass(branch, chain, description);
     }
     else if (typeof branch === 'object' && !Array.isArray(branch)) {
@@ -193,7 +193,7 @@ class Suite {
         }
       }
       else {
-        console.log('null', branch, chain);
+        if (this.constructor.debug) { console.log('null', branch, chain); }
         this.generateClass(branch, chain);
       }
     }
@@ -233,7 +233,7 @@ class Suite {
       });
       expression = 'return (base) => ' + expression;
       self.mixins[name] = (new Function('self', expression))(self);
-      console.log('generateClass mixins.' + name + ' = ' + expression);
+      if (self.constructor.debug) { console.log('generateClass mixins.' + name + ' = ' + expression); }
     }
     else {
       // class
@@ -266,7 +266,7 @@ class Suite {
           : 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description.replace(/"/g,'\\"') + '"; } }' : ' {}');
       self.classes[name] = (new Function('self', expression))(self);
       self.updateLeafClasses(self.classes[name]);
-      console.log('generateClass classes.' + name + ' = ' + expression);
+      if (self.constructor.debug) { console.log('generateClass classes.' + name + ' = ' + expression); }
     }
   }
   static repeat(target, count, subclass) {
@@ -392,7 +392,7 @@ class Suite {
         // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
         Promise.all(testSuites.map(async (s) => (new s(target)).run()))
           .then(() => {
-            console.log(self.description + ' done for ', classes);
+            if (self.constructor.debug) { console.log(self.description + ' done for ', classes); }
           });
       });
     }
