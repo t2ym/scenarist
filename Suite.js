@@ -60,7 +60,7 @@ class Suite {
         this.classSyntaxSupport = false;
       }
       try {
-        new Function('return () => return 1');
+        new Function('return () => 1');
       }
       catch (e) {
         this.arrowFunctionSupport = false;
