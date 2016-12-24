@@ -204,7 +204,7 @@ const Suite = require('scenarist/Suite.js');
 // test classes...
 ```
 
-#### Node 6.x with Babel es2015 Transpilation
+#### Node 4.x - 6.x with Babel es2015 Transpilation
 
 ##### Command Line
 ```sh
@@ -225,7 +225,7 @@ const Suite = require('scenarist/Suite.min.js');
 TBD
 
 - `Suite.js` requires ES6 + async/await (Chrome 55 or later; Node 7.3.0 or later with --harmony_async_await)
-- `Suite.min.js` requires ES5 + babel-polyfill ( + ES6 class syntax for now; Firefox 50, Safari 10, Edge 14; Node 6.9.2 or later)
+- `Suite.min.js` requires ES5 + babel-polyfill (Firefox 50, Safari 10, Edge 14, IE11; Node 4.x or later)
 
 ## API
 
@@ -236,7 +236,63 @@ TBD
 - `scope.test = (base) => class TestClassMixin extends base {...}`
 - `scope.test = {...} // scenario object`
 - `scope.run(tests, target)`
+- `Suite.repeat('TestClassMixin', count, 'TestClass')`
+- `Suite.permute([ 'Test1', 'Test2', 'Test3' ], 'TestClass')`
+- `TestClass.skipAfterFailure`
+- `TestClass.reconnectable`
 - ...
+
+## Complex Examples
+
+### Test Class Mixin with Parameterized Iterations
+
+```javascript
+{
+  let example = new Suite('example');
+  example.test = (base) => class DragDialogTest extends base {
+    * iteration() {
+      let dx = 10;
+      let dy = 10;
+      yield *[
+        { mode: 'position', dx: dx, dy: dy, expected: { x: dx, y: dy, width: 0, height: 0 } },
+        { mode: 'upper-left', dx: -dx, dy: -dy, expected: { x: -dx, y: -dy, width: dx, height: dy } },
+        { mode: 'upper', dx: -dx, dy: -dy, expected: { x: 0, y: -dy, width: 0, height: dy } },
+        { mode: 'upper-right', dx: dx, dy: -dy, expected: { x: 0, y: -dy, width: dx, height: dy } },
+        { mode: 'middle-left', dx: -dx, dy: dy, expected: { x: -dx, y: 0, width: dx, height: 0 } },
+        { mode: 'middle-right', dx: dx, dy: dy, expected: { x: 0, y: 0, width: dx, height: 0 } },
+        { mode: 'lower-left', dx: -dx, dy: dy, expected: { x: -dx, y: 0, width: dx, height: dy } },
+        { mode: 'lower', dx: dx, dy: dy, expected: { x: 0, y: 0, width: 0, height: dy } },
+        { mode: 'lower-right', dx: dx, dy: dy, expected: { x: 0, y: 0, width: dx, height: dy } },
+        { mode: '.title-pad', dx: dx, dy: dy, expected: { x: 0, y: 0, width: 0, height: 0 } }
+      ].map((parameters) => { parameters.name = 'drag dialog by ' + parameters.mode + ' handle'; return parameters });
+    }
+    async operation(parameters) {
+      let self = this;
+      let handle = self.dialog.$.handle.querySelector(parameters.mode.match(/^[.]/) ? parameters.mode : '[drag-handle-mode=' + parameters.mode + ']');
+      self.origin = {};
+      [ 'x', 'y', 'width', 'height' ].forEach(function (prop) {
+        self.origin[prop] = self.dialog[prop];
+      });
+      handle.dispatchEvent(new MouseEvent('mouseover', {
+        bubbles: true,
+        cancelable: true,
+        clientX: 0,
+        clientY: 0,
+        buttons: 1
+      }));
+      await self.forEvent(self.dialog, 'track', () => { MockInteractions.track(self.dialog, parameters.dx, parameters.dy); }, (element, type, event) => event.detail.state === 'end');
+    }
+    async checkpoint(parameters) {
+      for (let prop in parameters.expected) {
+        assert.equal(
+          this.dialog[prop],
+          this.origin[prop] + parameters.expected[prop],
+          'dialog is dragged with ' + parameters.mode + ' handle by ' + parameters.expected[prop] + ' in ' + prop);
+      }
+    }
+  }
+}
+```
 
 ## License
 
