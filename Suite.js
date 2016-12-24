@@ -18,6 +18,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     // only CommonJS-like enviroments that support module.exports,
     // like Node.
     module.exports = factory();
+    try {
+      new Function('return class $$A$$ {}');
+    }
+    catch (e) {
+      // Supply Babel runtime helpers
+      module.exports._createClass = module.exports._createClass || require('babel-runtime/helpers/_create-class.js').default;
+      module.exports._classCallCheck = module.exports._classCallCheck || require('babel-runtime/helpers/_class-call-check.js').default;
+      module.exports._possibleConstructorReturn = module.exports._possibleConstructorReturn || require('babel-runtime/helpers/_possible-constructor-return.js').default;
+      module.exports._inherits = module.exports._inherits || require('babel-runtime/helpers/_inherits.js').default;
+    }
   } else {
     // Browser globals
     root.Suite = root.Suite || factory();
@@ -31,7 +41,7 @@ class Suite {
   static get reconnectable() { return true; }
   static get skipAfterFailure() { return false; }
   constructor(target, description = target + ' suite') {
-    if (this.constructor.name === 'Suite') {
+    if (Suite._name(this.constructor) === 'Suite') {
       // suite instance
       this.scope = target || '';
       this.description = description;
@@ -41,6 +51,20 @@ class Suite {
       this.mixins = {};
       this.constructor.scopes = this.constructor.scopes || {};
       this.constructor.scopes[this.scope] = this;
+      this.classSyntaxSupport = true;
+      this.arrowFunctionSupport = true;
+      try {
+        new Function('return class A {}');
+      }
+      catch (e) {
+        this.classSyntaxSupport = false;
+      }
+      try {
+        new Function('return () => return 1');
+      }
+      catch (e) {
+        this.arrowFunctionSupport = false;
+      }
     }
     else {
       // test instance
@@ -56,23 +80,29 @@ class Suite {
       // lowercase
       .toLowerCase();
   }
+  static _name(func) {
+    return func.hasOwnProperty('name')
+      ? func.name
+      : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "");
+  }
   set test(value) {
     if (typeof value === 'function') {
-      if (value.name) {
+      let name = Suite._name(value);
+      if (name) {
         // test class
-        if (this.classes[value.name]) {
+        if (this.classes[name]) {
           // test class with the name already exists
           throw new Error(this.constructor.name + '.' + this.scope + ': class ' + value.name + ' already exists');
         }
         else {
           // register a new test class with the name
-          this.classes[value.name] = value;
+          this.classes[name] = value;
           this.updateLeafClasses(value);
         }
       }
       else {
         // test class mixin
-        let name = value(null).name;
+        name = Suite._name(value(null));
         if (name) {
           if (this.mixins[name]) {
             // test class mixin with the name already exists
@@ -130,7 +160,7 @@ class Suite {
       }
     }
     // [ 'UnreconnectableTest', 'ReconnectableTest,ReconnectableTest,...', 'UnreconnectableTest', ...]
-    return reconnectableList.map(l => l.map(c => c.name).join(','));
+    return reconnectableList.map(l => l.map(c => Suite._name(c)).join(','));
   }
   testClasses(tests) {
     let self = this;
@@ -144,11 +174,11 @@ class Suite {
   updateLeafClasses(value) {
     let proto = value;
     let chain = [];
-    let name = proto.name;
+    let name = Suite._name(proto);
     let isLeaf = true;
     let scenario = '';
-    while (proto.name && proto.name !== 'Suite') {
-      chain.unshift(proto.name);
+    while (Suite._name(proto) && Suite._name(proto) !== 'Suite') {
+      chain.unshift(Suite._name(proto));
       proto = Object.getPrototypeOf(proto);
     }
     for (let i in chain) {
@@ -231,7 +261,9 @@ class Suite {
           throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + c + ' does not exist');
         }
       });
-      expression = 'return (base) => ' + expression;
+      expression = self.arrowFunctionSupport
+        ? 'return (base) => ' + expression
+        : 'return function (base) { return ' + expression + '; }';
       self.mixins[name] = (new Function('self', expression))(self);
       if (self.constructor.debug) { console.log('generateClass mixins.' + name + ' = ' + expression); }
     }
@@ -259,11 +291,35 @@ class Suite {
           throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + c + ' does not exist');
         }
       });
+      if (description) {
+        description = description.replace(/"/g,'\\"').replace(/\n/g, ' ');
+      }
+      let prefix = !this.classSyntaxSupport && typeof Suite._createClass === 'function' && typeof window !== 'object' ? 'self.constructor.' : '';
       expression = chain.length === 1 && name === expression
         ? 'return ' + name
         : name === chain[chain.length - 1]
           ? 'return ' + expression
-          : 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description.replace(/"/g,'\\"') + '"; } }' : ' {}');
+          : self.classSyntaxSupport
+            ? 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description + '"; } }' : ' {}')
+            : description
+              // TODO: Simplify ES5 classes without Babel helper functions
+              ? `return function (_base) {
+                  ${prefix}_inherits(${name}, _base);
+                  function ${name}() {
+                    ${prefix}_classCallCheck(this, ${name});
+                    return ${prefix}_possibleConstructorReturn(this, (${name}.__proto__ || Object.getPrototypeOf(${name})).apply(this, arguments));
+                  }
+                  ${prefix}_createClass(${name}, [{ key: 'description', get: function get() { return "${description}"; } }]);
+                  return ${name};
+                }(${expression})`
+              : `return function (_base) {
+                  ${prefix}_inherits(${name}, _base);
+                  function ${name}() {
+                    ${prefix}_classCallCheck(this, ${name});
+                    return ${prefix}_possibleConstructorReturn(this, (${name}.__proto__ || Object.getPrototypeOf(${name})).apply(this, arguments));
+                  }
+                  return ${name};
+                }(${expression})`;
       self.classes[name] = (new Function('self', expression))(self);
       self.updateLeafClasses(self.classes[name]);
       if (self.constructor.debug) { console.log('generateClass classes.' + name + ' = ' + expression); }
@@ -353,7 +409,7 @@ class Suite {
     let proto = Object.getPrototypeOf(this);
     while (proto.constructor.name && proto.constructor.name !== 'Object') {
       steps.unshift({
-        name: proto.hasOwnProperty('description') ? proto.description : this.uncamel(proto.constructor.name),
+        name: proto.hasOwnProperty('description') ? proto.description : this.uncamel(Suite._name(proto.constructor)),
         iteration: proto.hasOwnProperty('iteration') ? proto.iteration : undefined,
         operation: proto.hasOwnProperty('operation') ? proto.operation : undefined,
         checkpoint: proto.hasOwnProperty('checkpoint') ? proto.checkpoint: undefined
@@ -367,7 +423,7 @@ class Suite {
   async run(classes, target) {
     // TODO: return a Promise object?
     let self = this;
-    if (self.constructor.name === 'Suite') {
+    if (Suite._name(self.constructor) === 'Suite') {
       // Suite Runner
       let testSuites = [];
       if (typeof classes === 'number' || typeof classes === 'string') {
@@ -398,7 +454,7 @@ class Suite {
     }
     else {
       // Scenario Runner
-      suite(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(self.constructor.name), async function () {
+      suite(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), async function () {
         suiteSetup(async function () {
           await self.setup();
         });
