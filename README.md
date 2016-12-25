@@ -192,7 +192,7 @@ Initial -(setup op)-> First checkpoint -(op)-> 2nd CP -> ... -> Final CP for sce
 
 ##### Command Line
 ```sh
-mocha -u tdd --harmony_async_await test.js
+mocha --harmony_async_await test.js
 ```
 
 ##### Test Script
@@ -208,7 +208,7 @@ const Suite = require('scenarist/Suite.js');
 
 ##### Command Line
 ```sh
-mocha -u tdd test.js
+mocha test.js
 ```
 
 ##### Test Script
