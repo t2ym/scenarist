@@ -220,6 +220,44 @@ const Suite = require('scenarist/Suite.min.js');
 // test classes...
 ```
 
+#### Node with Multiple Scopes
+
+##### Command Line
+```sh
+mocha test.js
+```
+
+##### Driver Test Script (test.js)
+```javascript
+require('babel-polyfill');
+const chai = require('chai');
+const assert = chai.assert;
+global.Suite = require('scenarist/Suite.min.js');
+
+require('./scope1-test.js');
+require('./scope2-test.js');
+
+for (var scope in Suite.scopes) {
+  Suite.scopes[scope].test.forEach(function (tests, index) {
+    Suite.scopes[scope].run(index); // if run() is not called in scope*-test.js
+  });
+}
+```
+
+##### Test Script 1 (scope1-test.js)
+```javascript
+const scope1 = new Suite('scope1', 'Scope 1 Suites');
+// test classes
+scope1.test = ...
+```
+
+##### Test Script 2 (scope2-test.js)
+```javascript
+const scope2 = new Suite('scope2', 'Scope 2 Suites');
+// test classes
+scope2.test = ...
+```
+
 ## Compatibility
 
 TBD
