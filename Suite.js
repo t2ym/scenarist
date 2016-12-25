@@ -444,7 +444,7 @@ class Suite {
           testSuites.push(classes[c]);
         }
       }
-      suite(self.description || (self.scope + ' suite'), function() {
+      (typeof suite === 'function' ? suite : describe)(self.description || (self.scope + ' suite'), function() {
         // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
         Promise.all(testSuites.map(async (s) => (new s(target)).run()))
           .then(() => {
@@ -454,8 +454,8 @@ class Suite {
     }
     else {
       // Scenario Runner
-      suite(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), async function () {
-        suiteSetup(async function () {
+      (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), async function () {
+        (typeof suiteSetup === 'function' ? suiteSetup : before)(async function () {
           await self.setup();
         });
 
@@ -465,7 +465,7 @@ class Suite {
               // suite() has to be commented out since subsuites are executed after all the other sibling tests
               //suite(step.name + ' iterations', async function () {
                 for (let parameters of step.iteration.apply(self)) {
-                  test(parameters.name ?
+                  (typeof test === 'function' ? test : it)(parameters.name ?
                         (typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name)
                         : step.name, async function() {
                     if (self.constructor.skipAfterFailure && self.__failed) {
@@ -485,7 +485,7 @@ class Suite {
               //});
             }
             else {
-              test(step.name, async function() {
+              (typeof test === 'function' ? test : it)(step.name, async function() {
                 if (self.constructor.skipAfterFailure && self.__failed) {
                   this.skip();
                   return;
@@ -503,7 +503,7 @@ class Suite {
           }
         }
 
-        suiteTeardown(async function () {
+        (typeof suiteTeardown === 'function' ? suiteTeardown : after)(async function () {
           await self.teardown();
         });
       });
