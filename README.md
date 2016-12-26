@@ -95,10 +95,6 @@ class ExampleSuite extends Suite {
     // match[1] = '0' for the first round of test suites runnable without reloading
     example.run(match[1], '#example');
   }
-  else {
-    // For Driver
-    testSuites[scope] = Suite.scopes[scope].test;
-  }
 } // example scope
 ```
 
@@ -246,24 +242,27 @@ for (var scope in Suite.scopes) {
 
 ##### Test Script 1 (scope1-test.js)
 ```javascript
-const scope1 = new Suite('scope1', 'Scope 1 Suites');
+let scope1 = new Suite('scope1', 'Scope 1 Suites');
 // test classes
 scope1.test = ...
 ```
 
 ##### Test Script 2 (scope2-test.js)
 ```javascript
-const scope2 = new Suite('scope2', 'Scope 2 Suites');
+let scope2 = new Suite('scope2', 'Scope 2 Suites');
 // test classes
 scope2.test = ...
 ```
 
 ## Compatibility
 
-TBD
+| Version  | Chrome 55+ | Firefox 52+ | Edge 15+ | Safari 10 TP+ | Opera 42+ | Node 7+ with async/await | ECMAScript Feat.  |
+|:---------|:----------:|:-----------:|:--------:|:-------------:|:---------:|:------------------------:|:-----------------:|
+| Suite.js | ✔          | ✔           | ✔        | ✔             | ✔         | ✔                        | ES6 + async/await |
 
-- `Suite.js` requires ES6 + async/await (Chrome 55 or later; Node 7.3.0 or later with --harmony_async_await)
-- `Suite.min.js` requires ES5 + babel-polyfill (Firefox 50, Safari 10, Edge 14, IE11; Node 4.x or later)
+| Version      | Chrome 55+ | Firefox 50+ | IE 11/Edge 13+ | Safari 10+ | Opera 42+ | Node 4+ | ECMAScript Feat.     |
+|:-------------|:----------:|:-----------:|:--------------:|:----------:|:---------:|:-------:|:--------------------:|
+| Suite.min.js | ✔          | ✔           | ✔              | ✔          | ✔         | ✔       | ES5 + babel-polyfill |
 
 ## API
 
