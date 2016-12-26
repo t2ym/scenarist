@@ -304,7 +304,7 @@ class Suite {
                     .replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
                     .replace(/__SUBCLASS__/g, subclass)
                     .replace(/_inherits|_classCallCheck|_createClass|_possibleConstructorReturn/g, prefix + '$&')
-                    .replace(/ 314159265358;/g, ' "' + description + '";')
+                    .replace(/ 314159265358;?/g, ' "' + description + '";')
                   + ')(' + base + ');'
               })(name, expression, description);
       self.classes[name] = (new Function('self', expression))(self);
