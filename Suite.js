@@ -72,13 +72,7 @@ class Suite {
     }
   }
   uncamel(name) {
-    return name
-      // insert a hyphen between lower & upper
-      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-      // space before last upper in a sequence followed by lower
-      .replace(/\b([A-Z]+)([A-Z])([a-z0-9])/, '$1 $2$3')
-      // lowercase
-      .toLowerCase();
+    return name.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/[ ]{1,}/g, ' ').replace(/^ /, '').toLowerCase();
   }
   static _name(func) {
     return func.hasOwnProperty('name')
