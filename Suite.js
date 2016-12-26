@@ -295,25 +295,18 @@ class Suite {
           ? 'return ' + expression
           : self.classSyntaxSupport
             ? 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description + '"; } }' : ' {}')
-            : description
-              // TODO: Simplify ES5 classes without Babel helper functions
-              ? `return function (_base) {
-                  ${prefix}_inherits(${name}, _base);
-                  function ${name}() {
-                    ${prefix}_classCallCheck(this, ${name});
-                    return ${prefix}_possibleConstructorReturn(this, (${name}.__proto__ || Object.getPrototypeOf(${name})).apply(this, arguments));
-                  }
-                  ${prefix}_createClass(${name}, [{ key: 'description', get: function get() { return "${description}"; } }]);
-                  return ${name};
-                }(${expression})`
-              : `return function (_base) {
-                  ${prefix}_inherits(${name}, _base);
-                  function ${name}() {
-                    ${prefix}_classCallCheck(this, ${name});
-                    return ${prefix}_possibleConstructorReturn(this, (${name}.__proto__ || Object.getPrototypeOf(${name})).apply(this, arguments));
-                  }
-                  return ${name};
-                }(${expression})`;
+            : (function (subclass, base, description) { // generate ES5 class by manipulating transpiled func.toString()
+                return 'return (' +
+                  (description
+                    ? function (__BASE_CLASS__) { return class __SUBCLASS__ extends __BASE_CLASS__ { get description() { return __DESCRIPTION__; } } }
+                    : function (__BASE_CLASS__) { return class __SUBCLASS__ extends __BASE_CLASS__ {} }
+                  ).toString()
+                    .replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
+                    .replace(/__SUBCLASS__/g, subclass)
+                    .replace(/_inherits|_classCallCheck|_createClass|_possibleConstructorReturn/g, prefix + '$&')
+                    .replace(/ __DESCRIPTION__;/g, ' "' + description + '";')
+                  + ')(' + base + ');'
+              })(name, expression, description);
       self.classes[name] = (new Function('self', expression))(self);
       self.updateLeafClasses(self.classes[name]);
       if (self.constructor.debug) { console.log('generateClass classes.' + name + ' = ' + expression); }
