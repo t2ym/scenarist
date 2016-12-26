@@ -364,7 +364,8 @@ class Suite {
         name: proto.hasOwnProperty('description') ? proto.description : this.uncamel(Suite._name(proto.constructor)),
         iteration: proto.hasOwnProperty('iteration') ? proto.iteration : undefined,
         operation: proto.hasOwnProperty('operation') ? proto.operation : undefined,
-        checkpoint: proto.hasOwnProperty('checkpoint') ? proto.checkpoint: undefined
+        checkpoint: proto.hasOwnProperty('checkpoint') ? proto.checkpoint: undefined,
+        ctor: proto.constructor
       });
       proto = Object.getPrototypeOf(proto);
     }
@@ -406,6 +407,7 @@ class Suite {
     }
     else {
       // Scenario Runner
+      let overrideToString = (func, ctor) => { func.toString = () => ctor.toString(); return func; };
       (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), async function () {
         (typeof suiteSetup === 'function' ? suiteSetup : before)(async function () {
           await self.setup();
@@ -419,7 +421,7 @@ class Suite {
                 for (let parameters of step.iteration.apply(self)) {
                   (typeof test === 'function' ? test : it)(parameters.name ?
                         (typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name)
-                        : step.name, async function() {
+                        : step.name, overrideToString(async function() {
                     if (self.constructor.skipAfterFailure && self.__failed) {
                       this.skip();
                       return;
@@ -432,12 +434,12 @@ class Suite {
                       await step.checkpoint.call(self, parameters);
                     }
                     self.__failed = false;
-                  });
+                  }, step.ctor));
                 }
               //});
             }
             else {
-              (typeof test === 'function' ? test : it)(step.name, async function() {
+              (typeof test === 'function' ? test : it)(step.name, overrideToString(async function() {
                 if (self.constructor.skipAfterFailure && self.__failed) {
                   this.skip();
                   return;
@@ -450,7 +452,7 @@ class Suite {
                   await step.checkpoint.call(self);
                 }
                 self.__failed = false;
-              });
+              }, step.ctor));
             }
           }
         }
