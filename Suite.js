@@ -298,13 +298,13 @@ class Suite {
             : (function (subclass, base, description) { // generate ES5 class by manipulating transpiled func.toString()
                 return 'return (' +
                   (description
-                    ? function (__BASE_CLASS__) { return class __SUBCLASS__ extends __BASE_CLASS__ { get description() { return __DESCRIPTION__; } } }
+                    ? function (__BASE_CLASS__) { return class __SUBCLASS__ extends __BASE_CLASS__ { get description() { return 314159265358; } } }
                     : function (__BASE_CLASS__) { return class __SUBCLASS__ extends __BASE_CLASS__ {} }
                   ).toString()
                     .replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
                     .replace(/__SUBCLASS__/g, subclass)
                     .replace(/_inherits|_classCallCheck|_createClass|_possibleConstructorReturn/g, prefix + '$&')
-                    .replace(/ __DESCRIPTION__;/g, ' "' + description + '";')
+                    .replace(/ 314159265358;/g, ' "' + description + '";')
                   + ')(' + base + ');'
               })(name, expression, description);
       self.classes[name] = (new Function('self', expression))(self);
