@@ -256,13 +256,10 @@ scope2.test = ...
 
 ## Compatibility
 
-| Version  | Chrome 55+ | Firefox 52+ | Edge 15+ | Safari 10 TP+ | Opera 42+ | Node 7+ with async/await | ECMAScript Feat.  |
-|:---------|:----------:|:-----------:|:--------:|:-------------:|:---------:|:------------------------:|:-----------------:|
-| Suite.js | ✔          | ✔           | ✔        | ✔             | ✔         | ✔                        | ES6 + async/await |
-
-| Version      | Chrome 55+ | Firefox 50+ | IE 11/Edge 13+ | Safari 10+ | Opera 42+ | Node 4+ | ECMAScript Feat.     |
-|:-------------|:----------:|:-----------:|:--------------:|:----------:|:---------:|:-------:|:--------------------:|
-| Suite.min.js | ✔          | ✔           | ✔              | ✔          | ✔         | ✔       | ES5 + babel-polyfill |
+| Version      | Chrome | Firefox | IE/Edge | Safari | Opera | Node        | ECMAScript           |
+|:-------------|:------:|:-------:|:-------:|:------:|:-----:|:-----------:|:--------------------:|
+| Suite.js     | 55+    | 52+     | 15+     | 10 TP+ | 42+   | 7+ w/ async | ES6 + async/await    |
+| Suite.min.js | 55+    | 50+     | 11+     | 10+    | 42+   | 4+ w/ babel | ES5 + babel-polyfill |
 
 ## API
 
