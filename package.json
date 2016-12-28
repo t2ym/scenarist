@@ -6,7 +6,7 @@
   "module": "Suite.mjs",
   "jsnext:main": "Suite.mjs",
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec && wct test/es5/index.html",
     "build": "gulp"
   },
   "repository": {
