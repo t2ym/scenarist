@@ -123,7 +123,7 @@ class Suite {
   }
   testClasses(tests) {
     let self = this;
-    return (typeof tests === 'number' || tests.match(/^[0-9]$/) ? self.test[tests] : tests).split(/,/).map((name) => {
+    return (typeof tests === 'number' || tests.match(/^[0-9]$/) ? self.test[parseInt(tests)] : tests).split(/,/).map((name) => {
       if (!self.classes[name]) {
         throw new Error('Suite.' + self.scope + ': Test ' + name + ' is not defined');
       }
