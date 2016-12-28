@@ -1,6 +1,8 @@
 'use strict';
 // global test classes
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -392,15 +394,17 @@ var ExampleSuite = function (_Suite) {
     })]
   };
 
-  //let match = decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/);
-  //window.testSuites = window.testSuites || {};
+  var match = (typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' ? decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/) : false;
 
-  //if (match) {
-  // Runner
-  example.run(0, '#example');
-  //}
-  //else {
-  // Driver
-  //testSuites[scope] = Suite.scopes[scope].test;
-  //}
+  if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object') {
+    // Browser
+    if (match) {
+      example.run(parseInt(match[1]), '#example');
+    }
+  } else {
+    // Node
+    for (var i = 0; i < example.test.length; i++) {
+      example.run(i, '#example');
+    }
+  }
 } // example scope

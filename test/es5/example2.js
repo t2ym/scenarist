@@ -1,5 +1,6 @@
 'use strict';
-// global test classes
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -11,66 +12,62 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-global.Example2Suite = function (_Suite) {
-  _inherits(Example2Suite, _Suite);
-
-  function Example2Suite() {
-    _classCallCheck(this, Example2Suite);
-
-    return _possibleConstructorReturn(this, (Example2Suite.__proto__ || Object.getPrototypeOf(Example2Suite)).apply(this, arguments));
-  }
-
-  _createClass(Example2Suite, [{
-    key: 'setup',
-    value: function setup() {
-      return regeneratorRuntime.async(function setup$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return regeneratorRuntime.awrap(_get(Example2Suite.prototype.__proto__ || Object.getPrototypeOf(Example2Suite.prototype), 'setup', this).call(this));
-
-            case 2:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
-    key: 'teardown',
-    value: function teardown() {
-      return regeneratorRuntime.async(function teardown$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return regeneratorRuntime.awrap(_get(Example2Suite.prototype.__proto__ || Object.getPrototypeOf(Example2Suite.prototype), 'teardown', this).call(this));
-
-            case 2:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, null, this);
-    }
-  }], [{
-    key: 'reconnectable',
-    value: function reconnectable() {
-      return false;
-    }
-  }]);
-
-  return Example2Suite;
-}(Suite);
 {
-  var scope = 'test';
-  var target = new Suite(scope, 'test target suite');
-}
-{
-  // example scope
-  var _scope = 'example2';
-  var example = new Suite(_scope, 'Description of Example 2 Suite');
+  // example2 scope
+  var scope = 'example2';
+  var example = new Suite(scope, 'Description of Example 2 Suite');
+  example.test = function (_Suite) {
+    _inherits(Example2Suite, _Suite);
+
+    function Example2Suite() {
+      _classCallCheck(this, Example2Suite);
+
+      return _possibleConstructorReturn(this, (Example2Suite.__proto__ || Object.getPrototypeOf(Example2Suite)).apply(this, arguments));
+    }
+
+    _createClass(Example2Suite, [{
+      key: 'setup',
+      value: function setup() {
+        return regeneratorRuntime.async(function setup$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return regeneratorRuntime.awrap(_get(Example2Suite.prototype.__proto__ || Object.getPrototypeOf(Example2Suite.prototype), 'setup', this).call(this));
+
+              case 2:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, null, this);
+      }
+    }, {
+      key: 'teardown',
+      value: function teardown() {
+        return regeneratorRuntime.async(function teardown$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return regeneratorRuntime.awrap(_get(Example2Suite.prototype.__proto__ || Object.getPrototypeOf(Example2Suite.prototype), 'teardown', this).call(this));
+
+              case 2:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, null, this);
+      }
+    }], [{
+      key: 'reconnectable',
+      get: function get() {
+        return false;
+      }
+    }]);
+
+    return Example2Suite;
+  }(Suite);
   example.test = function (base) {
     return function (_base) {
       _inherits(TestA, _base);
@@ -297,8 +294,8 @@ global.Example2Suite = function (_Suite) {
 
     return TestC;
   }(Suite);
-  example.test = function (_Example2Suite) {
-    _inherits(TestD, _Example2Suite);
+  example.test = function (_example$classes$Exam) {
+    _inherits(TestD, _example$classes$Exam);
 
     function TestD() {
       _classCallCheck(this, TestD);
@@ -335,9 +332,9 @@ global.Example2Suite = function (_Suite) {
     }]);
 
     return TestD;
-  }(Example2Suite);
-  example.test = function (_Example2Suite2) {
-    _inherits(TestE, _Example2Suite2);
+  }(example.classes.Example2Suite);
+  example.test = function (_example$classes$Exam2) {
+    _inherits(TestE, _example$classes$Exam2);
 
     function TestE() {
       _classCallCheck(this, TestE);
@@ -379,7 +376,7 @@ global.Example2Suite = function (_Suite) {
     }]);
 
     return TestE;
-  }(Example2Suite);
+  }(example.classes.Example2Suite);
   example.test = {
     // test class mixins
     '': [{
@@ -423,19 +420,25 @@ global.Example2Suite = function (_Suite) {
     }
   };
 
-  //let match = decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/);
-  //window.testSuites = window.testSuites || {};
+  var match = (typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' ? decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/) : false;
 
-  //if (match) {
-  // Runner
-  for (var i = 0; i < example.test.length; i++) {
-    example.run(i, '#example2');
-  }example.run(['TestCAB']);
-  example.run([example.classes.TestCAB]);
-  example.run({ TestCAB: example.classes.TestCAB });
-  //}
-  //else {
-  // Driver
-  //testSuites[scope] = Suite.scopes[scope].test;
-  //}
-} // example scope
+  if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object') {
+    // Browser
+    if (match) {
+      if (match[1] === 'extra') {
+        example.run(['TestCAB']);
+        example.run([example.classes.TestCAB]);
+        example.run({ TestCAB: example.classes.TestCAB });
+      } else {
+        example.run(parseInt(match[1]), '#example2');
+      }
+    }
+  } else {
+    // Node
+    for (var i = 0; i < example.test.length; i++) {
+      example.run(i, '#example2');
+    }example.run(['TestCAB']);
+    example.run([example.classes.TestCAB]);
+    example.run({ TestCAB: example.classes.TestCAB });
+  }
+} // example2 scope

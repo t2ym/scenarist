@@ -1,22 +1,17 @@
 'use strict';
-// global test classes
-global.Example2Suite = class Example2Suite extends Suite {
-  static reconnectable() { return false; }
-  async setup() {
-    await super.setup();
-  }
-  async teardown() {
-    await super.teardown();
-  }
-}
 {
-  let scope = 'test';
-  let target = new Suite(scope, 'test target suite');
-}
-{
-  // example scope
+  // example2 scope
   let scope = 'example2';
   let example = new Suite(scope, 'Description of Example 2 Suite');
+  example.test = class Example2Suite extends Suite {
+    static get reconnectable() { return false; }
+    async setup() {
+      await super.setup();
+    }
+    async teardown() {
+      await super.teardown();
+    }
+  }
   example.test = (base) => class TestA extends base {
     get description() { return 'Description of Test A'; }
     async operation() {
@@ -66,7 +61,7 @@ global.Example2Suite = class Example2Suite extends Suite {
       //console.log('Checkpoint for Test C');
     }
   }
-  example.test = class TestD extends Example2Suite {
+  example.test = class TestD extends example.classes.Example2Suite {
     async operation() {
       //console.log('Test D operation');
     }
@@ -74,7 +69,7 @@ global.Example2Suite = class Example2Suite extends Suite {
       //console.log('Checkpoint for Test D');
     }
   }
-  example.test = class TestE extends Example2Suite {
+  example.test = class TestE extends example.classes.Example2Suite {
     static get skipAfterFailure() { return true; }
     async operation() {
       //console.log('Test D operation');
@@ -129,19 +124,29 @@ global.Example2Suite = class Example2Suite extends Suite {
     }
   };
 
-  //let match = decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/);
-  //window.testSuites = window.testSuites || {};
+  let match = typeof window === 'object'
+    ? decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/)
+    : false;
 
-  //if (match) {
-    // Runner
+  if (typeof window === 'object') {
+    // Browser
+    if (match) {
+      if (match[1] === 'extra') {
+        example.run([ 'TestCAB' ]);
+        example.run([ example.classes.TestCAB ]);
+        example.run({ TestCAB: example.classes.TestCAB });
+      }
+      else {
+        example.run(parseInt(match[1]), '#example2');
+      }
+    }
+  }
+  else {
+    // Node
     for (var i = 0; i < example.test.length; i++)
       example.run(i, '#example2');
     example.run([ 'TestCAB' ]);
     example.run([ example.classes.TestCAB ]);
     example.run({ TestCAB: example.classes.TestCAB });
-  //}
-  //else {
-    // Driver
-    //testSuites[scope] = Suite.scopes[scope].test;
-  //}
-} // example scope
+  }
+} // example2 scope

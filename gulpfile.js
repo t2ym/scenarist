@@ -1,6 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
+const gulpif = require('gulp-if');
 const runSequence = require('run-sequence');
 const babel = require('gulp-babel');
 const replace = require('gulp-replace');
@@ -93,11 +94,13 @@ gulp.task('es5', () => {
 });
 
 gulp.task('build:test', () => {
-  return gulp.src([ 'test/src/*.js' ])
+  return gulp.src([ 'test/src/*.js', 'test/src/*.html' ])
     //.pipe(sourcemaps.init())
     .pipe(replace('//require(\'babel-polyfill\')', 'require(\'babel-polyfill\')'))
+    .pipe(replace('<!-- <script src="../../node_modules/babel-polyfill/browser.js"></script> -->',
+      '<script src="../../node_modules/babel-polyfill/browser.js"></script>'))
     .pipe(replace('/Suite.js', '/Suite.min.js'))
-    .pipe(babel({
+    .pipe(gulpif('*.js', babel({
       "presets": [ /*'es2015'*/ ],
       "plugins": [
         'check-es2015-constants',
@@ -122,7 +125,7 @@ gulp.task('build:test', () => {
         'transform-es2015-unicode-regex',
         'transform-regenerator'
       ]
-    }))
+    })))
     //.pipe(uglify({ mangle: false }))
     //.pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('test/es5'));

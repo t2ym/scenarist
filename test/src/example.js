@@ -111,15 +111,19 @@ class ExampleSuite extends Suite {
     ]
   };
 
-  //let match = decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/);
-  //window.testSuites = window.testSuites || {};
+  let match = typeof window === 'object'
+    ? decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/)
+    : false;
 
-  //if (match) {
-    // Runner
-    example.run(0, '#example');
-  //}
-  //else {
-    // Driver
-    //testSuites[scope] = Suite.scopes[scope].test;
-  //}
+  if (typeof window === 'object') {
+    // Browser
+    if (match) {
+      example.run(parseInt(match[1]), '#example');
+    }
+  }
+  else {
+    // Node
+    for (var i = 0; i < example.test.length; i++)
+      example.run(i, '#example');
+  }
 } // example scope
