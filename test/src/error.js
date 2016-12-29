@@ -1,6 +1,6 @@
 'use strict';
 // global test classes
-class ErrorSuite extends Suite {
+(typeof window === 'object' ? window : global).ErrorSuite = class ErrorSuite extends Suite {
   async setup() {
     await super.setup();
   }
@@ -133,6 +133,63 @@ class ErrorSuite extends Suite {
               }
             };
           }, /Suite[.]error:generateClass mixin InexistentMixin2 does not exist/);
+        });
+
+      });
+    });
+
+    (typeof suite === 'function' ? suite : describe)('Scenario test', function () {
+      (typeof suite === 'function' ? suite : describe)('skipAfterFailure test', function () {
+        (typeof test === 'function' ? test : it)('skipAfterFailure', function () {
+          error.test = t = class SkipAfterFailureSuite extends Suite {
+            static get skipAfterFailure() { return true; }
+            async setup() {
+              await super.setup();
+              this.__failed = true;
+            }
+          }
+          error.test = (base) => class SkippedTest extends base {
+            async operation() {
+            }
+            async checkpoint() {
+              assert.isOk(false, 'SkippedTest must be skipped');
+            }
+          }
+          error.test = {
+            SkipAfterFailureSuite: {
+              SkippedTest: 'SkipAfterFailureTest'
+            }
+          }
+          console.log(error.leafClasses);
+          (new error.leafClasses.SkipAfterFailureTest()).run();
+        });
+
+        (typeof test === 'function' ? test : it)('skipAfterFailure with iteration', function () {
+          error.test = t = class SkipAfterFailureSuite2 extends Suite {
+            static get skipAfterFailure() { return true; }
+            async setup() {
+              await super.setup();
+              this.__failed = true;
+            }
+          }
+          error.test = (base) => class SkippedTest2 extends base {
+            * iteration() {
+              yield * [ 1, 2, 3 ];
+            }
+            async operation(parameters) {
+            }
+            async checkpoint(parameters) {
+              assert.isOk(false, 'SkippedTest2 must be skipped');
+            }
+          }
+          error.test = {
+            SkipAfterFailureSuite2: {
+              SkippedTest2: 'SkipAfterFailureTest2'
+            },
+            ErrorSuite: 'ErrorSuiteAlias'
+          }
+          console.log(error.branchScenarios);
+          (new error.leafClasses.SkipAfterFailureTest2()).run();
         });
 
       });
