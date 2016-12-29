@@ -24,4 +24,12 @@ addons:
 script:
 - wct test/es5/index.html
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
+- cp -vf .istanbul.yml tmp
+- sed -e 'sXdir: [.]/test/coverageXdir: ./test/coverage-6X' tmp >.istanbul.yml
+- nvm install 6
+- node --version
+- istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
+- nvm install 7
+- node --version
+- mocha --harmony_async_await test/src/test.js
 - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi
