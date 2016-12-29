@@ -26,11 +26,16 @@ script:
 - cp -vf test/src-wct.conf.json wct.conf.json
 - wct --skip-plugin=istanbul test/src/index.html
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
+- cp -vf test/4-min.istanbul.yml .istanbul.yml
+- istanbul cover ./node_modules/mocha/bin/_mocha test/min/test.js --report lcov -- -R spec
 - cp -vf test/6.istanbul.yml .istanbul.yml
 - nvm install 6
 - node --version
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
+- cp -vf test/6-min.istanbul.yml .istanbul.yml
+- istanbul cover ./node_modules/mocha/bin/_mocha test/min/test.js --report lcov -- -R spec
 - nvm install 7
 - node --version
 - mocha --harmony_async_await test/src/test.js
+- mocha --harmony_async_await test/min/test.js
 - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi

@@ -128,9 +128,11 @@ gulp.task('build:test', () => {
         'transform-regenerator'
       ]
     })))
+    .pipe(gulp.dest('test/es5'))
     //.pipe(uglify({ mangle: false }))
     //.pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('test/es5'));
+    .pipe(replace('/Suite.es5.js', '/Suite.min.js'))
+    .pipe(gulp.dest('test/min'));
 });
 
 gulp.task('default', (done) => {
