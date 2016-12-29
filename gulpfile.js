@@ -87,6 +87,8 @@ gulp.task('es5', () => {
         'transform-regenerator'
       ]
     }))
+    .pipe(rename('Suite.es5.js'))
+    .pipe(gulp.dest('.'))
     .pipe(uglify({ mangle: false }))
     .pipe(rename('Suite.min.js'))
     .pipe(sourcemaps.write('.'))
@@ -99,7 +101,7 @@ gulp.task('build:test', () => {
     .pipe(replace('//require(\'babel-polyfill\')', 'require(\'babel-polyfill\')'))
     .pipe(replace('<!-- <script src="../../node_modules/babel-polyfill/browser.js"></script> -->',
       '<script src="../../node_modules/babel-polyfill/browser.js"></script>'))
-    .pipe(replace('/Suite.js', '/Suite.min.js'))
+    .pipe(replace('/Suite.js', '/Suite.es5.js'))
     .pipe(gulpif('*.js', babel({
       "presets": [ /*'es2015'*/ ],
       "plugins": [
