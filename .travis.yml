@@ -24,8 +24,7 @@ addons:
 script:
 - wct test/es5/index.html
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
-- cp -vf .istanbul.yml tmp
-- sed -e 'sXdir: [.]/test/coverageXdir: ./test/coverage-6X' tmp >.istanbul.yml
+- cp -vf test/6.istanbul.yml .istanbul.yml
 - nvm install 6
 - node --version
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
