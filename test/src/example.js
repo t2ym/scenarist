@@ -56,6 +56,10 @@ class ExampleSuite extends Suite {
     async operation() {
       //console.log('Test 2 operation');
       this.history = '2';
+      if (typeof window === 'object') {
+        let element = document.querySelector(this.target);
+        await this.forEvent(element, 'click', () => element.click(), (element, type, event) => type === 'click');
+      }
     }
     async checkpoint() {
       //console.log('Checkpoint for Test 2');
