@@ -650,7 +650,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             // test class
             if (this.classes[name]) {
               // test class with the name already exists
-              throw new Error(this.constructor.name + '.' + this.scope + ': class ' + value.name + ' already exists');
+              throw new Error(this.constructor.name + '.' + this.scope + ': class ' + name + ' already exists');
             } else {
               // register a new test class with the name
               this.classes[name] = value;
@@ -717,7 +717,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     }], [{
       key: '_name',
       value: function _name(func) {
-        return func.hasOwnProperty('name') ? func.name !== '_class' ? func.name : '' : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "");
+        return (func.hasOwnProperty('name') ? func.name : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "")).replace('_class', '');
       }
     }, {
       key: 'repeat',
