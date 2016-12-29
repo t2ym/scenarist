@@ -244,16 +244,46 @@ var ExampleSuite = function (_Suite) {
         _createClass(Test2, [{
           key: 'operation',
           value: function operation() {
-            return regeneratorRuntime.async(function operation$(_context9) {
+            var _this6 = this;
+
+            return regeneratorRuntime.async(function operation$(_context10) {
               while (1) {
-                switch (_context9.prev = _context9.next) {
+                switch (_context10.prev = _context10.next) {
                   case 0:
                     //console.log('Test 2 operation');
                     this.history = '2';
 
-                  case 1:
+                    if (!((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object')) {
+                      _context10.next = 4;
+                      break;
+                    }
+
+                    _context10.next = 4;
+                    return regeneratorRuntime.awrap(function _callee() {
+                      var element;
+                      return regeneratorRuntime.async(function _callee$(_context9) {
+                        while (1) {
+                          switch (_context9.prev = _context9.next) {
+                            case 0:
+                              element = document.querySelector(_this6.target);
+                              _context9.next = 3;
+                              return regeneratorRuntime.awrap(_this6.forEvent(element, 'click', function () {
+                                return element.click();
+                              }, function (element, type, event) {
+                                return type === 'click';
+                              }));
+
+                            case 3:
+                            case 'end':
+                              return _context9.stop();
+                          }
+                        }
+                      }, null, _this6);
+                    }());
+
+                  case 4:
                   case 'end':
-                    return _context9.stop();
+                    return _context10.stop();
                 }
               }
             }, null, this);
@@ -261,16 +291,16 @@ var ExampleSuite = function (_Suite) {
         }, {
           key: 'checkpoint',
           value: function checkpoint() {
-            return regeneratorRuntime.async(function checkpoint$(_context10) {
+            return regeneratorRuntime.async(function checkpoint$(_context11) {
               while (1) {
-                switch (_context10.prev = _context10.next) {
+                switch (_context11.prev = _context11.next) {
                   case 0:
                     //console.log('Checkpoint for Test 2');
                     assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
 
                   case 1:
                   case 'end':
-                    return _context10.stop();
+                    return _context11.stop();
                 }
               }
             }, null, this);
@@ -292,16 +322,16 @@ var ExampleSuite = function (_Suite) {
       _createClass(TestC, [{
         key: 'operation',
         value: function operation() {
-          return regeneratorRuntime.async(function operation$(_context11) {
+          return regeneratorRuntime.async(function operation$(_context12) {
             while (1) {
-              switch (_context11.prev = _context11.next) {
+              switch (_context12.prev = _context12.next) {
                 case 0:
                   //console.log('Test C operation');
                   this.history = 'C';
 
                 case 1:
                 case 'end':
-                  return _context11.stop();
+                  return _context12.stop();
               }
             }
           }, null, this);
@@ -309,16 +339,16 @@ var ExampleSuite = function (_Suite) {
       }, {
         key: 'checkpoint',
         value: function checkpoint() {
-          return regeneratorRuntime.async(function checkpoint$(_context12) {
+          return regeneratorRuntime.async(function checkpoint$(_context13) {
             while (1) {
-              switch (_context12.prev = _context12.next) {
+              switch (_context13.prev = _context13.next) {
                 case 0:
                   //console.log('Checkpoint for Test C');
                   assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
 
                 case 1:
                 case 'end':
-                  return _context12.stop();
+                  return _context13.stop();
               }
             }
           }, null, this);
@@ -339,16 +369,16 @@ var ExampleSuite = function (_Suite) {
       _createClass(TestD, [{
         key: 'operation',
         value: function operation() {
-          return regeneratorRuntime.async(function operation$(_context13) {
+          return regeneratorRuntime.async(function operation$(_context14) {
             while (1) {
-              switch (_context13.prev = _context13.next) {
+              switch (_context14.prev = _context14.next) {
                 case 0:
                   //console.log('Test D operation');
                   this.history = 'D';
 
                 case 1:
                 case 'end':
-                  return _context13.stop();
+                  return _context14.stop();
               }
             }
           }, null, this);
@@ -356,16 +386,16 @@ var ExampleSuite = function (_Suite) {
       }, {
         key: 'checkpoint',
         value: function checkpoint() {
-          return regeneratorRuntime.async(function checkpoint$(_context14) {
+          return regeneratorRuntime.async(function checkpoint$(_context15) {
             while (1) {
-              switch (_context14.prev = _context14.next) {
+              switch (_context15.prev = _context15.next) {
                 case 0:
                   //console.log('Checkpoint for Test D');
                   assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
 
                 case 1:
                 case 'end':
-                  return _context14.stop();
+                  return _context15.stop();
               }
             }
           }, null, this);
@@ -386,16 +416,16 @@ var ExampleSuite = function (_Suite) {
       _createClass(TestE, [{
         key: 'operation',
         value: function operation() {
-          return regeneratorRuntime.async(function operation$(_context15) {
+          return regeneratorRuntime.async(function operation$(_context16) {
             while (1) {
-              switch (_context15.prev = _context15.next) {
+              switch (_context16.prev = _context16.next) {
                 case 0:
                   //console.log('Test E operation');
                   this.history = 'E';
 
                 case 1:
                 case 'end':
-                  return _context15.stop();
+                  return _context16.stop();
               }
             }
           }, null, this);
@@ -403,16 +433,16 @@ var ExampleSuite = function (_Suite) {
       }, {
         key: 'checkpoint',
         value: function checkpoint() {
-          return regeneratorRuntime.async(function checkpoint$(_context16) {
+          return regeneratorRuntime.async(function checkpoint$(_context17) {
             while (1) {
-              switch (_context16.prev = _context16.next) {
+              switch (_context17.prev = _context17.next) {
                 case 0:
                   //console.log('Checkpoint for Test E');
                   assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
 
                 case 1:
                 case 'end':
-                  return _context16.stop();
+                  return _context17.stop();
               }
             }
           }, null, this);
