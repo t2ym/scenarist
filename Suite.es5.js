@@ -717,7 +717,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     }], [{
       key: '_name',
       value: function _name(func) {
-        return func.hasOwnProperty('name') ? func.name : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "");
+        return func.hasOwnProperty('name') ? func.name !== '_class' ? func.name : '' : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "");
       }
     }, {
       key: 'repeat',

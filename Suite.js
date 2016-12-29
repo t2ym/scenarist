@@ -76,7 +76,7 @@ class Suite {
   }
   static _name(func) {
     return func.hasOwnProperty('name')
-      ? func.name
+      ? (func.name !== '_class' ? func.name : '')
       : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "");
   }
   set test(value) {
