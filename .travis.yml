@@ -23,6 +23,8 @@ addons:
   sauce_connect: true
 script:
 - wct test/es5/index.html
+- cp -vf test/src-wct.conf.json wct.conf.json
+- wct --skip-plugin=istanbul test/src/index.html
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
 - cp -vf test/6.istanbul.yml .istanbul.yml
 - nvm install 6
