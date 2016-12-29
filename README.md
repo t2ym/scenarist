@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/t2ym/scenarist.svg?branch=master)](https://travis-ci.org/t2ym/scenarist)
+[![Coverage Status](https://coveralls.io/repos/github/t2ym/scenarist/badge.svg?branch=master)](https://coveralls.io/github/t2ym/scenarist?branch=master)
 [![npm](https://img.shields.io/npm/v/scenarist.svg)](https://www.npmjs.com/package/scenarist)
 [![Bower](https://img.shields.io/bower/v/scenarist.svg)](https://customelements.io/t2ym/scenarist/)
 
