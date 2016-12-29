@@ -227,7 +227,7 @@ mocha test.js
 ```javascript
 require('babel-polyfill');
 const chai = require('chai');
-const assert = chai.assert;
+global.assert = chai.assert;
 global.Suite = require('scenarist/Suite.min.js');
 
 require('./scope1-test.js');
