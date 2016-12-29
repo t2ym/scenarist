@@ -186,7 +186,7 @@
             SkipAfterFailureSuite2: {
               SkippedTest2: 'SkipAfterFailureTest2'
             },
-            ErrorSuite: 'ErrorSuiteAlias'
+            ErrorSuite: Suite.repeat('SkippedTest2', 0, 'ErrorSuiteAlias')
           }
           console.log(error.branchScenarios);
           (new error.leafClasses.SkipAfterFailureTest2()).run();
