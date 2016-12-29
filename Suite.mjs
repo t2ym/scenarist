@@ -40,9 +40,9 @@ class Suite {
     return name.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/[ ]{1,}/g, ' ').replace(/^ /, '').toLowerCase();
   }
   static _name(func) {
-    return func.hasOwnProperty('name')
-      ? (func.name !== '_class' ? func.name : '')
-      : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "");
+    return (func.hasOwnProperty('name')
+      ? func.name
+      : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "")).replace('_class', '');
   }
   set test(value) {
     if (typeof value === 'function') {
@@ -51,7 +51,7 @@ class Suite {
         // test class
         if (this.classes[name]) {
           // test class with the name already exists
-          throw new Error(this.constructor.name + '.' + this.scope + ': class ' + value.name + ' already exists');
+          throw new Error(this.constructor.name + '.' + this.scope + ': class ' + name + ' already exists');
         }
         else {
           // register a new test class with the name
