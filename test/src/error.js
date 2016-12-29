@@ -91,6 +91,22 @@ class ErrorSuite extends Suite {
           }, /Suite[.]error:generateClass mixin DuplicateMixin already exists/);
         });
 
+        (typeof test === 'function' ? test : it)('duplicate class', function () {
+          assert.throws(function () {
+            error.test = (base) => class DuplicateMixinBase2 extends base {}
+            error.test = { 
+              DummyTest: [
+                {
+                  DuplicateMixinBase2: 'DuplicateClass'
+                },
+                {
+                  DuplicateMixinBase2: 'DuplicateClass'
+                }
+              ]
+            };
+          }, /Suite[.]error:generateClass class DuplicateClass already exists/);
+        });
+
         (typeof test === 'function' ? test : it)('inexistent global test class', function () {
           assert.throws(function () {
             error.test = {
@@ -108,6 +124,17 @@ class ErrorSuite extends Suite {
             };
           }, /Suite[.]error:generateClass mixin InexistentMixin does not exist/);
         });
+
+        (typeof test === 'function' ? test : it)('inexistent mixin for class', function () {
+          assert.throws(function () {
+            error.test = {
+              DummyTest: {
+                InexistentMixin2: 'InexistentMixinName2'
+              }
+            };
+          }, /Suite[.]error:generateClass mixin InexistentMixin2 does not exist/);
+        });
+
       });
     });
   }
