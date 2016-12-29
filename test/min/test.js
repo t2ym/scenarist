@@ -7,3 +7,4 @@ global.Suite = require('../../Suite.min.js');
 Suite.debug = true;
 require('./example.js');
 require('./example2.js');
+require('./error.js');
