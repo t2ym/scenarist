@@ -219,6 +219,31 @@ var ErrorSuite = function (_Suite) {
             }, /Suite[.]error:generateClass mixin DuplicateMixin already exists/);
           });
 
+          (typeof test === 'function' ? test : it)('duplicate class', function () {
+            assert.throws(function () {
+              error.test = function (base) {
+                return function (_base5) {
+                  _inherits(DuplicateMixinBase2, _base5);
+
+                  function DuplicateMixinBase2() {
+                    _classCallCheck(this, DuplicateMixinBase2);
+
+                    return _possibleConstructorReturn(this, (DuplicateMixinBase2.__proto__ || Object.getPrototypeOf(DuplicateMixinBase2)).apply(this, arguments));
+                  }
+
+                  return DuplicateMixinBase2;
+                }(base);
+              };
+              error.test = {
+                DummyTest: [{
+                  DuplicateMixinBase2: 'DuplicateClass'
+                }, {
+                  DuplicateMixinBase2: 'DuplicateClass'
+                }]
+              };
+            }, /Suite[.]error:generateClass class DuplicateClass already exists/);
+          });
+
           (typeof test === 'function' ? test : it)('inexistent global test class', function () {
             assert.throws(function () {
               error.test = {
@@ -235,6 +260,16 @@ var ErrorSuite = function (_Suite) {
                 }
               };
             }, /Suite[.]error:generateClass mixin InexistentMixin does not exist/);
+          });
+
+          (typeof test === 'function' ? test : it)('inexistent mixin for class', function () {
+            assert.throws(function () {
+              error.test = {
+                DummyTest: {
+                  InexistentMixin2: 'InexistentMixinName2'
+                }
+              };
+            }, /Suite[.]error:generateClass mixin InexistentMixin2 does not exist/);
           });
         });
       });
