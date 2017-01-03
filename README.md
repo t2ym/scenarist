@@ -334,6 +334,114 @@ TBD
 }
 ```
 
+### Test Class Mixin Generator for Common Operations and Checkpoints in [demo.js](https://github.com/t2ym/scenarist/blob/master/demo/src/demo.js)
+
+```javascript
+let demo = new Suite(scope, 'Scenarist Demo Suite');
+const labels = {
+  // op: [ 'Class', 'id' ]
+  '0': [ 'Number0', '0' ],
+  '1': [ 'Number1', '1' ],
+  ...
+  '=': [ 'Equal', '=' ],
+  'A': [ 'Ac', 'AC' ],
+  'B': [ 'Bs', 'BS' ]
+};
+demo.expected = {
+  "AC": "0",
+  "AC1": "1",
+  "AC12": "12",
+  "AC12+": "12",
+  "AC12+3": "3",
+  "AC12+34": "34",
+  "AC12+34=": "46",
+  ...
+};
+for (let ex in labels) {
+  demo.test = (new Function('demo',
+    (function (subclass, label) { // generate ES5 class by manipulating transpiled func.toString()
+      return 'return ' +
+        ((base) => class __SUBCLASS__ extends base {
+          get description() { return '__LABEL__'; }
+          async operation() {
+            await this.tap('__LABEL__');
+            this.history = this.state('__LABEL__');
+          }
+          async checkpoint() {
+            assert.equal(this.element.value, demo.expected[this.history], 'Value for scenario ' + this.history + ' is valid');
+          }
+        })
+        .toString()
+        .replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
+        .replace(/__SUBCLASS__/g, subclass)
+        .replace(/__LABEL__/g, label);
+    })(labels[ex][0], labels[ex][1])))(demo);
+}
+```
+
+### Custom Test Scenario Object Operator in [demo.js](https://github.com/t2ym/scenarist/blob/master/demo/src/demo.js)
+
+```javascript
+function operations(expression, name) {
+  let result = null;
+  if (!name) {
+    let description = [];
+    name = [];
+    for (let j of expression) {
+      name.push(labels[j][0]);
+      description.push((' ' + labels[j][1] + ' ').replace(/^ ([0-9]) $/, '$1'));
+    }
+    name = name.join('_');
+    description = description.join('').replace(/  /g, ' ').trim();
+    description += (description.match(/=$/) ? ' ' : ' = ') + demo.expected['AC' + description.replace(/ /g, '')];
+    name += '; ' + description;
+  }
+  for (let i = expression.length - 1; i >= 0; i--) {
+    let op = expression[i];
+    let mixin = labels[op][0];
+    if (!mixin) {
+      throw new Error('Invalid operation ' + op + ' in "' + expression + '"');
+    }
+    if (result) {
+      result = { [mixin]: result };
+    }
+    else {
+      result = { [mixin]: name };
+    }
+  }
+  return result;
+}
+demo.test = {
+  // test class mixins
+  '': [
+    operations('12', 'N12'),
+    operations('34', 'N34')
+  ],
+  // test classes
+  Connect: {
+    Ac: [
+      {
+        N12: [ '+', '-', '*', '/' ]
+          .map((op) => ({ 
+            [labels[op][0]]: {
+              N34: {
+                Equal: '_12_' + labels[op][0] + '_34; 12 ' + op + ' 34 = ' + demo.expected['AC12' + op + '34=']
+              }
+            }
+          }))
+      },
+      operations('81SSS'),
+      operations('5M3M2MR'),
+      operations('3*2=M5*4.2=mCR'),
+      operations('200*15%'),
+      operations('54N+12='),
+      operations('1234BB+3*4/12='),
+      operations('12**====')
+    ]
+  }
+};
+```
+
 ## License
 
 [BSD-2-Clause](https://github.com/t2ym/scenarist/blob/master/LICENSE.md)
