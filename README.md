@@ -7,6 +7,8 @@
 
 Class-based branching test scenario runner for mocha
 
+<img src="https://raw.githubusercontent.com/wiki/t2ym/scenarist/scenaristdemo.gif" width="768px">
+
 ```javascript
 // common-test.js global test classes
 class ExampleSuite extends Suite {
