@@ -7,6 +7,8 @@
 
 Class-based branching test scenario runner for mocha
 
+[Demo](https://t2ym.github.io/scenarist/components/scenarist/demo/index.html)
+
 <img src="https://raw.githubusercontent.com/wiki/t2ym/scenarist/scenaristdemo.gif" width="768px">
 
 ```javascript
