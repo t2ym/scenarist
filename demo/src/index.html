@@ -1,0 +1,33 @@
+<!doctype html>
+<!--
+@license https://github.com/t2ym/scenarist/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+-->
+<html>
+  <head>
+    <title>scenarist demo</title>
+    <meta charset="utf-8">
+    <script src="../../../web-component-tester/browser.js"></script>
+    <!-- <script src="../../node_modules/babel-polyfill/browser.js"></script> -->
+    <script src="../../Suite.js"></script>
+    <script src="demo.js"></script>
+  </head>
+  <body>
+    <script>
+      var suites = [];
+      for (var scope in Suite.scopes) {
+        Suite.scopes[scope].test.forEach(function (tests, index) {
+          suites.push(scope + '.html?TestSuites=' + index);
+        });
+      }
+      console.log('suites = ', suites);
+      WCT.loadSuites(suites);
+      setInterval(function () {
+        var div = document.querySelector('div#mocha');
+        if (div) {
+          div.scrollTop = 100000;
+        }
+      }, 200);
+    </script>
+  </body>
+</html>
