@@ -271,6 +271,16 @@ scope2.test = ...
 
 ### `Suite` class
 
+- Index
+  - [Scope Object as a `Suite` class instance](#scope-object-as-a-suite-class-instance)
+  - [Scope Object Instance Properties other than `test` property setter](#scope-object-instance-properties-other-than-test-property-setter)
+  - [Test Suite Subclass as a direct or descendent subclass of `Suite` class](#test-suite-subclass-as-a-direct-or-descendent-subclass-of-suite-class)
+  - [Test Runner Subclass as a subclass of `Suite` class](#test-runner-subclass-as-a-subclass-of-suite-class)
+  - [Utility Instance Methods](#utility-instance-methods)
+  - [Utility Static Methods](#utility-static-methods)
+  - [Static Properties for `Suite` class](#static-properties-for-suite-class)
+  - [Static Properties for subclasses](#static-properties-for-subclasses)
+
 #### Scope Object as a `Suite` class instance
 
 - **constructor(scope: string, description: string = scope + ' suite')** - Create a scope typically in a block scope; The scope object is globally accessible via `Suite.scopes[scope]`
