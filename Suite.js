@@ -20,6 +20,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     module.exports = factory();
     try {
       new Function('return class $$A$$ {}');
+      if (!module.exports.toString().match(/^class /)) {
+        throw new Error('Suite.min.js requires babel-runtime');
+      }
     }
     catch (e) {
       // Supply Babel runtime helpers
