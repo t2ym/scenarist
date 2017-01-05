@@ -59,6 +59,9 @@ class Suite {
       catch (e) {
         this.classSyntaxSupport = false;
       }
+      if (!Suite.toString().match(/^class /)) {
+        this.classSyntaxSupport = false; // Running as Suite.min.js
+      }
       try {
         new Function('return () => 1');
       }
