@@ -346,6 +346,72 @@ scope2.test = ...
       }
     }
 ```
+- **test** property setter with a class from another scope - Define a subscope of a scope
+
+```
+    // Meta-depiction of Subscoping as Prototype chaining
+    Suite <-- GlobalScope <-- ScopeA <-- SubscopeAB ...
+                                      +- SubscopeAC ...
+```
+
+```html
+    <!-- subscope_ac-test.html -->
+    <script src="scenarist/Suite.js"></script>
+    <script src="global_scope.js"></script>
+    <script src="scope_a.js"></script>
+    <script src="subscope_ac.js"></script>
+    <script>
+      var match = decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/);
+
+      if (match) {
+        // Runner
+        Suite.scopes.subscope_ac.run(match[1], 'template#container');
+      }
+    </script>
+```
+
+```javascript
+    // global_scope.js
+    class CommonSuite extends Suite { ... }
+    class Instantiate extends CommonSuite { ... }
+```
+
+```javascript
+    // scope_a.js
+    {
+      let scope_a = new Suite('scope_a');
+      scope_a.test = class ScopeATest1 extends Instantiate { ... }
+      scope_a.test = (base) => class ScopeATest2 extends base { ... }
+      scope_a.test = {
+        ScopeATest1: {
+          ScopeATest2: 'ExportedScopeATest' // The exported test name is not necessarily explicit
+        }
+      }
+    }
+    // no call of run() in scope_a.js since it will be called in scope_a-test.html
+```
+
+```javascript
+    // subscope_ac.js
+    {
+      let subscope_ac = new Suite('subscope_ac');
+      // Define a subscope 'subscope_ac' of the scope 'scope_a' via 'ExportedScopeATest'
+      subscope_ac.test = Suite.scopes.scope_a.classes.ExportedScopeATest;
+      // Tests for subscope_ac
+      subscope_ac.test = (base) => class SubscopeACTest1 extends base { ... }
+      subscope_ac.test = (base) => class SubscopeACTest2 extends base { ... }
+      subscope_ac.test = {
+        ExportedScopeATest: {
+          // Extend scope_a test
+          SubscopeACTest1: 'Instantiate_ScopeATest1_ScopeATest2_SubscopeACTest1_Test',
+          SubscopeACTest2: 'Instantiate_ScopeATest1_ScopeATest2_SubscopeACTest2_Test',
+          ...
+        }
+      }
+    }
+    // no call of run() in subscope_ac.js since it will be called in subscope_ac-test.html
+```
+
 - **testClasses(tests)** instance method - Get Array of test classes
   - tests as number - List classes in CSV `this.test[tests]`
   - tests as CSV string - List classes in the CSV
