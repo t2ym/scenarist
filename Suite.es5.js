@@ -242,9 +242,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               description = description.replace(/"/g, '\\"').replace(/\n/g, ' ');
             }
             var prefix = !_this2.classSyntaxSupport && typeof Suite._createClass === 'function' && (typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== 'object' ? 'self.constructor.' : '';
+            var checkAndThrough = self.constructor.debug ? function (f) {
+              new (f(function A() {
+                _classCallCheck(this, A);
+              }))().description;return f;
+            } : function (f) {
+              return f;
+            };
             expression = chain.length === 1 && name === expression ? 'return ' + name : name === chain[chain.length - 1] ? 'return ' + expression : self.classSyntaxSupport ? 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description + '"; } }' : ' {}') : function (subclass, base, description) {
               // generate ES5 class by manipulating transpiled func.toString()
-              return 'return (' + (description ? function (__BASE_CLASS__) {
+              return 'return (' + checkAndThrough(description ? function (__BASE_CLASS__) {
                 return function (_BASE_CLASS__) {
                   _inherits(__SUBCLASS__, _BASE_CLASS__);
 
