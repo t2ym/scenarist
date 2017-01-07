@@ -25,6 +25,8 @@ script:
 - wct test/es5/index.html
 - cp -vf test/es5-wct.conf.json wct.conf.json
 - wct --skip-plugin=istanbul test/es5/index.html
+- cp -vf test/es6-wct.conf.json wct.conf.json
+- wct test/es6/index.html
 - cp -vf test/src-wct.conf.json wct.conf.json
 - wct --skip-plugin=istanbul test/src/index.html
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
