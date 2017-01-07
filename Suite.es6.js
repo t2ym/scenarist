@@ -1,3 +1,11 @@
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.Suite = factory());
+}(this, (function () { 'use strict';
+
+function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g[x?"throw":"next"](a);}catch(e){j(e);return}r.done?s(r.value):Promise.resolve(r.value).then(c,d);}function d(e){c(e,1);}c();})}
+
 /*
 @license https://github.com/t2ym/scenarist/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
@@ -341,8 +349,8 @@ class Suite {
     for (let chain of this._permute(targets, 0, result, subclass)) {}
     return result;
   }
-  async setup() {
-  }
+  setup() {return __async(function*(){
+  }())}
   forEvent(element, type, trigger, condition) {
     return new Promise(resolve => {
       element.addEventListener(type, function onEvent(event) {
@@ -374,9 +382,9 @@ class Suite {
     }
     yield * steps;
   }
-  async teardown() {
-  }
-  async run(classes, target) {
+  teardown() {return __async(function*(){
+  }())}
+  run(classes, target) {return __async(function*(){
     // TODO: return a Promise object?
     let self = this;
     if (Suite._name(self.constructor) === 'Suite') {
@@ -402,7 +410,7 @@ class Suite {
       }
       (typeof suite === 'function' ? suite : describe)(self.description || (self.scope + ' suite'), function() {
         // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
-        Promise.all(testSuites.map(async (s) => (new s(target)).run()))
+        Promise.all(testSuites.map((s) =>__async(function*(){ return (new s(target)).run()}())))
           .then(() => {
             if (self.constructor.debug) { console.log(self.description + ' done for ', classes); }
           });
@@ -411,10 +419,10 @@ class Suite {
     else {
       // Scenario Runner
       let overrideToString = (func, ctor) => { func.toString = () => ctor.toString(); return func; };
-      (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), async function () {
-        (typeof suiteSetup === 'function' ? suiteSetup : before)(async function () {
-          await self.setup();
-        });
+      (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), function () {return __async(function*(){
+        (typeof suiteSetup === 'function' ? suiteSetup : before)(function () {return __async(function*(){
+          yield self.setup();
+        }())});
 
         for (let step of self.scenario()) {
           if (step.operation || step.checkpoint) {
@@ -424,49 +432,52 @@ class Suite {
                 for (let parameters of step.iteration.apply(self)) {
                   (typeof test === 'function' ? test : it)(parameters.name ?
                         (typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name)
-                        : step.name, overrideToString(async function() {
+                        : step.name, overrideToString(function() {return __async(function*(){
                     if (self.constructor.skipAfterFailure && self.__failed) {
                       this.skip();
                     }
                     else {
                       self.__failed = true;
                       if (step.operation) {
-                        await step.operation.call(self, parameters);
+                        yield step.operation.call(self, parameters);
                       }
                       if (step.checkpoint) {
-                        await step.checkpoint.call(self, parameters);
+                        yield step.checkpoint.call(self, parameters);
                       }
                       self.__failed = false;
                     }
-                  }, step.ctor));
+                  }.call(this))}, step.ctor));
                 }
               //});
             }
             else {
-              (typeof test === 'function' ? test : it)(step.name, overrideToString(async function() {
+              (typeof test === 'function' ? test : it)(step.name, overrideToString(function() {return __async(function*(){
                 if (self.constructor.skipAfterFailure && self.__failed) {
                   this.skip();
                 }
                 else {
                   self.__failed = true;
                   if (step.operation) {
-                    await step.operation.call(self);
+                    yield step.operation.call(self);
                   }
                   if (step.checkpoint) {
-                    await step.checkpoint.call(self);
+                    yield step.checkpoint.call(self);
                   }
                   self.__failed = false;
                 }
-              }, step.ctor));
+              }.call(this))}, step.ctor));
             }
           }
         }
 
-        (typeof suiteTeardown === 'function' ? suiteTeardown : after)(async function () {
-          await self.teardown();
-        });
-      });
+        (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function () {return __async(function*(){
+          yield self.teardown();
+        }())});
+      }())});
     }
-  }
+  }.call(this))}
 }
-export default Suite;
+
+return Suite;
+
+})));

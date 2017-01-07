@@ -8,6 +8,9 @@ const replace = require('gulp-replace');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
+const rollup = require('gulp-rollup');
+const async = require('rollup-plugin-async');
+const fs = require('fs');
 
 gulp.task('umd', () => {
   const name = 'Suite';
@@ -98,6 +101,19 @@ gulp.task('es5', () => {
     .pipe(gulp.dest('.'));
 });
 
+gulp.task('es6', () => {
+  return gulp.src('Suite.mjs')
+    .pipe(rollup({
+      allowRealFiles: true,
+      entry: 'Suite.mjs',
+      format: 'umd',
+      moduleName: 'Suite',
+      plugins: [ async() ]
+    }))
+    .pipe(rename('Suite.es6.js'))
+    .pipe(gulp.dest('.'));
+});
+
 gulp.task('build:test', () => {
   return gulp.src([ 'test/src/*.js', 'test/src/*.html' ])
     //.pipe(sourcemaps.init())
@@ -138,6 +154,12 @@ gulp.task('build:test', () => {
     .pipe(gulp.dest('test/min'));
 });
 
+gulp.task('build:testes6', () => {
+  return gulp.src([ 'test/src/*.js', 'test/src/*.html' ])
+    .pipe(replace('/Suite.js', '/Suite.es6.js'))
+    .pipe(gulp.dest('test/es6'));
+});
+
 gulp.task('build:demo', () => {
   return gulp.src([ 'demo/src/*.js', 'demo/src/*.html' ])
     .pipe(replace('//require(\'babel-polyfill\')', 'require(\'babel-polyfill\')'))
@@ -174,5 +196,5 @@ gulp.task('build:demo', () => {
 });
 
 gulp.task('default', (done) => {
-  runSequence('umd', 'es5', done);
+  runSequence('umd', 'es5', 'es6', done);
 });

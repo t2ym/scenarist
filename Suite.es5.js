@@ -456,37 +456,38 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                                             switch (_context7.prev = _context7.next) {
                                               case 0:
                                                 if (!(self.constructor.skipAfterFailure && self.__failed)) {
-                                                  _context7.next = 3;
+                                                  _context7.next = 4;
                                                   break;
                                                 }
 
                                                 this.skip();
-                                                return _context7.abrupt('return');
+                                                _context7.next = 12;
+                                                break;
 
-                                              case 3:
+                                              case 4:
                                                 self.__failed = true;
 
                                                 if (!step.operation) {
-                                                  _context7.next = 7;
+                                                  _context7.next = 8;
                                                   break;
                                                 }
 
-                                                _context7.next = 7;
+                                                _context7.next = 8;
                                                 return regeneratorRuntime.awrap(step.operation.call(self, parameters));
 
-                                              case 7:
+                                              case 8:
                                                 if (!step.checkpoint) {
-                                                  _context7.next = 10;
+                                                  _context7.next = 11;
                                                   break;
                                                 }
 
-                                                _context7.next = 10;
+                                                _context7.next = 11;
                                                 return regeneratorRuntime.awrap(step.checkpoint.call(self, parameters));
 
-                                              case 10:
+                                              case 11:
                                                 self.__failed = false;
 
-                                              case 11:
+                                              case 12:
                                               case 'end':
                                                 return _context7.stop();
                                             }
@@ -529,37 +530,38 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                                           switch (_context8.prev = _context8.next) {
                                             case 0:
                                               if (!(self.constructor.skipAfterFailure && self.__failed)) {
-                                                _context8.next = 3;
+                                                _context8.next = 4;
                                                 break;
                                               }
 
                                               this.skip();
-                                              return _context8.abrupt('return');
+                                              _context8.next = 12;
+                                              break;
 
-                                            case 3:
+                                            case 4:
                                               self.__failed = true;
 
                                               if (!step.operation) {
-                                                _context8.next = 7;
+                                                _context8.next = 8;
                                                 break;
                                               }
 
-                                              _context8.next = 7;
+                                              _context8.next = 8;
                                               return regeneratorRuntime.awrap(step.operation.call(self));
 
-                                            case 7:
+                                            case 8:
                                               if (!step.checkpoint) {
-                                                _context8.next = 10;
+                                                _context8.next = 11;
                                                 break;
                                               }
 
-                                              _context8.next = 10;
+                                              _context8.next = 11;
                                               return regeneratorRuntime.awrap(step.checkpoint.call(self));
 
-                                            case 10:
+                                            case 11:
                                               self.__failed = false;
 
-                                            case 11:
+                                            case 12:
                                             case 'end':
                                               return _context8.stop();
                                           }

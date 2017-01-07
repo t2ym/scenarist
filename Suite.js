@@ -465,16 +465,17 @@ class Suite {
                         : step.name, overrideToString(async function() {
                     if (self.constructor.skipAfterFailure && self.__failed) {
                       this.skip();
-                      return;
                     }
-                    self.__failed = true;
-                    if (step.operation) {
-                      await step.operation.call(self, parameters);
+                    else {
+                      self.__failed = true;
+                      if (step.operation) {
+                        await step.operation.call(self, parameters);
+                      }
+                      if (step.checkpoint) {
+                        await step.checkpoint.call(self, parameters);
+                      }
+                      self.__failed = false;
                     }
-                    if (step.checkpoint) {
-                      await step.checkpoint.call(self, parameters);
-                    }
-                    self.__failed = false;
                   }, step.ctor));
                 }
               //});
@@ -483,16 +484,17 @@ class Suite {
               (typeof test === 'function' ? test : it)(step.name, overrideToString(async function() {
                 if (self.constructor.skipAfterFailure && self.__failed) {
                   this.skip();
-                  return;
                 }
-                self.__failed = true;
-                if (step.operation) {
-                  await step.operation.call(self);
+                else {
+                  self.__failed = true;
+                  if (step.operation) {
+                    await step.operation.call(self);
+                  }
+                  if (step.checkpoint) {
+                    await step.checkpoint.call(self);
+                  }
+                  self.__failed = false;
                 }
-                if (step.checkpoint) {
-                  await step.checkpoint.call(self);
-                }
-                self.__failed = false;
               }, step.ctor));
             }
           }
