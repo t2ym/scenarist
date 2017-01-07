@@ -78,6 +78,7 @@ var ExampleSuite = function (_Suite) {
     var scope = 'example';
     var example = new Suite(scope, 'Description of Example Suite');
     var t = void 0; // temporary variable as a workaround for Edge 15.14986 issue #12
+    example.classSyntaxSupport = false;
     example.test = function (base) {
       return function (_base) {
         _inherits(TestA, _base);
