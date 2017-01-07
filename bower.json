@@ -1,6 +1,6 @@
 {
   "name": "scenarist",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Class-based branching test scenario runner for mocha",
   "main": "Suite.js",
   "authors": [
