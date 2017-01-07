@@ -227,7 +227,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               if (i === 0) {
                 if (self.classes[c]) {
                   expression = 'self.classes.' + c;
-                } else if (new Function('return (typeof ' + c + ' === "function" && (new ' + c + '()) instanceof ' + self.constructor.name + ')')()) {
+                } else if (new Function(self.constructor.name, 'return (typeof ' + c + ' === "function" && (new ' + c + '()) instanceof ' + self.constructor.name + ')')(self.constructor)) {
                   expression = c;
                 } else {
                   throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass global test class ' + c + ' does not exist');

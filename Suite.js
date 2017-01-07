@@ -277,7 +277,7 @@ class Suite {
           if (self.classes[c]) {
             expression = 'self.classes.' + c;
           }
-          else if ((new Function('return (typeof ' + c + ' === "function" && (new ' + c + '()) instanceof ' + self.constructor.name + ')'))()) {
+          else if ((new Function(self.constructor.name, 'return (typeof ' + c + ' === "function" && (new ' + c + '()) instanceof ' + self.constructor.name + ')'))(self.constructor)) {
             expression = c;
           }
           else {
