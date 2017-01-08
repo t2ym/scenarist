@@ -85,14 +85,17 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         try {
           new Function('return class A {}');
         } catch (e) {
+
           this.classSyntaxSupport = false;
         }
         if (!Suite.toString().match(/^class /)) {
+
           this.classSyntaxSupport = false; // Running as Suite.min.js
         }
         try {
           new Function('return () => 1');
         } catch (e) {
+
           this.arrowFunctionSupport = false;
         }
       } else {

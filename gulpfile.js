@@ -67,6 +67,7 @@ class ${name} {`
 gulp.task('es5', () => {
   return gulp.src([ 'Suite.js' ])
     .pipe(sourcemaps.init())
+    .pipe(replace(/\/[*] istanbul ignore next: only for ES6 [*]\//g, ''))
     .pipe(babel({
       "presets": [ /*'es2015'*/ ],
       "plugins": [
