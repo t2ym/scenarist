@@ -257,36 +257,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               }
             }, iteration, this);
           })
+          /*
+          async operation(parameters) {
+          }
+          */
+
         }, {
-          key: 'operation',
-          value: function operation(parameters) {
-            return regeneratorRuntime.async(function operation$(_context10) {
+          key: 'checkpoint',
+          value: function checkpoint(parameters) {
+            return regeneratorRuntime.async(function checkpoint$(_context10) {
               while (1) {
                 switch (_context10.prev = _context10.next) {
                   case 0:
                     //console.log('Test 2 operation');
                     this.history = '2';
-
-                  case 1:
-                  case 'end':
-                    return _context10.stop();
-                }
-              }
-            }, null, this);
-          }
-        }, {
-          key: 'checkpoint',
-          value: function checkpoint(parameters) {
-            return regeneratorRuntime.async(function checkpoint$(_context11) {
-              while (1) {
-                switch (_context11.prev = _context11.next) {
-                  case 0:
                     //console.log('Checkpoint for Test 2');
                     assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
 
-                  case 1:
+                  case 2:
                   case 'end':
-                    return _context11.stop();
+                    return _context10.stop();
                 }
               }
             }, null, this);
@@ -313,16 +303,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       _createClass(TestC, [{
         key: 'operation',
         value: function operation() {
-          return regeneratorRuntime.async(function operation$(_context12) {
+          return regeneratorRuntime.async(function operation$(_context11) {
             while (1) {
-              switch (_context12.prev = _context12.next) {
+              switch (_context11.prev = _context11.next) {
                 case 0:
                   //console.log('Test C operation');
                   this.history = 'C';
 
                 case 1:
                 case 'end':
-                  return _context12.stop();
+                  return _context11.stop();
               }
             }
           }, null, this);
@@ -330,16 +320,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }, {
         key: 'checkpoint',
         value: function checkpoint() {
-          return regeneratorRuntime.async(function checkpoint$(_context13) {
+          return regeneratorRuntime.async(function checkpoint$(_context12) {
             while (1) {
-              switch (_context13.prev = _context13.next) {
+              switch (_context12.prev = _context12.next) {
                 case 0:
                   //console.log('Checkpoint for Test C');
                   assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
 
                 case 1:
                 case 'end':
-                  return _context13.stop();
+                  return _context12.stop();
               }
             }
           }, null, this);
@@ -360,16 +350,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       _createClass(TestD, [{
         key: 'operation',
         value: function operation() {
-          return regeneratorRuntime.async(function operation$(_context14) {
+          return regeneratorRuntime.async(function operation$(_context13) {
             while (1) {
-              switch (_context14.prev = _context14.next) {
+              switch (_context13.prev = _context13.next) {
                 case 0:
                   //console.log('Test D operation');
                   this.history = 'D';
 
                 case 1:
                 case 'end':
-                  return _context14.stop();
+                  return _context13.stop();
               }
             }
           }, null, this);
@@ -377,16 +367,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }, {
         key: 'checkpoint',
         value: function checkpoint() {
-          return regeneratorRuntime.async(function checkpoint$(_context15) {
+          return regeneratorRuntime.async(function checkpoint$(_context14) {
             while (1) {
-              switch (_context15.prev = _context15.next) {
+              switch (_context14.prev = _context14.next) {
                 case 0:
                   //console.log('Checkpoint for Test D');
                   assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
 
                 case 1:
                 case 'end':
-                  return _context15.stop();
+                  return _context14.stop();
               }
             }
           }, null, this);
@@ -407,16 +397,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       _createClass(TestE, [{
         key: 'operation',
         value: function operation() {
-          return regeneratorRuntime.async(function operation$(_context16) {
+          return regeneratorRuntime.async(function operation$(_context15) {
             while (1) {
-              switch (_context16.prev = _context16.next) {
+              switch (_context15.prev = _context15.next) {
                 case 0:
                   //console.log('Test E operation');
                   this.history = 'E';
 
                 case 1:
                 case 'end':
-                  return _context16.stop();
+                  return _context15.stop();
               }
             }
           }, null, this);
@@ -424,16 +414,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }, {
         key: 'checkpoint',
         value: function checkpoint() {
-          return regeneratorRuntime.async(function checkpoint$(_context17) {
+          return regeneratorRuntime.async(function checkpoint$(_context16) {
             while (1) {
-              switch (_context17.prev = _context17.next) {
+              switch (_context16.prev = _context16.next) {
                 case 0:
                   //console.log('Checkpoint for Test E');
                   assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
 
                 case 1:
                 case 'end':
-                  return _context17.stop();
+                  return _context16.stop();
               }
             }
           }, null, this);
@@ -446,6 +436,66 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }]);
 
       return TestE;
+    }(example.classes.Example2Suite);
+    example.test = t = function (_example$classes$Exam4) {
+      _inherits(TestF, _example$classes$Exam4);
+
+      function TestF() {
+        _classCallCheck(this, TestF);
+
+        return _possibleConstructorReturn(this, (TestF.__proto__ || Object.getPrototypeOf(TestF)).apply(this, arguments));
+      }
+
+      _createClass(TestF, [{
+        key: 'iteration',
+        value: regeneratorRuntime.mark(function iteration() {
+          return regeneratorRuntime.wrap(function iteration$(_context17) {
+            while (1) {
+              switch (_context17.prev = _context17.next) {
+                case 0:
+                  return _context17.delegateYield([{ param: 1 }, { param: 2 }, { param: 3 }].map(function (p) {
+                    p.name = 'Test F ' + p.param;return p;
+                  }), 't0', 1);
+
+                case 1:
+                case 'end':
+                  return _context17.stop();
+              }
+            }
+          }, iteration, this);
+        })
+      }, {
+        key: 'operation',
+        value: function operation(parameters) {
+          return regeneratorRuntime.async(function operation$(_context18) {
+            while (1) {
+              switch (_context18.prev = _context18.next) {
+                case 0:
+                  //console.log('Test F operation');
+                  this.history = 'F';
+                  //console.log('Checkpoint for Test F');
+                  assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
+
+                case 2:
+                case 'end':
+                  return _context18.stop();
+              }
+            }
+          }, null, this);
+        }
+        /*
+        async checkpoint(parameters) {
+        }
+        */
+
+      }], [{
+        key: 'reconnectable',
+        get: function get() {
+          return false;
+        }
+      }]);
+
+      return TestF;
     }(example.classes.Example2Suite);
     example.test = {
       // test class mixins
@@ -516,7 +566,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       "TestBThenTest1ThenTestA": "E,A,B,A,B,A,B,B,1,A",
       "Test1ThenTestBThenTestA": "E,A,B,A,B,A,B,1,B,A",
       "Test1ThenTestAThenTestB": "E,A,B,A,B,A,B,1,A,B",
-      "TestA": "A"
+      "TestA": "A",
+      "TestF": "F,F,F"
     };
 
     var match = (typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' ? decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/) : false;
@@ -541,7 +592,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     if (extra) {
       (typeof suite === 'function' ? suite : describe)('Suite instance test', function () {
         (typeof test === 'function' ? test : it)('check reconnectable test suites', function () {
-          assert.deepEqual(example.test, ["TestCAB,TestDAlias,TestEAB", "TestEAB12", "TestEABA,TestEAB3", "Test_E_A_B_1_2", "Test_E_A_1_B_2", "Test_E_B_A_1_2", "Test_E_B_1_A_2", "Test_E_1_B_A_2", "Test_E_1_A_B_2", "TestAThenTestBThenTest1,TestAThenTest1ThenTestB,TestBThenTestAThenTest1,TestBThenTest1ThenTestA,Test1ThenTestBThenTestA,Test1ThenTestAThenTestB,TestA"], 'reconnectable test suites are properly grouped');
+          assert.deepEqual(example.test, ["TestF", "TestCAB,TestDAlias,TestEAB", "TestEAB12", "TestEABA,TestEAB3", "Test_E_A_B_1_2", "Test_E_A_1_B_2", "Test_E_B_A_1_2", "Test_E_B_1_A_2", "Test_E_1_B_A_2", "Test_E_1_A_B_2", "TestAThenTestBThenTest1,TestAThenTest1ThenTestB,TestBThenTestAThenTest1,TestBThenTest1ThenTestA,Test1ThenTestBThenTestA,Test1ThenTestAThenTestB,TestA"], 'reconnectable test suites are properly grouped');
         });
       });
       example.run(['TestCAB']);
