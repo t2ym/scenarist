@@ -81,19 +81,23 @@ class ExampleSuite extends Suite {
     async operation() {
       //console.log('Test D operation');
       this.history = 'D';
-    }
-    async checkpoint() {
       //console.log('Checkpoint for Test D');
       assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
     }
+    /*
+    async checkpoint() {
+    }
+    */
   }
   example.test = t = class TestE extends ExampleSuite {
     static get skipAfterFailure() { return true; }
+    /*
     async operation() {
+    }
+    */
+    async checkpoint() {
       //console.log('Test E operation');
       this.history = 'E';
-    }
-    async checkpoint() {
       //console.log('Checkpoint for Test E');
       assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
     }
