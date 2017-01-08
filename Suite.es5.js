@@ -705,33 +705,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         }
       },
       get: function get() {
-        var list = [];
-        for (var c in this.leafClasses) {
-          list.push(this.leafClasses[c]);
-        }
-        var reconnectableList = [];
-        for (var i in list) {
-          if (list[i].reconnectable) {
-            if (reconnectableList.length === 0) {
-              reconnectableList.push([list[i]]);
-            } else {
-              var last = reconnectableList[reconnectableList.length - 1];
-              if (last.length === 0) {
-                last.push(list[i]);
-              } else {
-                if (last[last.length - 1].reconnectable) {
-                  last.push(list[i]);
-                } else {
-                  reconnectableList.push([list[i]]);
-                }
-              }
-            }
-          } else {
-            reconnectableList.push([list[i]]);
-          }
-        }
+        var last = void 0;
         // [ 'UnreconnectableTest', 'ReconnectableTest,ReconnectableTest,...', 'UnreconnectableTest', ...]
-        return reconnectableList.map(function (l) {
+        return function (o) {
+          return Object.keys(o).map(function (n) {
+            return o[n];
+          });
+        }(this.leafClasses).reduce(function (l, c) {
+          return c.reconnectable && last && last[0].reconnectable ? last.push(c) : l.push(last = [c]), l;
+        }, []).map(function (l) {
           return l.map(function (c) {
             return Suite._name(c);
           }).join(',');

@@ -131,37 +131,11 @@ class Suite {
     }
   }
   get test() {
-    let list = [];
-    for (let c in this.leafClasses) {
-      list.push(this.leafClasses[c]);
-    }
-    let reconnectableList = [];
-    for (let i in list) {
-      if (list[i].reconnectable) {
-        if (reconnectableList.length === 0) {
-          reconnectableList.push([list[i]]);
-        }
-        else {
-          let last = reconnectableList[reconnectableList.length - 1];
-          if (last.length === 0) {
-            last.push(list[i]);
-          }
-          else {
-            if (last[last.length - 1].reconnectable) {
-              last.push(list[i]);
-            }
-            else {
-              reconnectableList.push([list[i]]);
-            }
-          }
-        }
-      }
-      else {
-        reconnectableList.push([list[i]]);
-      }
-    }
+    let last;
     // [ 'UnreconnectableTest', 'ReconnectableTest,ReconnectableTest,...', 'UnreconnectableTest', ...]
-    return reconnectableList.map(l => l.map(c => Suite._name(c)).join(','));
+    return (o => Object.keys(o).map(n => o[n]))(this.leafClasses)
+      .reduce((l, c) => ((c.reconnectable && last && last[0].reconnectable ? last.push(c) : l.push(last = [c])), l), [])
+      .map(l => l.map(c => Suite._name(c)).join(','));
   }
   testClasses(tests) {
     let self = this;
