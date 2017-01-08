@@ -431,6 +431,7 @@ scope2.test = ...
 - **classSyntaxSupport** boolean property - `true` if ES6 class syntax is natively supported
 - **arrowFunctionSupport** boolean property - `true` if ES6 arrow function syntax is natively supported
 - **leafClasses** object property - Object containing the current leaf (non-redundant) test classes
+- **leafScenarios** object property - Object with CSV strings of leaf test scenarios as its properties
 - **branchScenarios** object property - Object with CSV strings of branch test scenarios as its properties
 - **test** Array property - Array of CSV strings, each of which constitutes a group of reconnectable tests
 ```javascript
