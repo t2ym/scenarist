@@ -448,7 +448,7 @@ class Suite {
                         (typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name)
                         : step.name, overrideToString(async function() {
                     if (self.constructor.skipAfterFailure && self.__failed) {
-                      this.skip();
+                      return this.skip();
                     }
                     else {
                       self.__failed = true;
@@ -467,7 +467,7 @@ class Suite {
             else {
               (typeof test === 'function' ? test : it)(step.name, overrideToString(async function() {
                 if (self.constructor.skipAfterFailure && self.__failed) {
-                  this.skip();
+                  return this.skip();
                 }
                 else {
                   self.__failed = true;
