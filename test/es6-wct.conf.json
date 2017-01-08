@@ -5,16 +5,6 @@
         "chrome"
       ]
     },
-    "sauce": {
-      "disabled": false,
-      "browsers": [
-        {
-          "browserName":  "chrome",
-          "platform":     "Windows 10",
-          "version":      ""
-        }
-      ]
-    },
     "istanbul": {
       "dir": "test/coverage-web-es6",
       "reporters": [ "text-summary", "lcov" ],

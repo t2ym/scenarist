@@ -4,16 +4,6 @@
       "browsers": [
         "chrome"
       ]
-    },
-    "sauce": {
-      "disabled": false,
-      "browsers": [
-        {
-          "browserName":  "chrome",
-          "platform":     "Windows 10",
-          "version":      ""
-        }
-      ]
     }
   }
 }

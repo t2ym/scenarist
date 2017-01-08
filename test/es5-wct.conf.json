@@ -3,41 +3,6 @@
     "local": {
       "browsers": [
       ]
-    },
-    "sauce": {
-      "disabled": false,
-      "browsers": [
-        {
-          "browserName":  "microsoftedge",
-          "platform":     "Windows 10",
-          "version":      "14"
-        },
-        {
-          "browserName":  "microsoftedge",
-          "platform":     "Windows 10",
-          "version":      "13"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.11",
-          "version":      "10"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.11",
-          "version":      "9"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.10",
-          "version":      "8"
-        },
-        {
-          "browserName":  "safari",
-          "platform":     "OS X 10.9",
-          "version":      "7"
-        }
-      ]
     }
   }
 }

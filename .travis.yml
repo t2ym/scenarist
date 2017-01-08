@@ -24,7 +24,6 @@ addons:
     packages:
       - g++-4.8
       - google-chrome-stable
-  sauce_connect: false
 script:
 - xvfb-run wct --skip-plugin=sauce test/es5/index.html
 - cp -vf test/es5-wct.conf.json wct.conf.json
