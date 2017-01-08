@@ -2,7 +2,8 @@ language: node_js
 branches:
   except:
   - gh-pages
-sudo: false
+sudo: required
+dist: trusty
 before_script:
 - npm install bower
 - npm install -g gulp
@@ -15,20 +16,23 @@ env:
   - secure: "JoUuav9FYODC5BpqRy5aCPLCXnf6YUqfgvV4v1WA0+HYJ1cHxDJQy5N8CuAsZuHYlR9p8ky4ziTOv7LVE+/apq4RegTYjNp9HLTsXw6NevurSYZS5B+748i/wZCF6QDgqo/gkr6w3ofho0JI2mn1PO+PPfb9pZ6wvZ5U0nGRnKOGkZ5efH2QpDJx5NxlRNePnVv2G+s/jsfkifi+RQbhoL3AABkv788UiWYkDtYf40UClucTZM1PZC+B3UQXY7HyKaX0RurerkYw8TXRJi29JNXKVXMQZFtq/TIx8FR+C7jNOnb9APzGuvzJ+0/Zv4iLQNeBVe7Jvso6aFEbwJQqnn2dFkEZM3VPejuCgkkvY1viRJd8vz4lhrBgwmZDHfV+ShhF2l94alEsazPx5nNQPvUAtbBuMp3CLRavTaQ6vCAjhWiEtyfI5X7zf2gaO5UnizefjlYOUFI3b2Ymg79LyaqxTaXNBpa1Mje48WHngzCLEEljHWiC7nOsSrA9RWRofTNEXlRWR6SFDBLaPZuvkaCMyeAT7ObdvWJ2+c58IpkMolWjtjt1envNlsEDJnAUzn0cstVuyWLJOPwq+IAFeBsj4DBwMbV3EtGf6MnmhAwmLMrrsL7AzE8/qDHDQrGTiEWRKOXiV3VCRNWzJG2uTfOGdjAbKr6wlQ3Yx+Iyv84="
 node_js: 4
 addons:
+  firefox: latest
   apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - google-chrome
+      - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
-  sauce_connect: true
+      - g++-4.8
+      - google-chrome-stable
+  sauce_connect: false
 script:
-- wct test/es5/index.html
+- xvfb-run wct --skip-plugin=sauce test/es5/index.html
 - cp -vf test/es5-wct.conf.json wct.conf.json
-- wct --skip-plugin=istanbul test/es5/index.html
+- xvfb-run wct --skip-plugin=istanbul --skip-plugin=sauce test/es5/index.html
 - cp -vf test/es6-wct.conf.json wct.conf.json
-- wct test/es6/index.html
+- xvfb-run wct --skip-plugin=sauce test/es6/index.html
 - cp -vf test/src-wct.conf.json wct.conf.json
-- wct --skip-plugin=istanbul test/src/index.html
+- xvfb-run wct --skip-plugin=istanbul  --skip-plugin=sauce test/src/index.html
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
 - cp -vf test/4-min.istanbul.yml .istanbul.yml
 - istanbul cover ./node_modules/mocha/bin/_mocha test/min/test.js --report lcov -- -R spec
