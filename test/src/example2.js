@@ -60,11 +60,13 @@
         { param: 3 }
       ].map((p) => { p.name = 'Test 2 ' + p.param; return p; });
     }
+    /*
     async operation(parameters) {
+    }
+    */
+    async checkpoint(parameters) {
       //console.log('Test 2 operation');
       this.history = '2';
-    }
-    async checkpoint(parameters) {
       //console.log('Checkpoint for Test 2');
       assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
     }
@@ -99,6 +101,26 @@
       //console.log('Checkpoint for Test E');
       assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
     }
+  }
+  example.test = t = class TestF extends example.classes.Example2Suite {
+    static get reconnectable() { return false; }
+    * iteration() {
+      yield * [
+        { param: 1 },
+        { param: 2 },
+        { param: 3 }
+      ].map((p) => { p.name = 'Test F ' + p.param; return p; });
+    }
+    async operation(parameters) {
+      //console.log('Test F operation');
+      this.history = 'F';
+      //console.log('Checkpoint for Test F');
+      assert.isOk(example.expected[Suite._name(this.constructor)].indexOf(this.history) === 0, 'History ' + this.history + ' is valid');
+    }
+    /*
+    async checkpoint(parameters) {
+    }
+    */
   }
   example.test = {
     // test class mixins
@@ -172,7 +194,8 @@
     "TestBThenTest1ThenTestA": "E,A,B,A,B,A,B,B,1,A",
     "Test1ThenTestBThenTestA": "E,A,B,A,B,A,B,1,B,A",
     "Test1ThenTestAThenTestB": "E,A,B,A,B,A,B,1,A,B",
-    "TestA": "A"
+    "TestA": "A",
+    "TestF": "F,F,F"
   };
 
   let match = typeof window === 'object'
@@ -203,6 +226,7 @@
       (typeof test === 'function' ? test : it)('check reconnectable test suites', function () {
         assert.deepEqual(example.test, 
           [
+            "TestF",
             "TestCAB,TestDAlias,TestEAB",
             "TestEAB12",
             "TestEABA,TestEAB3",
