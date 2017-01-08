@@ -61,15 +61,18 @@ class Suite {
         new Function('return class A {}');
       }
       catch (e) {
+        /* istanbul ignore next: only for ES6 */
         this.classSyntaxSupport = false;
       }
       if (!Suite.toString().match(/^class /)) {
+        /* istanbul ignore next: only for ES6 */
         this.classSyntaxSupport = false; // Running as Suite.min.js
       }
       try {
         new Function('return () => 1');
       }
       catch (e) {
+        /* istanbul ignore next: only for ES6 */
         this.arrowFunctionSupport = false;
       }
     }
