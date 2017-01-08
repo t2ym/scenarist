@@ -475,9 +475,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                                                   break;
                                                 }
 
-                                                this.skip();
-                                                _context7.next = 12;
-                                                break;
+                                                return _context7.abrupt('return', this.skip());
 
                                               case 4:
                                                 self.__failed = true;
@@ -549,9 +547,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                                                 break;
                                               }
 
-                                              this.skip();
-                                              _context8.next = 12;
-                                              break;
+                                              return _context8.abrupt('return', this.skip());
 
                                             case 4:
                                               self.__failed = true;
