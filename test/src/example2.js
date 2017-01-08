@@ -145,6 +145,13 @@
       TestA: ''
     }
   };
+  example.test = {
+    TestE: {
+      TestA: {
+        TestB: ''
+      }
+    }
+  };
 
   example.expected = {
     "TestCAB": "C,A,B",

@@ -489,6 +489,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         TestA: ''
       }
     };
+    example.test = {
+      TestE: {
+        TestA: {
+          TestB: ''
+        }
+      }
+    };
 
     example.expected = {
       "TestCAB": "C,A,B",
