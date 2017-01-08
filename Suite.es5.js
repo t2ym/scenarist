@@ -75,6 +75,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         this.description = description;
         this.classes = {};
         this.leafClasses = {};
+        this.leafScenarios = {};
         this.branchScenarios = {};
         this.mixins = {};
         this.constructor.scopes = this.constructor.scopes || {};
@@ -119,32 +120,43 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     }, {
       key: 'updateLeafClasses',
       value: function updateLeafClasses(value) {
-        var proto = value;
-        var chain = [];
-        var name = Suite._name(proto);
+        var name = Suite._name(value);
         var isLeaf = true;
         var scenario = '';
-        while (Suite._name(proto) && Suite._name(proto) !== 'Suite') {
-          chain.unshift(Suite._name(proto));
-          proto = Object.getPrototypeOf(proto);
+        function getChain(proto) {
+          var chain = [];
+          while (Suite._name(proto) && Suite._name(proto) !== 'Suite') {
+            chain.unshift(Suite._name(proto));
+            proto = Object.getPrototypeOf(proto);
+          }
+          return chain;
         }
+        var chain = getChain(value);
         for (var i in chain) {
           scenario = scenario ? scenario + ',' + chain[i] : chain[i];
           if (i < chain.length - 1) {
             if (!this.branchScenarios[scenario]) {
               this.branchScenarios[scenario] = true;
             }
-            if (this.leafClasses[chain[i]]) {
+            if (this.leafClasses[chain[i]] && this.leafScenarios[chain[i]] === scenario) {
+              if (this.constructor.debug) {
+                console.log('updateLeafClasses ' + name + ': trim a non-leaf class ' + chain[i] + ' with scenario ' + scenario);
+              }
               delete this.leafClasses[chain[i]];
+              delete this.leafScenarios[chain[i]];
             }
           } else {
             if (this.branchScenarios[scenario]) {
+              if (this.constructor.debug) {
+                console.log('updateLeafClasses ' + name + ': ' + scenario + ' is not a leaf');
+              }
               isLeaf = false;
             }
           }
         }
         if (isLeaf) {
           this.leafClasses[name] = value;
+          this.leafScenarios[name] = scenario;
         }
       }
     }, {

@@ -20,6 +20,7 @@ class Suite {
       this.description = description;
       this.classes = {};
       this.leafClasses = {};
+      this.leafScenarios = {};
       this.branchScenarios = {};
       this.mixins = {};
       this.constructor.scopes = this.constructor.scopes || {};
@@ -142,33 +143,41 @@ class Suite {
     });
   }
   updateLeafClasses(value) {
-    let proto = value;
-    let chain = [];
-    let name = Suite._name(proto);
+    let name = Suite._name(value);
     let isLeaf = true;
     let scenario = '';
-    while (Suite._name(proto) && Suite._name(proto) !== 'Suite') {
-      chain.unshift(Suite._name(proto));
-      proto = Object.getPrototypeOf(proto);
+    function getChain(proto) {
+      let chain = [];
+      while (Suite._name(proto) && Suite._name(proto) !== 'Suite') {
+        chain.unshift(Suite._name(proto));
+        proto = Object.getPrototypeOf(proto);
+      }
+      return chain;
     }
+    let chain = getChain(value);
     for (let i in chain) {
       scenario = scenario ? scenario + ',' + chain[i] : chain[i];
       if (i < chain.length - 1) {
         if (!this.branchScenarios[scenario]) {
           this.branchScenarios[scenario] = true;
         }
-        if (this.leafClasses[chain[i]]) {
+        if (this.leafClasses[chain[i]] &&
+            this.leafScenarios[chain[i]] === scenario) {
+          if (this.constructor.debug) { console.log('updateLeafClasses ' + name + ': trim a non-leaf class ' + chain[i] + ' with scenario ' + scenario); }
           delete this.leafClasses[chain[i]];
+          delete this.leafScenarios[chain[i]];
         }
       }
       else {
         if (this.branchScenarios[scenario]) {
+          if (this.constructor.debug) { console.log('updateLeafClasses ' + name + ': ' + scenario + ' is not a leaf'); }
           isLeaf = false;
         }
       }
     }
     if (isLeaf) {
       this.leafClasses[name] = value;
+      this.leafScenarios[name] = scenario;
     }
   }
   generateClasses(branch, chain) {
