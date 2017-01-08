@@ -257,7 +257,6 @@ class Suite {
         description = description.replace(/"/g,'\\"').replace(/\n/g, ' ');
       }
       let prefix = !this.classSyntaxSupport && typeof Suite._createClass === 'function' && typeof window !== 'object' ? 'self.constructor.' : '';
-      let checkAndThrough = self.constructor.debug ? function (f) { (new (f(class A {}))()).description; return f; } : f => f;
       expression = chain.length === 1 && name === expression
         ? 'return ' + name
         : name === chain[chain.length - 1]
@@ -266,10 +265,11 @@ class Suite {
             ? 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description + '"; } }' : ' {}')
             : (function (subclass, base, description) { // generate ES5 class by manipulating transpiled func.toString()
                 return 'return (' +
-                  checkAndThrough(description
+                  (() => { /* istanbul ignore next */
+                    return description
                     ? function (__BASE_CLASS__) { return class __SUBCLASS__ extends __BASE_CLASS__ { get description() { return 314159265358; } } }
                     : function (__BASE_CLASS__) { return class __SUBCLASS__ extends __BASE_CLASS__ {} }
-                  ).toString()
+                  })().toString()
                     .replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
                     .replace(/__SUBCLASS__/g, subclass)
                     .replace(/_inherits|_classCallCheck|_createClass|_possibleConstructorReturn/g, prefix + '$&')

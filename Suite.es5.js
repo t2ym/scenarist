@@ -242,47 +242,43 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               description = description.replace(/"/g, '\\"').replace(/\n/g, ' ');
             }
             var prefix = !_this2.classSyntaxSupport && typeof Suite._createClass === 'function' && (typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== 'object' ? 'self.constructor.' : '';
-            var checkAndThrough = self.constructor.debug ? function (f) {
-              new (f(function A() {
-                _classCallCheck(this, A);
-              }))().description;return f;
-            } : function (f) {
-              return f;
-            };
             expression = chain.length === 1 && name === expression ? 'return ' + name : name === chain[chain.length - 1] ? 'return ' + expression : self.classSyntaxSupport ? 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description + '"; } }' : ' {}') : function (subclass, base, description) {
               // generate ES5 class by manipulating transpiled func.toString()
-              return 'return (' + checkAndThrough(description ? function (__BASE_CLASS__) {
-                return function (_BASE_CLASS__) {
-                  _inherits(__SUBCLASS__, _BASE_CLASS__);
+              return 'return (' + function () {
+                /* istanbul ignore next */
+                return description ? function (__BASE_CLASS__) {
+                  return function (_BASE_CLASS__) {
+                    _inherits(__SUBCLASS__, _BASE_CLASS__);
 
-                  function __SUBCLASS__() {
-                    _classCallCheck(this, __SUBCLASS__);
+                    function __SUBCLASS__() {
+                      _classCallCheck(this, __SUBCLASS__);
 
-                    return _possibleConstructorReturn(this, (__SUBCLASS__.__proto__ || Object.getPrototypeOf(__SUBCLASS__)).apply(this, arguments));
-                  }
-
-                  _createClass(__SUBCLASS__, [{
-                    key: 'description',
-                    get: function get() {
-                      return 314159265358;
+                      return _possibleConstructorReturn(this, (__SUBCLASS__.__proto__ || Object.getPrototypeOf(__SUBCLASS__)).apply(this, arguments));
                     }
-                  }]);
 
-                  return __SUBCLASS__;
-                }(__BASE_CLASS__);
-              } : function (__BASE_CLASS__) {
-                return function (_BASE_CLASS__2) {
-                  _inherits(__SUBCLASS__, _BASE_CLASS__2);
+                    _createClass(__SUBCLASS__, [{
+                      key: 'description',
+                      get: function get() {
+                        return 314159265358;
+                      }
+                    }]);
 
-                  function __SUBCLASS__() {
-                    _classCallCheck(this, __SUBCLASS__);
+                    return __SUBCLASS__;
+                  }(__BASE_CLASS__);
+                } : function (__BASE_CLASS__) {
+                  return function (_BASE_CLASS__2) {
+                    _inherits(__SUBCLASS__, _BASE_CLASS__2);
 
-                    return _possibleConstructorReturn(this, (__SUBCLASS__.__proto__ || Object.getPrototypeOf(__SUBCLASS__)).apply(this, arguments));
-                  }
+                    function __SUBCLASS__() {
+                      _classCallCheck(this, __SUBCLASS__);
 
-                  return __SUBCLASS__;
-                }(__BASE_CLASS__);
-              }).toString().replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
+                      return _possibleConstructorReturn(this, (__SUBCLASS__.__proto__ || Object.getPrototypeOf(__SUBCLASS__)).apply(this, arguments));
+                    }
+
+                    return __SUBCLASS__;
+                  }(__BASE_CLASS__);
+                };
+              }().toString().replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
               .replace(/__SUBCLASS__/g, subclass).replace(/_inherits|_classCallCheck|_createClass|_possibleConstructorReturn/g, prefix + '$&').replace(/ 314159265358;?/g, ' "' + description + '";') + ')(' + base + ');';
             }(name, expression, description);
             self.classes[name] = new Function('self', expression)(self);
