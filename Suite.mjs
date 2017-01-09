@@ -210,6 +210,9 @@ class Suite {
       if (self.mixins[name]) {
         throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + name + ' already exists');
       }
+      if (self.classes[name]) {
+        throw new Error(this.constructor.name + '.' + this.scope + ':generateClass class ' + name + ' already exists');        
+      }
       chain.forEach((c, i) => {
         self._checkIdentifier(c);
         if (i === 0) {
@@ -232,6 +235,9 @@ class Suite {
       // class
       if (this.classes[name]) {
         throw new Error(this.constructor.name + '.' + this.scope + ':generateClass class ' + name + ' already exists');
+      }
+      if (this.mixins[name] && chain[chain.length - 1] !== name) {
+        throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + name + ' already exists');
       }
       chain.forEach((c, i) => {
         self._checkIdentifier(c);
