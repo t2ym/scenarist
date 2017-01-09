@@ -62,7 +62,7 @@ class Suite {
   _checkIdentifier(name) {
     try {
       let f = (new Function('return function ' + name + ' () {}'))();
-      if (f.name !== name || !f.name.match(/^[$\w]*$/)) {
+      if (f.name !== name || (!this.constructor.allowUnicodeNames && !f.name.match(/^[$\w]*$/))) {
         throw new Error(name + ' is defined as ' + f.name);
       }
     }

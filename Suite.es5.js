@@ -114,7 +114,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       value: function _checkIdentifier(name) {
         try {
           var f = new Function('return function ' + name + ' () {}')();
-          if (f.name !== name || !f.name.match(/^[$\w]*$/)) {
+          if (f.name !== name || !this.constructor.allowUnicodeNames && !f.name.match(/^[$\w]*$/)) {
             throw new Error(name + ' is defined as ' + f.name);
           }
         } catch (e) {
