@@ -376,5 +376,59 @@
 
       });
     });
+
+    (typeof suite === 'function' ? suite : describe)('Suite utilities error test', function () {
+      (typeof test === 'function' ? test : it)('Suite.permute error', function () {
+        assert.throws(function () {
+          Suite.permute(null, () => 'a');
+        }, / null/);
+      });
+    });
+
+    (typeof suite === 'function' ? suite : describe)('Test iteration error test', function () {
+      (typeof test === 'function' ? test : it)('iteration generator error', async function () {
+        error.test = class IterationErrorTest extends Suite {
+          * iteration() {
+            yield 1;
+            yield 2;
+            throw new Error('iteration error');
+          }
+          async operation(parameters) {
+            console.log('parameter = ' + parameters);
+          }
+          async checkpoint(parameters) {
+          }
+        }
+        try {
+          (new error.leafClasses.IterationErrorTest()).run()
+            .catch((e) => console.log(e));
+        }
+        catch (e) {
+          console.log(e);
+        }
+      });
+    });
+
+    (typeof suite === 'function' ? suite : describe)('Test scenario error test', function () {
+      (typeof test === 'function' ? test : it)('scenario generator error', async function () {
+        error.test = class ScenarioErrorTest extends Suite {
+          * scenario() {
+            throw new Error('scenario error');
+          }
+          async operation() {
+          }
+          async checkpoint() {
+          }
+        }
+        try {
+          (new error.leafClasses.ScenarioErrorTest()).run()
+            .catch((e) => console.log(e));
+        }
+        catch (e) {
+          console.log(e);
+        }
+      });
+    });
+
   }
 } // error scope

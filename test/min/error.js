@@ -742,6 +742,183 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           });
         });
       });
+
+      (typeof suite === 'function' ? suite : describe)('Suite utilities error test', function () {
+        (typeof test === 'function' ? test : it)('Suite.permute error', function () {
+          assert.throws(function () {
+            Suite.permute(null, function () {
+              return 'a';
+            });
+          }, / null/);
+        });
+      });
+
+      (typeof suite === 'function' ? suite : describe)('Test iteration error test', function () {
+        (typeof test === 'function' ? test : it)('iteration generator error', function _callee() {
+          return regeneratorRuntime.async(function _callee$(_context13) {
+            while (1) {
+              switch (_context13.prev = _context13.next) {
+                case 0:
+                  error.test = function (_Suite5) {
+                    _inherits(IterationErrorTest, _Suite5);
+
+                    function IterationErrorTest() {
+                      _classCallCheck(this, IterationErrorTest);
+
+                      return _possibleConstructorReturn(this, (IterationErrorTest.__proto__ || Object.getPrototypeOf(IterationErrorTest)).apply(this, arguments));
+                    }
+
+                    _createClass(IterationErrorTest, [{
+                      key: 'iteration',
+                      value: regeneratorRuntime.mark(function iteration() {
+                        return regeneratorRuntime.wrap(function iteration$(_context10) {
+                          while (1) {
+                            switch (_context10.prev = _context10.next) {
+                              case 0:
+                                _context10.next = 2;
+                                return 1;
+
+                              case 2:
+                                _context10.next = 4;
+                                return 2;
+
+                              case 4:
+                                throw new Error('iteration error');
+
+                              case 5:
+                              case 'end':
+                                return _context10.stop();
+                            }
+                          }
+                        }, iteration, this);
+                      })
+                    }, {
+                      key: 'operation',
+                      value: function operation(parameters) {
+                        return regeneratorRuntime.async(function operation$(_context11) {
+                          while (1) {
+                            switch (_context11.prev = _context11.next) {
+                              case 0:
+                                console.log('parameter = ' + parameters);
+
+                              case 1:
+                              case 'end':
+                                return _context11.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint(parameters) {
+                        return regeneratorRuntime.async(function checkpoint$(_context12) {
+                          while (1) {
+                            switch (_context12.prev = _context12.next) {
+                              case 0:
+                              case 'end':
+                                return _context12.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }]);
+
+                    return IterationErrorTest;
+                  }(Suite);
+                  try {
+                    new error.leafClasses.IterationErrorTest().run().catch(function (e) {
+                      return console.log(e);
+                    });
+                  } catch (e) {
+                    console.log(e);
+                  }
+
+                case 2:
+                case 'end':
+                  return _context13.stop();
+              }
+            }
+          }, null, this);
+        });
+      });
+
+      (typeof suite === 'function' ? suite : describe)('Test scenario error test', function () {
+        (typeof test === 'function' ? test : it)('scenario generator error', function _callee2() {
+          return regeneratorRuntime.async(function _callee2$(_context17) {
+            while (1) {
+              switch (_context17.prev = _context17.next) {
+                case 0:
+                  error.test = function (_Suite6) {
+                    _inherits(ScenarioErrorTest, _Suite6);
+
+                    function ScenarioErrorTest() {
+                      _classCallCheck(this, ScenarioErrorTest);
+
+                      return _possibleConstructorReturn(this, (ScenarioErrorTest.__proto__ || Object.getPrototypeOf(ScenarioErrorTest)).apply(this, arguments));
+                    }
+
+                    _createClass(ScenarioErrorTest, [{
+                      key: 'scenario',
+                      value: regeneratorRuntime.mark(function scenario() {
+                        return regeneratorRuntime.wrap(function scenario$(_context14) {
+                          while (1) {
+                            switch (_context14.prev = _context14.next) {
+                              case 0:
+                                throw new Error('scenario error');
+
+                              case 1:
+                              case 'end':
+                                return _context14.stop();
+                            }
+                          }
+                        }, scenario, this);
+                      })
+                    }, {
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context15) {
+                          while (1) {
+                            switch (_context15.prev = _context15.next) {
+                              case 0:
+                              case 'end':
+                                return _context15.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context16) {
+                          while (1) {
+                            switch (_context16.prev = _context16.next) {
+                              case 0:
+                              case 'end':
+                                return _context16.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }]);
+
+                    return ScenarioErrorTest;
+                  }(Suite);
+                  try {
+                    new error.leafClasses.ScenarioErrorTest().run().catch(function (e) {
+                      return console.log(e);
+                    });
+                  } catch (e) {
+                    console.log(e);
+                  }
+
+                case 2:
+                case 'end':
+                  return _context17.stop();
+              }
+            }
+          }, null, this);
+        });
+      });
     }
   })();
 } // error scope
