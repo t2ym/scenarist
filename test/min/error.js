@@ -271,6 +271,114 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }, /Suite[.]error:generateClass mixin InexistentMixin2 does not exist/);
           });
 
+          (typeof test === 'function' ? test : it)('duplicate class name with existing mixin name', function () {
+            assert.throws(function () {
+              error.test = function (base) {
+                return function (_base6) {
+                  _inherits(DefinedMixinBase3, _base6);
+
+                  function DefinedMixinBase3() {
+                    _classCallCheck(this, DefinedMixinBase3);
+
+                    return _possibleConstructorReturn(this, (DefinedMixinBase3.__proto__ || Object.getPrototypeOf(DefinedMixinBase3)).apply(this, arguments));
+                  }
+
+                  return DefinedMixinBase3;
+                }(base);
+              };
+              error.test = function (base) {
+                return function (_base7) {
+                  _inherits(DefinedMixinBase4, _base7);
+
+                  function DefinedMixinBase4() {
+                    _classCallCheck(this, DefinedMixinBase4);
+
+                    return _possibleConstructorReturn(this, (DefinedMixinBase4.__proto__ || Object.getPrototypeOf(DefinedMixinBase4)).apply(this, arguments));
+                  }
+
+                  return DefinedMixinBase4;
+                }(base);
+              };
+              error.test = function (base) {
+                return function (_base8) {
+                  _inherits(DefinedMixinBase5, _base8);
+
+                  function DefinedMixinBase5() {
+                    _classCallCheck(this, DefinedMixinBase5);
+
+                    return _possibleConstructorReturn(this, (DefinedMixinBase5.__proto__ || Object.getPrototypeOf(DefinedMixinBase5)).apply(this, arguments));
+                  }
+
+                  return DefinedMixinBase5;
+                }(base);
+              };
+              error.test = {
+                DummyTest: {
+                  DefinedMixinBase3: 'DefinedMixinBase3' // no error
+                }
+              };
+              error.test = {
+                DummyTest: {
+                  DefinedMixinBase5: '' // no error
+                }
+              };
+              error.test = {
+                DummyTest: {
+                  DefinedMixinBase3: 'DefinedMixinBase4'
+                }
+              };
+            }, /Suite[.]error:generateClass mixin DefinedMixinBase4 already exists/);
+          });
+
+          (typeof test === 'function' ? test : it)('duplicate mixin name with existing class name', function () {
+            assert.throws(function () {
+              error.test = function (_Suite2) {
+                _inherits(DefinedClass1, _Suite2);
+
+                function DefinedClass1() {
+                  _classCallCheck(this, DefinedClass1);
+
+                  return _possibleConstructorReturn(this, (DefinedClass1.__proto__ || Object.getPrototypeOf(DefinedClass1)).apply(this, arguments));
+                }
+
+                return DefinedClass1;
+              }(Suite);
+              error.test = function (base) {
+                return function (_base9) {
+                  _inherits(DefinedMixinBase6, _base9);
+
+                  function DefinedMixinBase6() {
+                    _classCallCheck(this, DefinedMixinBase6);
+
+                    return _possibleConstructorReturn(this, (DefinedMixinBase6.__proto__ || Object.getPrototypeOf(DefinedMixinBase6)).apply(this, arguments));
+                  }
+
+                  return DefinedMixinBase6;
+                }(base);
+              };
+              error.test = function (base) {
+                return function (_base10) {
+                  _inherits(DefinedMixinBase7, _base10);
+
+                  function DefinedMixinBase7() {
+                    _classCallCheck(this, DefinedMixinBase7);
+
+                    return _possibleConstructorReturn(this, (DefinedMixinBase7.__proto__ || Object.getPrototypeOf(DefinedMixinBase7)).apply(this, arguments));
+                  }
+
+                  return DefinedMixinBase7;
+                }(base);
+              };
+              error.test = {
+                '': {
+                  DefinedMixinBase6: {
+                    DefinedMixinBase7: 'DefinedClass1'
+                  }
+                }
+              };
+            }, /Suite[.]error:generateClass class DefinedClass1 already exists/);
+          });
+
           (typeof test === 'function' ? test : it)('illegal class name', function () {
             assert.throws(function () {
               error.test = {
@@ -335,8 +443,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
           (typeof test === 'function' ? test : it)('illegal mixin class name', function () {
             error.test = function (base) {
-              return function (_base6) {
-                _inherits(MixinBase1, _base6);
+              return function (_base11) {
+                _inherits(MixinBase1, _base11);
 
                 function MixinBase1() {
                   _classCallCheck(this, MixinBase1);
@@ -433,8 +541,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       (typeof suite === 'function' ? suite : describe)('Scenario test', function () {
         (typeof suite === 'function' ? suite : describe)('skipAfterFailure test', function () {
           (typeof test === 'function' ? test : it)('skipAfterFailure', function () {
-            error.test = t = function (_Suite2) {
-              _inherits(SkipAfterFailureSuite, _Suite2);
+            error.test = t = function (_Suite3) {
+              _inherits(SkipAfterFailureSuite, _Suite3);
 
               function SkipAfterFailureSuite() {
                 _classCallCheck(this, SkipAfterFailureSuite);
@@ -472,8 +580,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               return SkipAfterFailureSuite;
             }(Suite);
             error.test = function (base) {
-              return function (_base7) {
-                _inherits(SkippedTest, _base7);
+              return function (_base12) {
+                _inherits(SkippedTest, _base12);
 
                 function SkippedTest() {
                   _classCallCheck(this, SkippedTest);
@@ -525,8 +633,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           });
 
           (typeof test === 'function' ? test : it)('skipAfterFailure with iteration', function () {
-            error.test = t = function (_Suite3) {
-              _inherits(SkipAfterFailureSuite2, _Suite3);
+            error.test = t = function (_Suite4) {
+              _inherits(SkipAfterFailureSuite2, _Suite4);
 
               function SkipAfterFailureSuite2() {
                 _classCallCheck(this, SkipAfterFailureSuite2);
@@ -564,8 +672,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               return SkipAfterFailureSuite2;
             }(Suite);
             error.test = function (base) {
-              return function (_base8) {
-                _inherits(SkippedTest2, _base8);
+              return function (_base13) {
+                _inherits(SkippedTest2, _base13);
 
                 function SkippedTest2() {
                   _classCallCheck(this, SkippedTest2);

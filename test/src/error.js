@@ -135,6 +135,44 @@
           }, /Suite[.]error:generateClass mixin InexistentMixin2 does not exist/);
         });
 
+        (typeof test === 'function' ? test : it)('duplicate class name with existing mixin name', function () {
+          assert.throws(function () {
+            error.test = (base) => class DefinedMixinBase3 extends base {}
+            error.test = (base) => class DefinedMixinBase4 extends base {}
+            error.test = (base) => class DefinedMixinBase5 extends base {}
+            error.test = {
+              DummyTest: {
+                DefinedMixinBase3: 'DefinedMixinBase3' // no error
+              }
+            };
+            error.test = {
+              DummyTest: {
+                DefinedMixinBase5: '' // no error
+              }
+            };
+            error.test = {
+              DummyTest: {
+                DefinedMixinBase3: 'DefinedMixinBase4'
+              }
+            };
+          }, /Suite[.]error:generateClass mixin DefinedMixinBase4 already exists/);
+        });
+
+        (typeof test === 'function' ? test : it)('duplicate mixin name with existing class name', function () {
+          assert.throws(function () {
+            error.test = class DefinedClass1 extends Suite {}
+            error.test = (base) => class DefinedMixinBase6 extends base {}
+            error.test = (base) => class DefinedMixinBase7 extends base {}
+            error.test = {
+              '': {
+                DefinedMixinBase6: {
+                  DefinedMixinBase7: 'DefinedClass1'
+                }
+              }
+            };
+          }, /Suite[.]error:generateClass class DefinedClass1 already exists/);
+        });
+
         (typeof test === 'function' ? test : it)('illegal class name', function () {
           assert.throws(function () {
             error.test = {
