@@ -231,7 +231,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           if (self.mixins[name]) {
             throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + name + ' already exists');
           }
-          if (self.classes[name]) {
+          if (!self.constructor.allowLooseNaming && self.classes[name]) {
             throw new Error(this.constructor.name + '.' + this.scope + ':generateClass class ' + name + ' already exists');
           }
           chain.forEach(function (c, i) {
@@ -255,7 +255,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             if (_this2.classes[name]) {
               throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass class ' + name + ' already exists');
             }
-            if (_this2.mixins[name] && chain[chain.length - 1] !== name) {
+            if (!self.constructor.allowLooseNaming && _this2.mixins[name] && chain[chain.length - 1] !== name) {
               throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass mixin ' + name + ' already exists');
             }
             chain.forEach(function (c, i) {
