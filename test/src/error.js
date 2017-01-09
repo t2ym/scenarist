@@ -135,6 +135,94 @@
           }, /Suite[.]error:generateClass mixin InexistentMixin2 does not exist/);
         });
 
+        (typeof test === 'function' ? test : it)('illegal class name', function () {
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 'Illegal Class Name'
+            };
+          }, /Suite[.]error:_checkIdentifier Illegal Class Name is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 'IllegalClassName≡'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 1
+            };
+          }, /Suite[.]error: unknown branch type number/);
+
+          assert.throws(function () {
+            error.test = {
+              'Illegal Class Name': 'IllegalClassName'
+            };
+          }, /Suite[.]error:_checkIdentifier Illegal Class Name is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              'IllegalClassName≡': 'IllegalClassName'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              1: 'IllegalClassName'
+            };
+          }, /Suite.error:_checkIdentifier 1 is not a valid identifier/);
+        });
+
+        (typeof test === 'function' ? test : it)('illegal mixin class name', function () {
+          error.test = (base) => class MixinBase1 extends base {}
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 'Illegal Mixin Class Name'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier Illegal Mixin Class Name is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 'IllegalMixinClassName≡'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 1
+              }
+            };
+          }, /Suite.error: unknown branch type/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                'Illegal Mixin Class Name': 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier Illegal Mixin Class Name is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                'IllegalMixinClassName≡': 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                1: 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier 1 is not a valid identifier/);
+        });
       });
     });
 
