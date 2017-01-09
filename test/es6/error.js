@@ -144,9 +144,21 @@
 
           assert.throws(function () {
             error.test = {
+              DummyTest: 'IllegalClassNameあ'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassNameあ is not a valid identifier/);
+
+         assert.throws(function () {
+            error.test = {
               DummyTest: 'IllegalClassName≡'
             };
           }, /Suite[.]error:_checkIdentifier IllegalClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 'IllegalClassName='
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassName= is not a valid identifier/);
 
           assert.throws(function () {
             error.test = {
@@ -162,9 +174,21 @@
 
           assert.throws(function () {
             error.test = {
+              'IllegalClassNameあ': 'IllegalClassName'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassNameあ is not a valid identifier/);
+
+         assert.throws(function () {
+            error.test = {
               'IllegalClassName≡': 'IllegalClassName'
             };
           }, /Suite[.]error:_checkIdentifier IllegalClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              'IllegalClassName=': 'IllegalClassName'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassName= is not a valid identifier/);
 
           assert.throws(function () {
             error.test = {
@@ -186,10 +210,26 @@
           assert.throws(function () {
             error.test = {
               '': {
+                MixinBase1: 'IllegalMixinClassNameあ'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassNameあ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
                 MixinBase1: 'IllegalMixinClassName≡'
               }
             };
           }, /Suite[.]error:_checkIdentifier IllegalMixinClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 'IllegalMixinClassName='
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassName= is not a valid identifier/);
 
           assert.throws(function () {
             error.test = {
@@ -210,10 +250,26 @@
           assert.throws(function () {
             error.test = {
               '': {
+                'IllegalMixinClassNameあ': 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassNameあ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
                 'IllegalMixinClassName≡': 'IllegalMixinClassName'
               }
             };
           }, /Suite[.]error:_checkIdentifier IllegalMixinClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                'IllegalMixinClassName=': 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassName= is not a valid identifier/);
 
           assert.throws(function () {
             error.test = {
