@@ -749,7 +749,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             Suite.permute(null, function () {
               return 'a';
             });
-          }, / null/);
+          }, /null/);
         });
       });
     }

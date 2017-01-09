@@ -381,7 +381,7 @@
       (typeof test === 'function' ? test : it)('Suite.permute error', function () {
         assert.throws(function () {
           Suite.permute(null, () => 'a');
-        }, / null/);
+        }, /null/);
       });
     });
 
