@@ -385,29 +385,5 @@
       });
     });
 
-    (typeof suite === 'function' ? suite : describe)('Test iteration error test', function () {
-      (typeof test === 'function' ? test : it)('iteration generator error', async function () {
-        error.test = class IterationErrorTest extends Suite {
-          * iteration() {
-            yield 1;
-            yield 2;
-            throw new Error('iteration error');
-          }
-          async operation(parameters) {
-            console.log('parameter = ' + parameters);
-          }
-          async checkpoint(parameters) {
-          }
-        }
-        try {
-          (new error.leafClasses.IterationErrorTest()).run()
-            .catch((e) => console.log(e));
-        }
-        catch (e) {
-          console.log(e);
-        }
-      });
-    });
-
   }
 } // error scope
