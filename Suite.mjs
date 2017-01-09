@@ -51,6 +51,14 @@ class Suite {
       ? func.name
       : func.toString().replace(/^[\S\s]*?function\s*/, "").replace(/[\s\(\/][\S\s]+$/, "")).replace(/^_?class$/, '');
   }
+  _checkIdentifier(name) {
+    try {
+      (new Function('return function ' + name + ' () {}'))();
+    }
+    catch (e) {
+      throw new Error(this.constructor.name + '.' + this.scope + ':_checkIdentifier ' + name + ' is not a valid identifier ' + e.message);
+    }
+  }
   set test(value) {
     if (typeof value === 'function') {
       let name = Suite._name(value);
@@ -193,12 +201,14 @@ class Suite {
     if (!name) {
       name = chain[chain.length - 1];
     }
+    this._checkIdentifier(name);
     if (!chain[0]) {
       // class mixin
       if (self.mixins[name]) {
         throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + name + ' already exists');
       }
       chain.forEach((c, i) => {
+        self._checkIdentifier(c);
         if (i === 0) {
           expression = 'base';
         }
@@ -221,6 +231,7 @@ class Suite {
         throw new Error(this.constructor.name + '.' + this.scope + ':generateClass class ' + name + ' already exists');
       }
       chain.forEach((c, i) => {
+        self._checkIdentifier(c);
         if (i === 0) {
           if (self.classes[c]) {
             expression = 'self.classes.' + c;
