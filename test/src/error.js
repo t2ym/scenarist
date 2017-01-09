@@ -409,26 +409,5 @@
       });
     });
 
-    (typeof suite === 'function' ? suite : describe)('Test scenario error test', function () {
-      (typeof test === 'function' ? test : it)('scenario generator error', async function () {
-        error.test = class ScenarioErrorTest extends Suite {
-          * scenario() {
-            throw new Error('scenario error');
-          }
-          async operation() {
-          }
-          async checkpoint() {
-          }
-        }
-        try {
-          (new error.leafClasses.ScenarioErrorTest()).run()
-            .catch((e) => console.log(e));
-        }
-        catch (e) {
-          console.log(e);
-        }
-      });
-    });
-
   }
 } // error scope
