@@ -113,7 +113,10 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       key: '_checkIdentifier',
       value: function _checkIdentifier(name) {
         try {
-          new Function('return function ' + name + ' () {}')();
+          var f = new Function('return function ' + name + ' () {}')();
+          if (f.name !== name || !f.name.match(/^[$\w]*$/)) {
+            throw new Error(name + ' is defined as ' + f.name);
+          }
         } catch (e) {
           throw new Error(this.constructor.name + '.' + this.scope + ':_checkIdentifier ' + name + ' is not a valid identifier ' + e.message);
         }
