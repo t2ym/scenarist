@@ -248,7 +248,7 @@ class Suite {
       if (self.mixins[name]) {
         throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + name + ' already exists');
       }
-      if (self.classes[name]) {
+      if (!self.constructor.allowLooseNaming && self.classes[name]) {
         throw new Error(this.constructor.name + '.' + this.scope + ':generateClass class ' + name + ' already exists');        
       }
       chain.forEach((c, i) => {
@@ -274,7 +274,7 @@ class Suite {
       if (this.classes[name]) {
         throw new Error(this.constructor.name + '.' + this.scope + ':generateClass class ' + name + ' already exists');
       }
-      if (this.mixins[name] && chain[chain.length - 1] !== name) {
+      if (!self.constructor.allowLooseNaming && this.mixins[name] && chain[chain.length - 1] !== name) {
         throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + name + ' already exists');
       }
       chain.forEach((c, i) => {
