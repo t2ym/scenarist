@@ -197,5 +197,5 @@ gulp.task('build:demo', () => {
 });
 
 gulp.task('default', (done) => {
-  runSequence('umd', 'es5', 'es6', done);
+  runSequence('umd', 'es5', 'es6', 'build:test', 'build:testes6', 'build:demo', done);
 });
