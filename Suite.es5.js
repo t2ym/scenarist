@@ -110,6 +110,15 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         return name.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/[ ]{1,}/g, ' ').replace(/^ /, '').toLowerCase();
       }
     }, {
+      key: '_checkIdentifier',
+      value: function _checkIdentifier(name) {
+        try {
+          new Function('return function ' + name + ' () {}')();
+        } catch (e) {
+          throw new Error(this.constructor.name + '.' + this.scope + ':_checkIdentifier ' + name + ' is not a valid identifier ' + e.message);
+        }
+      }
+    }, {
       key: 'testClasses',
       value: function testClasses(tests) {
         var self = this;
@@ -213,12 +222,14 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         if (!name) {
           name = chain[chain.length - 1];
         }
+        this._checkIdentifier(name);
         if (!chain[0]) {
           // class mixin
           if (self.mixins[name]) {
             throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + name + ' already exists');
           }
           chain.forEach(function (c, i) {
+            self._checkIdentifier(c);
             if (i === 0) {
               expression = 'base';
             } else if (self.mixins[c]) {
@@ -239,6 +250,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass class ' + name + ' already exists');
             }
             chain.forEach(function (c, i) {
+              self._checkIdentifier(c);
               if (i === 0) {
                 if (self.classes[c]) {
                   expression = 'self.classes.' + c;
