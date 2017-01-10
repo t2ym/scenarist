@@ -8,3 +8,4 @@ Suite.debug = true;
 require('./example.js');
 require('./example2.js');
 require('./error.js');
+require('./error2.js');
