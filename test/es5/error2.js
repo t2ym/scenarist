@@ -70,7 +70,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 {
   (function () {
     // error scope
-    var scope = 'error';
+    var scope = 'error2';
     var error = new Suite(scope, 'Description of Error Suite');
     var t = void 0; // temporary variable as a workaround for Edge 15.14986 issue #12
     var isIndexHtml = false;
@@ -99,6 +99,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               return 'a';
             });
           }, /null/);
+        });
+
+        (typeof test === 'function' ? test : it)('Suite.permute length error', function () {
+          var count = 0;
+
+          var Targets = function () {
+            function Targets() {
+              _classCallCheck(this, Targets);
+
+              this[0] = 'a';
+              this[1] = 'b';
+            }
+
+            _createClass(Targets, [{
+              key: 'length',
+              get: function get() {
+                if (count === 0) {
+                  count++;
+                  return 2;
+                } else {
+                  throw new Error('target length error');
+                }
+              }
+            }]);
+
+            return Targets;
+          }();
+
+          var targets = new Targets();
+          assert.throws(function () {
+            try {
+              var i = Suite.permute(targets, function () {
+                return 'a';
+              });
+            } catch (e) {
+              //console.log('catching', e);
+              throw e;
+            }
+          }, /target length error/);
         });
       });
 

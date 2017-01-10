@@ -17,7 +17,7 @@ Suite.debug = true;
 }
 {
   // error scope
-  let scope = 'error';
+  let scope = 'error2';
   let error = new Suite(scope, 'Description of Error Suite');
   let t; // temporary variable as a workaround for Edge 15.14986 issue #12
   let isIndexHtml = false;
@@ -35,6 +35,35 @@ Suite.debug = true;
         assert.throws(function () {
           Suite.permute(null, () => 'a');
         }, /null/);
+      });
+
+      (typeof test === 'function' ? test : it)('Suite.permute length error', function () {
+        let count = 0;
+        class Targets {
+          constructor() {
+            this[0] = 'a';
+            this[1] = 'b';
+          }
+          get length() {
+            if (count === 0) {
+              count++;
+              return 2;
+            }
+            else {
+              throw new Error('target length error');
+            }
+          }
+        }
+        let targets = new Targets();
+        assert.throws(function () {
+          try {
+            let i = Suite.permute(targets, () => 'a');
+          }
+          catch (e) {
+            //console.log('catching', e);
+            throw e;
+          }
+        }, /target length error/);
       });
     });
 
