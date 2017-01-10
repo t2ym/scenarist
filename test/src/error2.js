@@ -78,6 +78,75 @@ Suite.debug = true;
           }
         }, /target item error/);
       });
+
+      (typeof test === 'function' ? test : it)('Suite.permute item value error', function () {
+        let _permute_original = Suite._permute;
+        Suite._permute = (function() {
+          let obj = {};
+          obj[Symbol.iterator] = (function _iterator() {
+            var index = 0;
+            return {
+              next: function() {
+                return index < 3 ?
+                  { value: index++, done: false } :
+                  { get value() {
+                      console.log('throwing target item value error');
+                      throw new Error('target item value error')
+                    },
+                    done: false
+                  };
+              },
+              'return': function() {
+                console.log('iterator return called');
+              }
+            }
+          });
+          return obj;
+        }).bind(Suite);
+        let targets = [ 1, 2, 3 ];
+        assert.throws(function () {
+          try {
+            Suite.permute(targets, () => 'a');
+          }
+          catch (e) {
+            //console.log('catching', e);
+            Suite._permute = _permute_original;
+            throw e;
+          }
+        }, /target item value error/);
+      });
+
+      (typeof test === 'function' ? test : it)('Suite.permute recovery check', function () {
+        let targets = [ 'a', 'b', 'c' ];
+        assert.deepEqual(Suite.permute(targets, (list) => list.join('')),
+          {
+            "a": {
+              "b": {
+                "c": "abc"
+              },
+              "c": {
+                "b": "acb"
+              }
+            },
+            "b": {
+              "a": {
+                "c": "bac"
+              },
+              "c": {
+                "a": "bca"
+              }
+            },
+            "c": {
+              "b": {
+                "a": "cba"
+              },
+              "a": {
+                "b": "cab"
+              }
+            }
+          },
+          'Suite.permute is recovered');
+      });
     });
 
     (typeof suite === 'function' ? suite : describe)('Test iteration error test', function () {
