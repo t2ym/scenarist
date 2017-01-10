@@ -65,6 +65,19 @@ Suite.debug = true;
           }
         }, /target length error/);
       });
+
+      (typeof test === 'function' ? test : it)('Suite.permute item error', function () {
+        let targets = { '0': 'a', '1': 'b', '2': 'c', get '3'() { throw new Error('target item error'); }, length: 4 };
+        assert.throws(function () {
+          try {
+            let i = Suite.permute(targets, () => 'a');
+          }
+          catch (e) {
+            //console.log('catching', e);
+            throw e;
+          }
+        }, /target item error/);
+      });
     });
 
     (typeof suite === 'function' ? suite : describe)('Test iteration error test', function () {
@@ -83,6 +96,31 @@ Suite.debug = true;
         }
         try {
           (new error.leafClasses.IterationErrorTest()).run()
+            .catch((e) => console.log(e));
+        }
+        catch (e) {
+          console.log(e);
+        }
+      });
+
+      (typeof test === 'function' ? test : it)('iteration generator name error', async function () {
+        error.test = class IterationErrorTest2 extends ErrorSuite {
+          * iteration() {
+            yield { name: 'iteration 1', value: '1' }
+            yield { name: 'iteration 2', value: '1' }
+            yield new class {
+              get value() { return 3; }
+              get name() { throw new Error('iteration name error'); }
+            };
+          }
+          async operation(parameters) {
+            console.log('parameter = ' + parameters);
+          }
+          async checkpoint(parameters) {
+          }
+        }
+        try {
+          (new error.leafClasses.IterationErrorTest2()).run()
             .catch((e) => console.log(e));
         }
         catch (e) {

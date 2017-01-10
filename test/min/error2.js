@@ -139,6 +139,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
           }, /target length error/);
         });
+
+        (typeof test === 'function' ? test : it)('Suite.permute item error', function () {
+          var targets = { '0': 'a', '1': 'b', '2': 'c', get '3'() {
+              throw new Error('target item error');
+            }, length: 4 };
+          assert.throws(function () {
+            try {
+              var i = Suite.permute(targets, function () {
+                return 'a';
+              });
+            } catch (e) {
+              //console.log('catching', e);
+              throw e;
+            }
+          }, /target item error/);
+        });
       });
 
       (typeof suite === 'function' ? suite : describe)('Test iteration error test', function () {
@@ -228,16 +244,122 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
           }, null, this);
         });
-      });
 
-      (typeof suite === 'function' ? suite : describe)('Test scenario error test', function () {
-        (typeof test === 'function' ? test : it)('scenario generator error', function _callee2() {
+        (typeof test === 'function' ? test : it)('iteration generator name error', function _callee2() {
           return regeneratorRuntime.async(function _callee2$(_context10) {
             while (1) {
               switch (_context10.prev = _context10.next) {
                 case 0:
                   error.test = function (_ErrorSuite3) {
-                    _inherits(ScenarioErrorTest, _ErrorSuite3);
+                    _inherits(IterationErrorTest2, _ErrorSuite3);
+
+                    function IterationErrorTest2() {
+                      _classCallCheck(this, IterationErrorTest2);
+
+                      return _possibleConstructorReturn(this, (IterationErrorTest2.__proto__ || Object.getPrototypeOf(IterationErrorTest2)).apply(this, arguments));
+                    }
+
+                    _createClass(IterationErrorTest2, [{
+                      key: 'iteration',
+                      value: regeneratorRuntime.mark(function iteration() {
+                        return regeneratorRuntime.wrap(function iteration$(_context7) {
+                          while (1) {
+                            switch (_context7.prev = _context7.next) {
+                              case 0:
+                                _context7.next = 2;
+                                return { name: 'iteration 1', value: '1' };
+
+                              case 2:
+                                _context7.next = 4;
+                                return { name: 'iteration 2', value: '1' };
+
+                              case 4:
+                                _context7.next = 6;
+                                return new (function () {
+                                  function _class() {
+                                    _classCallCheck(this, _class);
+                                  }
+
+                                  _createClass(_class, [{
+                                    key: 'value',
+                                    get: function get() {
+                                      return 3;
+                                    }
+                                  }, {
+                                    key: 'name',
+                                    get: function get() {
+                                      throw new Error('iteration name error');
+                                    }
+                                  }]);
+
+                                  return _class;
+                                }())();
+
+                              case 6:
+                              case 'end':
+                                return _context7.stop();
+                            }
+                          }
+                        }, iteration, this);
+                      })
+                    }, {
+                      key: 'operation',
+                      value: function operation(parameters) {
+                        return regeneratorRuntime.async(function operation$(_context8) {
+                          while (1) {
+                            switch (_context8.prev = _context8.next) {
+                              case 0:
+                                console.log('parameter = ' + parameters);
+
+                              case 1:
+                              case 'end':
+                                return _context8.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint(parameters) {
+                        return regeneratorRuntime.async(function checkpoint$(_context9) {
+                          while (1) {
+                            switch (_context9.prev = _context9.next) {
+                              case 0:
+                              case 'end':
+                                return _context9.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }]);
+
+                    return IterationErrorTest2;
+                  }(ErrorSuite);
+                  try {
+                    new error.leafClasses.IterationErrorTest2().run().catch(function (e) {
+                      return console.log(e);
+                    });
+                  } catch (e) {
+                    console.log(e);
+                  }
+
+                case 2:
+                case 'end':
+                  return _context10.stop();
+              }
+            }
+          }, null, this);
+        });
+      });
+
+      (typeof suite === 'function' ? suite : describe)('Test scenario error test', function () {
+        (typeof test === 'function' ? test : it)('scenario generator error', function _callee3() {
+          return regeneratorRuntime.async(function _callee3$(_context14) {
+            while (1) {
+              switch (_context14.prev = _context14.next) {
+                case 0:
+                  error.test = function (_ErrorSuite4) {
+                    _inherits(ScenarioErrorTest, _ErrorSuite4);
 
                     function ScenarioErrorTest() {
                       _classCallCheck(this, ScenarioErrorTest);
@@ -248,15 +370,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     _createClass(ScenarioErrorTest, [{
                       key: 'scenario',
                       value: regeneratorRuntime.mark(function scenario() {
-                        return regeneratorRuntime.wrap(function scenario$(_context7) {
+                        return regeneratorRuntime.wrap(function scenario$(_context11) {
                           while (1) {
-                            switch (_context7.prev = _context7.next) {
+                            switch (_context11.prev = _context11.next) {
                               case 0:
                                 throw new Error('scenario error');
 
                               case 1:
                               case 'end':
-                                return _context7.stop();
+                                return _context11.stop();
                             }
                           }
                         }, scenario, this);
@@ -264,12 +386,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }, {
                       key: 'operation',
                       value: function operation() {
-                        return regeneratorRuntime.async(function operation$(_context8) {
+                        return regeneratorRuntime.async(function operation$(_context12) {
                           while (1) {
-                            switch (_context8.prev = _context8.next) {
+                            switch (_context12.prev = _context12.next) {
                               case 0:
                               case 'end':
-                                return _context8.stop();
+                                return _context12.stop();
                             }
                           }
                         }, null, this);
@@ -277,12 +399,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }, {
                       key: 'checkpoint',
                       value: function checkpoint() {
-                        return regeneratorRuntime.async(function checkpoint$(_context9) {
+                        return regeneratorRuntime.async(function checkpoint$(_context13) {
                           while (1) {
-                            switch (_context9.prev = _context9.next) {
+                            switch (_context13.prev = _context13.next) {
                               case 0:
                               case 'end':
-                                return _context9.stop();
+                                return _context13.stop();
                             }
                           }
                         }, null, this);
@@ -301,7 +423,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 case 2:
                 case 'end':
-                  return _context10.stop();
+                  return _context14.stop();
               }
             }
           }, null, this);
