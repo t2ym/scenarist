@@ -164,11 +164,11 @@ Suite.debug = true;
           }
         }
         try {
-          (new error.leafClasses.IterationErrorTest()).run()
-            .catch((e) => console.log(e));
+          await (new error.leafClasses.IterationErrorTest()).run();
         }
         catch (e) {
-          console.log(e);
+          console.log('try { await run(); } catch (e) {}', e);
+          assert.throws(function () { throw e; }, /iteration error/);
         }
       });
 
@@ -189,11 +189,11 @@ Suite.debug = true;
           }
         }
         try {
-          (new error.leafClasses.IterationErrorTest2()).run()
-            .catch((e) => console.log(e));
+          await (new error.leafClasses.IterationErrorTest2()).run();
         }
         catch (e) {
-          console.log(e);
+          console.log('try { await run(); } catch (e) {}', e);
+          assert.throws(function () { throw e; }, /iteration name error/);
         }
       });
     });
@@ -210,14 +210,76 @@ Suite.debug = true;
           }
         }
         try {
-          (new error.leafClasses.ScenarioErrorTest()).run()
-            .catch((e) => console.log(e));
+          await (new error.leafClasses.ScenarioErrorTest()).run();
         }
         catch (e) {
-          console.log(e);
+          console.log('try { await run(); } catch (e) {}', e);
+          assert.throws(function () { throw e; }, /scenario error/);
+        }
+      });
+
+      (typeof test === 'function' ? test : it)('description error', async function () {
+        error.test = class DescriptionErrorTest extends ErrorSuite {
+          get description() {
+            throw new Error('description error');
+          }
+          async operation() {
+          }
+          async checkpoint() {
+          }
+        }
+        try {
+          await (new error.leafClasses.DescriptionErrorTest()).run();
+        }
+        catch (e) {
+          console.log('try { await run(); } catch (e) {}', e);
+          assert.throws(function () { throw e; }, /description error/);
         }
       });
     });
 
+    (typeof suite === 'function' ? suite : describe)('Suite error test', function () {
+      (typeof test === 'function' ? test : it)('Suite description error', async function () {
+        let error3 = new Suite('error3');
+        Object.defineProperty(error3, 'description', {
+          get: function () {
+            throw new Error('Suite description error');
+          }
+        });
+        error3.test = class SuiteDescriptionErrorTest extends Suite {
+          async operation() {
+          }
+          async checkpoint() {
+          }
+        }
+        try {
+          await error3.run(0, '#target');
+        }
+        catch (e) {
+          console.log('try { await run(); } catch (e) {}', e);
+          assert.throws(function () { throw e; }, /Suite description error/);
+        }
+      });
+
+      (typeof test === 'function' ? test : it)('Suite runner description error', async function () {
+        let error4 = new Suite('error4');
+        error4.test = class RunnerDescriptionErrorTest extends Suite {
+          get description() {
+            throw new Error('runner description error');
+          }
+          async operation() {
+          }
+          async checkpoint() {
+          }
+        }
+        try {
+          await error4.run(0, '#target');
+        }
+        catch (e) {
+          console.log('try { await run(); } catch (e) {}', e);
+          assert.throws(function () { throw e; }, /runner description error/);
+        }
+      });
+    });
   }
 } // error scope
