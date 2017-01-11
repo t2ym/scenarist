@@ -161,6 +161,19 @@ gulp.task('build:testes6', () => {
     .pipe(gulp.dest('test/es6'));
 });
 
+gulp.task('build:testes6error2', () => {
+  return gulp.src('test/src/error2.js')
+    .pipe(rollup({
+      allowRealFiles: true,
+      entry: 'test/src/error2.js',
+      format: 'umd',
+      moduleName: 'error2',
+      plugins: [ async() ]
+    }))
+    .pipe(rename('error2.js'))
+    .pipe(gulp.dest('test/es6'));
+});
+
 gulp.task('build:demo', () => {
   return gulp.src([ 'demo/src/*.js', 'demo/src/*.html' ])
     .pipe(replace('//require(\'babel-polyfill\')', 'require(\'babel-polyfill\')'))
@@ -197,5 +210,5 @@ gulp.task('build:demo', () => {
 });
 
 gulp.task('default', (done) => {
-  runSequence('umd', 'es5', 'es6', 'build:test', 'build:testes6', 'build:demo', done);
+  runSequence('umd', 'es5', 'es6', 'build:test', 'build:testes6', 'build:testes6error2', 'build:demo', done);
 });
