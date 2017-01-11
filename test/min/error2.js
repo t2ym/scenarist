@@ -297,20 +297,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     return IterationErrorTest;
                   }(ErrorSuite);
-                  try {
-                    new error.leafClasses.IterationErrorTest().run().catch(function (e) {
-                      return console.log(e);
-                    });
-                  } catch (e) {
-                    console.log(e);
-                  }
+                  _context6.prev = 1;
+                  _context6.next = 4;
+                  return regeneratorRuntime.awrap(new error.leafClasses.IterationErrorTest().run());
 
-                case 2:
+                case 4:
+                  _context6.next = 10;
+                  break;
+
+                case 6:
+                  _context6.prev = 6;
+                  _context6.t0 = _context6['catch'](1);
+
+                  console.log('try { await run(); } catch (e) {}', _context6.t0);
+                  assert.throws(function () {
+                    throw _context6.t0;
+                  }, /iteration error/);
+
+                case 10:
                 case 'end':
                   return _context6.stop();
               }
             }
-          }, null, this);
+          }, null, this, [[1, 6]]);
         });
 
         (typeof test === 'function' ? test : it)('iteration generator name error', function _callee2() {
@@ -403,20 +412,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     return IterationErrorTest2;
                   }(ErrorSuite);
-                  try {
-                    new error.leafClasses.IterationErrorTest2().run().catch(function (e) {
-                      return console.log(e);
-                    });
-                  } catch (e) {
-                    console.log(e);
-                  }
+                  _context10.prev = 1;
+                  _context10.next = 4;
+                  return regeneratorRuntime.awrap(new error.leafClasses.IterationErrorTest2().run());
 
-                case 2:
+                case 4:
+                  _context10.next = 10;
+                  break;
+
+                case 6:
+                  _context10.prev = 6;
+                  _context10.t0 = _context10['catch'](1);
+
+                  console.log('try { await run(); } catch (e) {}', _context10.t0);
+                  assert.throws(function () {
+                    throw _context10.t0;
+                  }, /iteration name error/);
+
+                case 10:
                 case 'end':
                   return _context10.stop();
               }
             }
-          }, null, this);
+          }, null, this, [[1, 6]]);
         });
       });
 
@@ -481,20 +499,259 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     return ScenarioErrorTest;
                   }(ErrorSuite);
-                  try {
-                    new error.leafClasses.ScenarioErrorTest().run().catch(function (e) {
-                      return console.log(e);
-                    });
-                  } catch (e) {
-                    console.log(e);
-                  }
+                  _context14.prev = 1;
+                  _context14.next = 4;
+                  return regeneratorRuntime.awrap(new error.leafClasses.ScenarioErrorTest().run());
 
-                case 2:
+                case 4:
+                  _context14.next = 10;
+                  break;
+
+                case 6:
+                  _context14.prev = 6;
+                  _context14.t0 = _context14['catch'](1);
+
+                  console.log('try { await run(); } catch (e) {}', _context14.t0);
+                  assert.throws(function () {
+                    throw _context14.t0;
+                  }, /scenario error/);
+
+                case 10:
                 case 'end':
                   return _context14.stop();
               }
             }
-          }, null, this);
+          }, null, this, [[1, 6]]);
+        });
+
+        (typeof test === 'function' ? test : it)('description error', function _callee4() {
+          return regeneratorRuntime.async(function _callee4$(_context17) {
+            while (1) {
+              switch (_context17.prev = _context17.next) {
+                case 0:
+                  error.test = function (_ErrorSuite5) {
+                    _inherits(DescriptionErrorTest, _ErrorSuite5);
+
+                    function DescriptionErrorTest() {
+                      _classCallCheck(this, DescriptionErrorTest);
+
+                      return _possibleConstructorReturn(this, (DescriptionErrorTest.__proto__ || Object.getPrototypeOf(DescriptionErrorTest)).apply(this, arguments));
+                    }
+
+                    _createClass(DescriptionErrorTest, [{
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context15) {
+                          while (1) {
+                            switch (_context15.prev = _context15.next) {
+                              case 0:
+                              case 'end':
+                                return _context15.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context16) {
+                          while (1) {
+                            switch (_context16.prev = _context16.next) {
+                              case 0:
+                              case 'end':
+                                return _context16.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'description',
+                      get: function get() {
+                        throw new Error('description error');
+                      }
+                    }]);
+
+                    return DescriptionErrorTest;
+                  }(ErrorSuite);
+                  _context17.prev = 1;
+                  _context17.next = 4;
+                  return regeneratorRuntime.awrap(new error.leafClasses.DescriptionErrorTest().run());
+
+                case 4:
+                  _context17.next = 10;
+                  break;
+
+                case 6:
+                  _context17.prev = 6;
+                  _context17.t0 = _context17['catch'](1);
+
+                  console.log('try { await run(); } catch (e) {}', _context17.t0);
+                  assert.throws(function () {
+                    throw _context17.t0;
+                  }, /description error/);
+
+                case 10:
+                case 'end':
+                  return _context17.stop();
+              }
+            }
+          }, null, this, [[1, 6]]);
+        });
+      });
+
+      (typeof suite === 'function' ? suite : describe)('Suite error test', function () {
+        (typeof test === 'function' ? test : it)('Suite description error', function _callee5() {
+          var error3;
+          return regeneratorRuntime.async(function _callee5$(_context20) {
+            while (1) {
+              switch (_context20.prev = _context20.next) {
+                case 0:
+                  error3 = new Suite('error3');
+
+                  Object.defineProperty(error3, 'description', {
+                    get: function get() {
+                      throw new Error('Suite description error');
+                    }
+                  });
+                  error3.test = function (_Suite2) {
+                    _inherits(SuiteDescriptionErrorTest, _Suite2);
+
+                    function SuiteDescriptionErrorTest() {
+                      _classCallCheck(this, SuiteDescriptionErrorTest);
+
+                      return _possibleConstructorReturn(this, (SuiteDescriptionErrorTest.__proto__ || Object.getPrototypeOf(SuiteDescriptionErrorTest)).apply(this, arguments));
+                    }
+
+                    _createClass(SuiteDescriptionErrorTest, [{
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context18) {
+                          while (1) {
+                            switch (_context18.prev = _context18.next) {
+                              case 0:
+                              case 'end':
+                                return _context18.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context19) {
+                          while (1) {
+                            switch (_context19.prev = _context19.next) {
+                              case 0:
+                              case 'end':
+                                return _context19.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }]);
+
+                    return SuiteDescriptionErrorTest;
+                  }(Suite);
+                  _context20.prev = 3;
+                  _context20.next = 6;
+                  return regeneratorRuntime.awrap(error3.run(0, '#target'));
+
+                case 6:
+                  _context20.next = 12;
+                  break;
+
+                case 8:
+                  _context20.prev = 8;
+                  _context20.t0 = _context20['catch'](3);
+
+                  console.log('try { await run(); } catch (e) {}', _context20.t0);
+                  assert.throws(function () {
+                    throw _context20.t0;
+                  }, /Suite description error/);
+
+                case 12:
+                case 'end':
+                  return _context20.stop();
+              }
+            }
+          }, null, this, [[3, 8]]);
+        });
+
+        (typeof test === 'function' ? test : it)('Suite runner description error', function _callee6() {
+          var error4;
+          return regeneratorRuntime.async(function _callee6$(_context23) {
+            while (1) {
+              switch (_context23.prev = _context23.next) {
+                case 0:
+                  error4 = new Suite('error4');
+
+                  error4.test = function (_Suite3) {
+                    _inherits(RunnerDescriptionErrorTest, _Suite3);
+
+                    function RunnerDescriptionErrorTest() {
+                      _classCallCheck(this, RunnerDescriptionErrorTest);
+
+                      return _possibleConstructorReturn(this, (RunnerDescriptionErrorTest.__proto__ || Object.getPrototypeOf(RunnerDescriptionErrorTest)).apply(this, arguments));
+                    }
+
+                    _createClass(RunnerDescriptionErrorTest, [{
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context21) {
+                          while (1) {
+                            switch (_context21.prev = _context21.next) {
+                              case 0:
+                              case 'end':
+                                return _context21.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context22) {
+                          while (1) {
+                            switch (_context22.prev = _context22.next) {
+                              case 0:
+                              case 'end':
+                                return _context22.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'description',
+                      get: function get() {
+                        throw new Error('runner description error');
+                      }
+                    }]);
+
+                    return RunnerDescriptionErrorTest;
+                  }(Suite);
+                  _context23.prev = 2;
+                  _context23.next = 5;
+                  return regeneratorRuntime.awrap(error4.run(0, '#target'));
+
+                case 5:
+                  _context23.next = 11;
+                  break;
+
+                case 7:
+                  _context23.prev = 7;
+                  _context23.t0 = _context23['catch'](2);
+
+                  console.log('try { await run(); } catch (e) {}', _context23.t0);
+                  assert.throws(function () {
+                    throw _context23.t0;
+                  }, /runner description error/);
+
+                case 11:
+                case 'end':
+                  return _context23.stop();
+              }
+            }
+          }, null, this, [[2, 7]]);
         });
       });
     }
