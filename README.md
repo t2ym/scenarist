@@ -516,6 +516,38 @@ scope2.test = ...
       async checkpoint(parameters) { ... }
     }
 ```
+- **exception(reject: function, exception: Error)** instance method - [Optional] Exception handler for errors outside of test callback function
+  - If it calls `reject()`, it must return non-null to tell the runner not to call `resolve()`
+```javascript
+    class ExampleTest3 extends ExampleSuite {
+      async operation() { ... }
+      async checkpoint() { ... }
+      exception(reject, exception) {
+        // default action when exception() is not defined
+        reject(exception);
+        return true;
+      }
+    }
+    try {
+      await (new ExampleTest3('#example')).run();
+    }
+    catch (exception) {
+      // Handle exception in runner
+      ...
+    }
+```
+```javascript
+    class ExampleTest4 extends ExampleSuite {
+      async operation() { ... }
+      async checkpoint() { ... }
+      exception(reject, exception) {
+        // Treat the exception as a test failure by mocha
+        (typeof test === 'function' ? test : it)('exception on scenario', function() {
+          throw exception;
+        });
+      }
+    }
+```
 
 #### Utility Instance Methods
 
