@@ -438,6 +438,7 @@ class Suite {
     else {
       return new Promise((resolve, reject) => {
         let exception;
+        let checkExceptionHandler = (reject, exception) => typeof self.exception === 'function' ? self.exception(reject, exception) : (reject(exception), true);
         try {
           // Scenario Runner
           let overrideToString = (func, ctor) => { func.toString = () => ctor.toString(); return func; };
@@ -492,7 +493,7 @@ class Suite {
             }
             catch (e) {
               // catch exceptions within suite callback but outside of test callbacks
-              reject(exception = e); // reject the promise for run()
+              exception = checkExceptionHandler(reject, e);
             }
 
             (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function () {return __async(function*(){
@@ -506,7 +507,7 @@ class Suite {
         }
         catch (e) {
           // catch exceptions outside of suite() callback
-          reject(exception = e); // reject the promise for run()
+          exception = checkExceptionHandler(reject, e);
         }
       });
     }

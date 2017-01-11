@@ -464,6 +464,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         } else {
           return new Promise(function (resolve, reject) {
             var exception = void 0;
+            var checkExceptionHandler = function checkExceptionHandler(reject, exception) {
+              return typeof self.exception === 'function' ? self.exception(reject, exception) : (reject(exception), true);
+            };
             try {
               (function () {
                 // Scenario Runner
@@ -668,7 +671,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                           _context9.t1 = _context9['catch'](1);
 
                           // catch exceptions within suite callback but outside of test callbacks
-                          reject(exception = _context9.t1); // reject the promise for run()
+                          exception = checkExceptionHandler(reject, _context9.t1);
 
                         case 27:
 
@@ -702,7 +705,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               })();
             } catch (e) {
               // catch exceptions outside of suite() callback
-              reject(exception = e); // reject the promise for run()
+              exception = checkExceptionHandler(reject, e);
             }
           });
         }
