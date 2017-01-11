@@ -172,6 +172,7 @@ Suite.debug = true;
         };
         try {
           yield (new error.leafClasses.IterationErrorTest()).run();
+          assert.isOk(false, 'No exception is thrown');
         }
         catch (e) {
           console.log('try { await run(); } catch (e) {}', e);
@@ -197,6 +198,7 @@ Suite.debug = true;
         };
         try {
           yield (new error.leafClasses.IterationErrorTest2()).run();
+          assert.isOk(false, 'No exception is thrown');
         }
         catch (e) {
           console.log('try { await run(); } catch (e) {}', e);
@@ -218,10 +220,59 @@ Suite.debug = true;
         };
         try {
           yield (new error.leafClasses.ScenarioErrorTest()).run();
+          assert.isOk(false, 'No exception is thrown');
         }
         catch (e) {
           console.log('try { await run(); } catch (e) {}', e);
           assert.throws(function () { throw e; }, /scenario error/);
+        }
+      }())});
+
+      (typeof test === 'function' ? test : it)('scenario generator error handler', function () {return __async(function*(){
+        error.test = class ScenarioErrorTest2 extends ErrorSuite {
+          * scenario() {
+            throw new Error('scenario error');
+          }
+          operation() {return __async(function*(){
+          }())}
+          checkpoint() {return __async(function*(){
+          }())}
+          exception(reject, exception) {
+            reject(new Error('handled scenario error exception ', exception.message));
+            return true;
+          }
+        };
+        try {
+          yield (new error.leafClasses.ScenarioErrorTest2()).run();
+          assert.isOk(false, 'No exception is thrown');
+        }
+        catch (e) {
+          console.log('try { await run(); } catch (e) {}', e);
+          assert.throws(function () { throw e; }, /handled scenario error exception/);
+        }
+      }())});
+
+      (typeof test === 'function' ? test : it)('scenario generator error handler 2', function () {return __async(function*(){
+        error.test = class ScenarioErrorTest3 extends ErrorSuite {
+          * scenario() {
+            throw new Error('scenario error');
+          }
+          operation() {return __async(function*(){
+          }())}
+          checkpoint() {return __async(function*(){
+          }())}
+          exception(reject, exception) {
+            // Handle exception by mocha
+            //(typeof test === 'function' ? test : it)('Exception on scenario', function() { throw exception; });
+          }
+        };
+        try {
+          yield (new error.leafClasses.ScenarioErrorTest3()).run();
+          assert.isOk(false, 'No exception is thrown');
+        }
+        catch (e) {
+          console.log('try { await run(); } catch (e) {}', e);
+          assert.throws(function () { throw e; }, /No exception is thrown/);
         }
       }())});
 
@@ -237,6 +288,7 @@ Suite.debug = true;
         };
         try {
           yield (new error.leafClasses.DescriptionErrorTest()).run();
+          assert.isOk(false, 'No exception is thrown');
         }
         catch (e) {
           console.log('try { await run(); } catch (e) {}', e);
@@ -261,6 +313,7 @@ Suite.debug = true;
         };
         try {
           yield error3.run(0, '#target');
+          assert.isOk(false, 'No exception is thrown');
         }
         catch (e) {
           console.log('try { await run(); } catch (e) {}', e);
@@ -281,6 +334,7 @@ Suite.debug = true;
         };
         try {
           yield error4.run(0, '#target');
+          assert.isOk(false, 'No exception is thrown');
         }
         catch (e) {
           console.log('try { await run(); } catch (e) {}', e);
