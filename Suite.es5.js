@@ -400,289 +400,312 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     }, {
       key: 'run',
       value: function run(classes, target) {
-        var self;
-        return regeneratorRuntime.async(function run$(_context10) {
-          while (1) {
-            switch (_context10.prev = _context10.next) {
-              case 0:
-                // TODO: return a Promise object?
-                self = this;
+        // async method
+        var self = this;
+        if (Suite._name(self.constructor) === 'Suite') {
+          return new Promise(function (resolve, reject) {
+            try {
+              (function () {
+                // Suite Runner
+                var testSuites = [];
+                if (typeof classes === 'number' || typeof classes === 'string') {
+                  // Number 0
+                  // Number string '0'
+                  // CSV string 'Test1,Test2'
+                  testSuites = self.testClasses(classes);
+                } else if ((typeof classes === 'undefined' ? 'undefined' : _typeof(classes)) === 'object' && Array.isArray(classes)) {
+                  // String Array [ 'Test1', 'Test2' ]
+                  // Class Array [ Test1, Test2 ]
+                  // TODO: handle errors if item is neither a string nor a class
+                  testSuites = classes.map(function (item) {
+                    return typeof item === 'string' ? self.classes[item] : item;
+                  });
+                } else if ((typeof classes === 'undefined' ? 'undefined' : _typeof(classes)) === 'object' && !Array.isArray(classes) && classes) {
+                  // Object { Test1: Test1, Test2: Test2 } - property names are discarded
+                  for (var c in classes) {
+                    testSuites.push(classes[c]);
+                  }
+                }
+                (typeof suite === 'function' ? suite : describe)(self.description || self.scope + ' suite', function () {
+                  var _this5 = this;
 
-                if (Suite._name(self.constructor) === 'Suite') {
-                  (function () {
-                    // Suite Runner
-                    var testSuites = [];
-                    if (typeof classes === 'number' || typeof classes === 'string') {
-                      // Number 0
-                      // Number string '0'
-                      // CSV string 'Test1,Test2'
-                      testSuites = self.testClasses(classes);
-                    } else if ((typeof classes === 'undefined' ? 'undefined' : _typeof(classes)) === 'object' && Array.isArray(classes)) {
-                      // String Array [ 'Test1', 'Test2' ]
-                      // Class Array [ Test1, Test2 ]
-                      // TODO: handle errors if item is neither a string nor a class
-                      testSuites = classes.map(function (item) {
-                        return typeof item === 'string' ? self.classes[item] : item;
-                      });
-                    } else if ((typeof classes === 'undefined' ? 'undefined' : _typeof(classes)) === 'object' && !Array.isArray(classes) && classes) {
-                      // Object { Test1: Test1, Test2: Test2 } - property names are discarded
-                      for (var c in classes) {
-                        testSuites.push(classes[c]);
-                      }
-                    }
-                    (typeof suite === 'function' ? suite : describe)(self.description || self.scope + ' suite', function () {
-                      var _this5 = this;
+                  // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
+                  Promise.all(testSuites.map(function _callee(s) {
+                    return regeneratorRuntime.async(function _callee$(_context4) {
+                      while (1) {
+                        switch (_context4.prev = _context4.next) {
+                          case 0:
+                            return _context4.abrupt('return', new s(target).run());
 
-                      // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
-                      Promise.all(testSuites.map(function _callee(s) {
-                        return regeneratorRuntime.async(function _callee$(_context4) {
-                          while (1) {
-                            switch (_context4.prev = _context4.next) {
-                              case 0:
-                                return _context4.abrupt('return', new s(target).run());
-
-                              case 1:
-                              case 'end':
-                                return _context4.stop();
-                            }
-                          }
-                        }, null, _this5);
-                      })).then(function () {
-                        if (self.constructor.debug) {
-                          console.log(self.description + ' done for ', classes);
+                          case 1:
+                          case 'end':
+                            return _context4.stop();
                         }
-                      });
-                    });
-                  })();
-                } else {
-                  (function () {
-                    // Scenario Runner
-                    var overrideToString = function overrideToString(func, ctor) {
-                      func.toString = function () {
-                        return ctor.toString();
-                      };return func;
-                    };
-                    (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), function _callee6() {
-                      var _loop, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, step;
+                      }
+                    }, null, _this5);
+                  })).then(function () {
+                    if (self.constructor.debug) {
+                      console.log(self.description + ': loaded for ', classes);
+                    }
+                    resolve(); // resolve the promise for run()
+                  }).catch(function (e) {
+                    if (self.constructor.debug) {
+                      console.log(self.description + ': exception thrown for ', classes, e);
+                    }
+                    reject(e); // reject the promise for run()
+                  });
+                });
+              })();
+            } catch (e) {
+              // catch exceptions outside of the Promise.all()
+              reject(e); // reject the promise for run()
+            }
+          });
+        } else {
+          return new Promise(function (resolve, reject) {
+            var exception = void 0;
+            try {
+              (function () {
+                // Scenario Runner
+                var overrideToString = function overrideToString(func, ctor) {
+                  func.toString = function () {
+                    return ctor.toString();
+                  };return func;
+                };
+                (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), function _callee6() {
+                  var _loop, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, step;
 
-                      return regeneratorRuntime.async(function _callee6$(_context9) {
-                        while (1) {
-                          switch (_context9.prev = _context9.next) {
-                            case 0:
-                              (typeof suiteSetup === 'function' ? suiteSetup : before)(function _callee2() {
-                                return regeneratorRuntime.async(function _callee2$(_context5) {
-                                  while (1) {
-                                    switch (_context5.prev = _context5.next) {
-                                      case 0:
-                                        _context5.next = 2;
-                                        return regeneratorRuntime.awrap(self.setup());
+                  return regeneratorRuntime.async(function _callee6$(_context9) {
+                    while (1) {
+                      switch (_context9.prev = _context9.next) {
+                        case 0:
+                          (typeof suiteSetup === 'function' ? suiteSetup : before)(function _callee2() {
+                            return regeneratorRuntime.async(function _callee2$(_context5) {
+                              while (1) {
+                                switch (_context5.prev = _context5.next) {
+                                  case 0:
+                                    _context5.next = 2;
+                                    return regeneratorRuntime.awrap(self.setup());
 
-                                      case 2:
-                                      case 'end':
-                                        return _context5.stop();
-                                    }
-                                  }
-                                }, null, this);
-                              });
+                                  case 2:
+                                  case 'end':
+                                    return _context5.stop();
+                                }
+                              }
+                            }, null, this);
+                          });
 
-                              _loop = function _loop(step) {
-                                if (step.operation || step.checkpoint) {
-                                  if (step.iteration) {
-                                    var _loop2 = function _loop2(parameters) {
-                                      (typeof test === 'function' ? test : it)(parameters.name ? typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name : step.name, overrideToString(function _callee4() {
-                                        return regeneratorRuntime.async(function _callee4$(_context7) {
-                                          while (1) {
-                                            switch (_context7.prev = _context7.next) {
-                                              case 0:
-                                                if (!(self.constructor.skipAfterFailure && self.__failed)) {
-                                                  _context7.next = 4;
-                                                  break;
-                                                }
+                          _context9.prev = 1;
 
-                                                return _context7.abrupt('return', this.skip());
-
-                                              case 4:
-                                                self.__failed = true;
-
-                                                if (!step.operation) {
-                                                  _context7.next = 8;
-                                                  break;
-                                                }
-
-                                                _context7.next = 8;
-                                                return regeneratorRuntime.awrap(step.operation.call(self, parameters));
-
-                                              case 8:
-                                                if (!step.checkpoint) {
-                                                  _context7.next = 11;
-                                                  break;
-                                                }
-
-                                                _context7.next = 11;
-                                                return regeneratorRuntime.awrap(step.checkpoint.call(self, parameters));
-
-                                              case 11:
-                                                self.__failed = false;
-
-                                              case 12:
-                                              case 'end':
-                                                return _context7.stop();
+                          _loop = function _loop(step) {
+                            if (step.operation || step.checkpoint) {
+                              if (step.iteration) {
+                                var _loop2 = function _loop2(parameters) {
+                                  (typeof test === 'function' ? test : it)(parameters.name ? typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name : step.name, overrideToString(function _callee3() {
+                                    return regeneratorRuntime.async(function _callee3$(_context6) {
+                                      while (1) {
+                                        switch (_context6.prev = _context6.next) {
+                                          case 0:
+                                            if (!(self.constructor.skipAfterFailure && self.__failed)) {
+                                              _context6.next = 4;
+                                              break;
                                             }
-                                          }
-                                        }, null, this);
-                                      }, step.ctor));
-                                    };
 
-                                    // suite() has to be commented out since subsuites are executed after all the other sibling tests
-                                    //suite(step.name + ' iterations', async function () {
-                                    var _iteratorNormalCompletion2 = true;
-                                    var _didIteratorError2 = false;
-                                    var _iteratorError2 = undefined;
+                                            return _context6.abrupt('return', this.skip());
 
-                                    try {
-                                      for (var _iterator2 = step.iteration.apply(self)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                                        var parameters = _step2.value;
+                                          case 4:
+                                            self.__failed = true;
 
-                                        _loop2(parameters);
-                                      }
-                                      //});
-                                    } catch (err) {
-                                      _didIteratorError2 = true;
-                                      _iteratorError2 = err;
-                                    } finally {
-                                      try {
-                                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                                          _iterator2.return();
+                                            if (!step.operation) {
+                                              _context6.next = 8;
+                                              break;
+                                            }
+
+                                            _context6.next = 8;
+                                            return regeneratorRuntime.awrap(step.operation.call(self, parameters));
+
+                                          case 8:
+                                            if (!step.checkpoint) {
+                                              _context6.next = 11;
+                                              break;
+                                            }
+
+                                            _context6.next = 11;
+                                            return regeneratorRuntime.awrap(step.checkpoint.call(self, parameters));
+
+                                          case 11:
+                                            self.__failed = false;
+
+                                          case 12:
+                                          case 'end':
+                                            return _context6.stop();
                                         }
-                                      } finally {
-                                        if (_didIteratorError2) {
-                                          throw _iteratorError2;
-                                        }
                                       }
+                                    }, null, this);
+                                  }, step.ctor));
+                                };
+
+                                var _iteratorNormalCompletion2 = true;
+                                var _didIteratorError2 = false;
+                                var _iteratorError2 = undefined;
+
+                                try {
+                                  for (var _iterator2 = step.iteration.apply(self)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                                    var parameters = _step2.value;
+
+                                    _loop2(parameters);
+                                  }
+                                } catch (err) {
+                                  _didIteratorError2 = true;
+                                  _iteratorError2 = err;
+                                } finally {
+                                  try {
+                                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                      _iterator2.return();
                                     }
-                                  } else {
-                                    (typeof test === 'function' ? test : it)(step.name, overrideToString(function _callee5() {
-                                      return regeneratorRuntime.async(function _callee5$(_context8) {
-                                        while (1) {
-                                          switch (_context8.prev = _context8.next) {
-                                            case 0:
-                                              if (!(self.constructor.skipAfterFailure && self.__failed)) {
-                                                _context8.next = 4;
-                                                break;
-                                              }
-
-                                              return _context8.abrupt('return', this.skip());
-
-                                            case 4:
-                                              self.__failed = true;
-
-                                              if (!step.operation) {
-                                                _context8.next = 8;
-                                                break;
-                                              }
-
-                                              _context8.next = 8;
-                                              return regeneratorRuntime.awrap(step.operation.call(self));
-
-                                            case 8:
-                                              if (!step.checkpoint) {
-                                                _context8.next = 11;
-                                                break;
-                                              }
-
-                                              _context8.next = 11;
-                                              return regeneratorRuntime.awrap(step.checkpoint.call(self));
-
-                                            case 11:
-                                              self.__failed = false;
-
-                                            case 12:
-                                            case 'end':
-                                              return _context8.stop();
-                                          }
-                                        }
-                                      }, null, this);
-                                    }, step.ctor));
+                                  } finally {
+                                    if (_didIteratorError2) {
+                                      throw _iteratorError2;
+                                    }
                                   }
                                 }
-                              };
+                              } else {
+                                (typeof test === 'function' ? test : it)(step.name, overrideToString(function _callee4() {
+                                  return regeneratorRuntime.async(function _callee4$(_context7) {
+                                    while (1) {
+                                      switch (_context7.prev = _context7.next) {
+                                        case 0:
+                                          if (!(self.constructor.skipAfterFailure && self.__failed)) {
+                                            _context7.next = 4;
+                                            break;
+                                          }
 
-                              _iteratorNormalCompletion = true;
-                              _didIteratorError = false;
-                              _iteratorError = undefined;
-                              _context9.prev = 5;
-                              for (_iterator = self.scenario()[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                                step = _step.value;
+                                          return _context7.abrupt('return', this.skip());
 
-                                _loop(step);
-                              }
+                                        case 4:
+                                          self.__failed = true;
 
-                              _context9.next = 13;
-                              break;
+                                          if (!step.operation) {
+                                            _context7.next = 8;
+                                            break;
+                                          }
 
-                            case 9:
-                              _context9.prev = 9;
-                              _context9.t0 = _context9['catch'](5);
-                              _didIteratorError = true;
-                              _iteratorError = _context9.t0;
+                                          _context7.next = 8;
+                                          return regeneratorRuntime.awrap(step.operation.call(self));
 
-                            case 13:
-                              _context9.prev = 13;
-                              _context9.prev = 14;
+                                        case 8:
+                                          if (!step.checkpoint) {
+                                            _context7.next = 11;
+                                            break;
+                                          }
 
-                              if (!_iteratorNormalCompletion && _iterator.return) {
-                                _iterator.return();
-                              }
+                                          _context7.next = 11;
+                                          return regeneratorRuntime.awrap(step.checkpoint.call(self));
 
-                            case 16:
-                              _context9.prev = 16;
+                                        case 11:
+                                          self.__failed = false;
 
-                              if (!_didIteratorError) {
-                                _context9.next = 19;
-                                break;
-                              }
-
-                              throw _iteratorError;
-
-                            case 19:
-                              return _context9.finish(16);
-
-                            case 20:
-                              return _context9.finish(13);
-
-                            case 21:
-                              (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function _callee3() {
-                                return regeneratorRuntime.async(function _callee3$(_context6) {
-                                  while (1) {
-                                    switch (_context6.prev = _context6.next) {
-                                      case 0:
-                                        _context6.next = 2;
-                                        return regeneratorRuntime.awrap(self.teardown());
-
-                                      case 2:
-                                      case 'end':
-                                        return _context6.stop();
+                                        case 12:
+                                        case 'end':
+                                          return _context7.stop();
+                                      }
                                     }
-                                  }
-                                }, null, this);
-                              });
+                                  }, null, this);
+                                }, step.ctor));
+                              }
+                            }
+                          };
 
-                            case 22:
-                            case 'end':
-                              return _context9.stop();
+                          _iteratorNormalCompletion = true;
+                          _didIteratorError = false;
+                          _iteratorError = undefined;
+                          _context9.prev = 6;
+
+                          for (_iterator = self.scenario()[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            step = _step.value;
+
+                            _loop(step);
                           }
-                        }
-                      }, null, this, [[5, 9, 13, 21], [14,, 16, 20]]);
-                    });
-                  })();
-                }
+                          _context9.next = 14;
+                          break;
 
-              case 2:
-              case 'end':
-                return _context10.stop();
+                        case 10:
+                          _context9.prev = 10;
+                          _context9.t0 = _context9['catch'](6);
+                          _didIteratorError = true;
+                          _iteratorError = _context9.t0;
+
+                        case 14:
+                          _context9.prev = 14;
+                          _context9.prev = 15;
+
+                          if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                          }
+
+                        case 17:
+                          _context9.prev = 17;
+
+                          if (!_didIteratorError) {
+                            _context9.next = 20;
+                            break;
+                          }
+
+                          throw _iteratorError;
+
+                        case 20:
+                          return _context9.finish(17);
+
+                        case 21:
+                          return _context9.finish(14);
+
+                        case 22:
+                          _context9.next = 27;
+                          break;
+
+                        case 24:
+                          _context9.prev = 24;
+                          _context9.t1 = _context9['catch'](1);
+
+                          // catch exceptions within suite callback but outside of test callbacks
+                          reject(exception = _context9.t1); // reject the promise for run()
+
+                        case 27:
+
+                          (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function _callee5() {
+                            return regeneratorRuntime.async(function _callee5$(_context8) {
+                              while (1) {
+                                switch (_context8.prev = _context8.next) {
+                                  case 0:
+                                    _context8.next = 2;
+                                    return regeneratorRuntime.awrap(self.teardown());
+
+                                  case 2:
+                                  case 'end':
+                                    return _context8.stop();
+                                }
+                              }
+                            }, null, this);
+                          });
+
+                        case 28:
+                        case 'end':
+                          return _context9.stop();
+                      }
+                    }
+                  }, null, this, [[1, 24], [6, 10, 14, 22], [15,, 17, 21]]);
+                });
+
+                if (!exception) {
+                  resolve(); // resolve the promise for run()
+                }
+              })();
+            } catch (e) {
+              // catch exceptions outside of suite() callback
+              reject(exception = e); // reject the promise for run()
             }
-          }
-        }, null, this);
+          });
+        }
       }
     }, {
       key: 'test',
@@ -770,9 +793,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
         var len, j, swap, append, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, sub;
 
-        return regeneratorRuntime.wrap(function _permute$(_context11) {
+        return regeneratorRuntime.wrap(function _permute$(_context10) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 append = function append() {
                   // TODO: cache cursor
@@ -801,16 +824,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 j = void 0;
 
                 if (!(i >= len - 1)) {
-                  _context11.next = 10;
+                  _context10.next = 10;
                   break;
                 }
 
-                _context11.next = 7;
+                _context10.next = 7;
                 return targets;
 
               case 7:
                 append();
-                _context11.next = 44;
+                _context10.next = 44;
                 break;
 
               case 10:
@@ -818,7 +841,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
               case 11:
                 if (!(j < len)) {
-                  _context11.next = 44;
+                  _context10.next = 44;
                   break;
                 }
 
@@ -826,17 +849,17 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 _iteratorNormalCompletion3 = true;
                 _didIteratorError3 = false;
                 _iteratorError3 = undefined;
-                _context11.prev = 16;
+                _context10.prev = 16;
                 _iterator3 = this._permute(targets, i + 1, result)[Symbol.iterator]();
 
               case 18:
                 if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
-                  _context11.next = 26;
+                  _context10.next = 26;
                   break;
                 }
 
                 sub = _step3.value;
-                _context11.next = 22;
+                _context10.next = 22;
                 return targets;
 
               case 22:
@@ -844,54 +867,54 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 
               case 23:
                 _iteratorNormalCompletion3 = true;
-                _context11.next = 18;
+                _context10.next = 18;
                 break;
 
               case 26:
-                _context11.next = 32;
+                _context10.next = 32;
                 break;
 
               case 28:
-                _context11.prev = 28;
-                _context11.t0 = _context11['catch'](16);
+                _context10.prev = 28;
+                _context10.t0 = _context10['catch'](16);
                 _didIteratorError3 = true;
-                _iteratorError3 = _context11.t0;
+                _iteratorError3 = _context10.t0;
 
               case 32:
-                _context11.prev = 32;
-                _context11.prev = 33;
+                _context10.prev = 32;
+                _context10.prev = 33;
 
                 if (!_iteratorNormalCompletion3 && _iterator3.return) {
                   _iterator3.return();
                 }
 
               case 35:
-                _context11.prev = 35;
+                _context10.prev = 35;
 
                 if (!_didIteratorError3) {
-                  _context11.next = 38;
+                  _context10.next = 38;
                   break;
                 }
 
                 throw _iteratorError3;
 
               case 38:
-                return _context11.finish(35);
+                return _context10.finish(35);
 
               case 39:
-                return _context11.finish(32);
+                return _context10.finish(32);
 
               case 40:
                 swap();
 
               case 41:
                 j++;
-                _context11.next = 11;
+                _context10.next = 11;
                 break;
 
               case 44:
               case 'end':
-                return _context11.stop();
+                return _context10.stop();
             }
           }
         }, _permute, this, [[16, 28, 32, 40], [33,, 35, 39]]);

@@ -391,98 +391,126 @@ class Suite {
   }
   teardown() {return __async(function*(){
   }())}
-  run(classes, target) {return __async(function*(){
-    // TODO: return a Promise object?
+  run(classes, target) { // async method
     let self = this;
     if (Suite._name(self.constructor) === 'Suite') {
-      // Suite Runner
-      let testSuites = [];
-      if (typeof classes === 'number' || typeof classes === 'string') {
-        // Number 0
-        // Number string '0'
-        // CSV string 'Test1,Test2'
-        testSuites = self.testClasses(classes);
-      }
-      else if (typeof classes === 'object' && Array.isArray(classes)) {
-        // String Array [ 'Test1', 'Test2' ]
-        // Class Array [ Test1, Test2 ]
-        // TODO: handle errors if item is neither a string nor a class
-        testSuites = classes.map((item) => typeof item === 'string' ? self.classes[item] : item);
-      }
-      else if (typeof classes === 'object' && !Array.isArray(classes) && classes) {
-        // Object { Test1: Test1, Test2: Test2 } - property names are discarded
-        for (let c in classes) {
-          testSuites.push(classes[c]);
-        }
-      }
-      (typeof suite === 'function' ? suite : describe)(self.description || (self.scope + ' suite'), function() {
-        // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
-        Promise.all(testSuites.map((s) =>__async(function*(){ return (new s(target)).run()}())))
-          .then(() => {
-            if (self.constructor.debug) { console.log(self.description + ' done for ', classes); }
-          });
-      });
-    }
-    else {
-      // Scenario Runner
-      let overrideToString = (func, ctor) => { func.toString = () => ctor.toString(); return func; };
-      (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), function () {return __async(function*(){
-        (typeof suiteSetup === 'function' ? suiteSetup : before)(function () {return __async(function*(){
-          yield self.setup();
-        }())});
-
-        for (let step of self.scenario()) {
-          if (step.operation || step.checkpoint) {
-            if (step.iteration) {
-              // suite() has to be commented out since subsuites are executed after all the other sibling tests
-              //suite(step.name + ' iterations', async function () {
-                for (let parameters of step.iteration.apply(self)) {
-                  (typeof test === 'function' ? test : it)(parameters.name ?
-                        (typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name)
-                        : step.name, overrideToString(function() {return __async(function*(){
-                    if (self.constructor.skipAfterFailure && self.__failed) {
-                      return this.skip();
-                    }
-                    else {
-                      self.__failed = true;
-                      if (step.operation) {
-                        yield step.operation.call(self, parameters);
-                      }
-                      if (step.checkpoint) {
-                        yield step.checkpoint.call(self, parameters);
-                      }
-                      self.__failed = false;
-                    }
-                  }.call(this))}, step.ctor));
-                }
-              //});
-            }
-            else {
-              (typeof test === 'function' ? test : it)(step.name, overrideToString(function() {return __async(function*(){
-                if (self.constructor.skipAfterFailure && self.__failed) {
-                  return this.skip();
-                }
-                else {
-                  self.__failed = true;
-                  if (step.operation) {
-                    yield step.operation.call(self);
-                  }
-                  if (step.checkpoint) {
-                    yield step.checkpoint.call(self);
-                  }
-                  self.__failed = false;
-                }
-              }.call(this))}, step.ctor));
+      return new Promise((resolve, reject) => {
+        try {
+          // Suite Runner
+          let testSuites = [];
+          if (typeof classes === 'number' || typeof classes === 'string') {
+            // Number 0
+            // Number string '0'
+            // CSV string 'Test1,Test2'
+            testSuites = self.testClasses(classes);
+          }
+          else if (typeof classes === 'object' && Array.isArray(classes)) {
+            // String Array [ 'Test1', 'Test2' ]
+            // Class Array [ Test1, Test2 ]
+            // TODO: handle errors if item is neither a string nor a class
+            testSuites = classes.map((item) => typeof item === 'string' ? self.classes[item] : item);
+          }
+          else if (typeof classes === 'object' && !Array.isArray(classes) && classes) {
+            // Object { Test1: Test1, Test2: Test2 } - property names are discarded
+            for (let c in classes) {
+              testSuites.push(classes[c]);
             }
           }
+          (typeof suite === 'function' ? suite : describe)(self.description || (self.scope + ' suite'), function() {
+            // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
+            Promise.all(testSuites.map((s) =>__async(function*(){ return (new s(target)).run()}())))
+              .then(() => {
+                if (self.constructor.debug) { console.log(self.description + ': loaded for ', classes); }
+                resolve(); // resolve the promise for run()
+              })
+              .catch(e => {
+                if (self.constructor.debug) { console.log(self.description + ': exception thrown for ', classes, e); }
+                reject(e); // reject the promise for run()
+              });
+          });
         }
-
-        (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function () {return __async(function*(){
-          yield self.teardown();
-        }())});
-      }())});
+        catch (e) {
+          // catch exceptions outside of the Promise.all()
+          reject(e); // reject the promise for run()
+        }
+      })
     }
-  }.call(this))}
+    else {
+      return new Promise((resolve, reject) => {
+        let exception;
+        try {
+          // Scenario Runner
+          let overrideToString = (func, ctor) => { func.toString = () => ctor.toString(); return func; };
+          (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), function () {return __async(function*(){
+            (typeof suiteSetup === 'function' ? suiteSetup : before)(function () {return __async(function*(){
+              yield self.setup();
+            }())});
+
+            try {
+              for (let step of self.scenario()) {
+                if (step.operation || step.checkpoint) {
+                  if (step.iteration) {
+                    for (let parameters of step.iteration.apply(self)) {
+                      (typeof test === 'function' ? test : it)(parameters.name ?
+                            (typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name)
+                            : step.name, overrideToString(function() {return __async(function*(){
+                        if (self.constructor.skipAfterFailure && self.__failed) {
+                          return this.skip();
+                        }
+                        else {
+                          self.__failed = true;
+                          if (step.operation) {
+                            yield step.operation.call(self, parameters);
+                          }
+                          if (step.checkpoint) {
+                            yield step.checkpoint.call(self, parameters);
+                          }
+                          self.__failed = false;
+                        }
+                      }.call(this))}, step.ctor));
+                    }
+                  }
+                  else {
+                    (typeof test === 'function' ? test : it)(step.name, overrideToString(function() {return __async(function*(){
+                      if (self.constructor.skipAfterFailure && self.__failed) {
+                        return this.skip();
+                      }
+                      else {
+                        self.__failed = true;
+                        if (step.operation) {
+                          yield step.operation.call(self);
+                        }
+                        if (step.checkpoint) {
+                          yield step.checkpoint.call(self);
+                        }
+                        self.__failed = false;
+                      }
+                    }.call(this))}, step.ctor));
+                  }
+                }
+              }
+            }
+            catch (e) {
+              // catch exceptions within suite callback but outside of test callbacks
+              reject(exception = e); // reject the promise for run()
+            }
+
+            (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function () {return __async(function*(){
+              yield self.teardown();
+            }())});
+          }())});
+
+          if (!exception) {
+            resolve(); // resolve the promise for run()
+          }
+        }
+        catch (e) {
+          // catch exceptions outside of suite() callback
+          reject(exception = e); // reject the promise for run()
+        }
+      });
+    }
+  }
 }
 
 return Suite;
