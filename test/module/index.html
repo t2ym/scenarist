@@ -1,0 +1,33 @@
+<!doctype html>
+<!--
+@license https://github.com/t2ym/scenarist/blob/master/LICENSE.md
+Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
+-->
+<html>
+  <head>
+    <title>scenarist test</title>
+    <meta charset="utf-8">
+    <!-- bower_components/stacky/browser.js needs this patch at line#45
+      var isNode = new Function('try {return this===global && window!==global;}catch(e){return false;}');
+    -->
+    <script src="../../../web-component-tester/browser.js"></script>
+  </head>
+  <body>
+    <script type="module">
+      import Suite from './Suite.js'; // polyserve does not support .mjs extension
+      import './example.js';
+      import './example2.js';
+      import './error.js';
+      import './error2.js';
+      let suites = [];
+      for (let scope in Suite.scopes) {
+        Suite.scopes[scope].test.forEach(function (tests, index) {
+          suites.push(scope + '.html?TestSuites=' + index);
+        });
+      }
+      suites.push('example2.html?TestSuites=extra');
+      console.log('suites = ', suites);
+      WCT.loadSuites(suites);
+    </script>
+  </body>
+</html>
