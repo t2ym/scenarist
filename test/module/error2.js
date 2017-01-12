@@ -1,7 +1,7 @@
 import Suite from './Suite.js';
 Suite.debug = true;
-// global test classes
-(typeof window === 'object' ? window : global).ErrorSuite = class ErrorSuite extends Suite {
+// module scope test classes
+class ErrorSuite extends Suite {
   async setup() {
     await super.setup();
   }

@@ -1,5 +1,5 @@
 import Suite from './Suite.js';
-// global test classes
+// module scope test classes
 class ExampleSuite extends Suite {
   async setup() {
     await super.setup();
