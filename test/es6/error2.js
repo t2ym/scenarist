@@ -163,7 +163,7 @@ Suite.debug = true;
 
     (typeof suite === 'function' ? suite : describe)('Test iteration error test', function () {
       (typeof test === 'function' ? test : it)('iteration generator error', function () {return __async(function*(){
-        error.test = class IterationErrorTest extends ErrorSuite {
+        error.test = t = class IterationErrorTest extends ErrorSuite {
           * iteration() {
             yield 1;
             yield 2;
@@ -186,7 +186,7 @@ Suite.debug = true;
       }())});
 
       (typeof test === 'function' ? test : it)('iteration generator name error', function () {return __async(function*(){
-        error.test = class IterationErrorTest2 extends ErrorSuite {
+        error.test = t = class IterationErrorTest2 extends ErrorSuite {
           * iteration() {
             yield { name: 'iteration 1', value: '1' };
             yield { name: 'iteration 2', value: '1' };
@@ -214,7 +214,7 @@ Suite.debug = true;
 
     (typeof suite === 'function' ? suite : describe)('Test scenario error test', function () {
       (typeof test === 'function' ? test : it)('scenario generator error', function () {return __async(function*(){
-        error.test = class ScenarioErrorTest extends ErrorSuite {
+        error.test = t = class ScenarioErrorTest extends ErrorSuite {
           * scenario() {
             throw new Error('scenario error');
           }
@@ -234,7 +234,7 @@ Suite.debug = true;
       }())});
 
       (typeof test === 'function' ? test : it)('scenario generator error handler', function () {return __async(function*(){
-        error.test = class ScenarioErrorTest2 extends ErrorSuite {
+        error.test = t = class ScenarioErrorTest2 extends ErrorSuite {
           * scenario() {
             throw new Error('scenario error');
           }
@@ -258,7 +258,7 @@ Suite.debug = true;
       }())});
 
       (typeof test === 'function' ? test : it)('scenario generator error handler 2', function () {return __async(function*(){
-        error.test = class ScenarioErrorTest3 extends ErrorSuite {
+        error.test = t = class ScenarioErrorTest3 extends ErrorSuite {
           * scenario() {
             throw new Error('scenario error');
           }
@@ -282,7 +282,7 @@ Suite.debug = true;
       }())});
 
       (typeof test === 'function' ? test : it)('description error', function () {return __async(function*(){
-        error.test = class DescriptionErrorTest extends ErrorSuite {
+        error.test = t = class DescriptionErrorTest extends ErrorSuite {
           get description() {
             throw new Error('description error');
           }
@@ -310,7 +310,7 @@ Suite.debug = true;
             throw new Error('Suite description error');
           }
         });
-        error3.test = class SuiteDescriptionErrorTest extends Suite {
+        error3.test = t = class SuiteDescriptionErrorTest extends Suite {
           operation() {return __async(function*(){
           }())}
           checkpoint() {return __async(function*(){
@@ -328,7 +328,7 @@ Suite.debug = true;
 
       (typeof test === 'function' ? test : it)('Suite runner description error', function () {return __async(function*(){
         let error4 = new Suite('error4');
-        error4.test = class RunnerDescriptionErrorTest extends Suite {
+        error4.test = t = class RunnerDescriptionErrorTest extends Suite {
           get description() {
             throw new Error('runner description error');
           }
@@ -351,7 +351,7 @@ Suite.debug = true;
 
       (typeof test === 'function' ? test : it)('Suite runner iteration error', function () {return __async(function*(){
         let error5 = new Suite('error5');
-        error5.test = class RunnerIterationErrorTest extends Suite {
+        error5.test = t = class RunnerIterationErrorTest extends Suite {
           * iteration() {
             yield * [ 1, 2, 3, 4, 5 ];
           }
@@ -367,7 +367,7 @@ Suite.debug = true;
             return true;
           }
         };
-        error5.test = class RunnerIterationErrorTest2 extends Suite {
+        error5.test = t = class RunnerIterationErrorTest2 extends Suite {
           operation() {return __async(function*(){
           }())}
           checkpoint() {return __async(function*(){
@@ -377,7 +377,7 @@ Suite.debug = true;
             return true;
           }
         };
-        error5.test = class RunnerIterationErrorTest3 extends error5.classes.RunnerIterationErrorTest {
+        error5.test = t = class RunnerIterationErrorTest3 extends error5.classes.RunnerIterationErrorTest {
           * iteration() {
             yield 1;
             yield 2;
@@ -390,7 +390,7 @@ Suite.debug = true;
           checkpoint() {return __async(function*(){
           }())}
         };
-        error5.test = class RunnerIterationErrorTest4 extends Suite {
+        error5.test = t = class RunnerIterationErrorTest4 extends Suite {
           * iteration() {
             yield * [ 1, 2, 3, 4, 5 ].map(i => ({ name: 'iteration error ' + i }));
           }
@@ -399,7 +399,7 @@ Suite.debug = true;
           checkpoint() {return __async(function*(){
           }())}
         };
-        error5.test = class RunnerIterationErrorTest5 extends error5.classes.RunnerIterationErrorTest {
+        error5.test = t = class RunnerIterationErrorTest5 extends error5.classes.RunnerIterationErrorTest {
           * iteration() {
             yield 1;
             yield 2;

@@ -234,7 +234,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             while (1) {
               switch (_context6.prev = _context6.next) {
                 case 0:
-                  error.test = function (_ErrorSuite2) {
+                  error.test = t = function (_ErrorSuite2) {
                     _inherits(IterationErrorTest, _ErrorSuite2);
 
                     function IterationErrorTest() {
@@ -331,7 +331,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             while (1) {
               switch (_context10.prev = _context10.next) {
                 case 0:
-                  error.test = function (_ErrorSuite3) {
+                  error.test = t = function (_ErrorSuite3) {
                     _inherits(IterationErrorTest2, _ErrorSuite3);
 
                     function IterationErrorTest2() {
@@ -449,7 +449,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             while (1) {
               switch (_context14.prev = _context14.next) {
                 case 0:
-                  error.test = function (_ErrorSuite4) {
+                  error.test = t = function (_ErrorSuite4) {
                     _inherits(ScenarioErrorTest, _ErrorSuite4);
 
                     function ScenarioErrorTest() {
@@ -535,7 +535,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             while (1) {
               switch (_context18.prev = _context18.next) {
                 case 0:
-                  error.test = function (_ErrorSuite5) {
+                  error.test = t = function (_ErrorSuite5) {
                     _inherits(ScenarioErrorTest2, _ErrorSuite5);
 
                     function ScenarioErrorTest2() {
@@ -627,7 +627,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             while (1) {
               switch (_context22.prev = _context22.next) {
                 case 0:
-                  error.test = function (_ErrorSuite6) {
+                  error.test = t = function (_ErrorSuite6) {
                     _inherits(ScenarioErrorTest3, _ErrorSuite6);
 
                     function ScenarioErrorTest3() {
@@ -719,7 +719,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             while (1) {
               switch (_context25.prev = _context25.next) {
                 case 0:
-                  error.test = function (_ErrorSuite7) {
+                  error.test = t = function (_ErrorSuite7) {
                     _inherits(DescriptionErrorTest, _ErrorSuite7);
 
                     function DescriptionErrorTest() {
@@ -804,7 +804,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                       throw new Error('Suite description error');
                     }
                   });
-                  error3.test = function (_Suite2) {
+                  error3.test = t = function (_Suite2) {
                     _inherits(SuiteDescriptionErrorTest, _Suite2);
 
                     function SuiteDescriptionErrorTest() {
@@ -877,7 +877,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 case 0:
                   error4 = new Suite('error4');
 
-                  error4.test = function (_Suite3) {
+                  error4.test = t = function (_Suite3) {
                     _inherits(RunnerDescriptionErrorTest, _Suite3);
 
                     function RunnerDescriptionErrorTest() {
@@ -957,7 +957,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 case 0:
                   error5 = new Suite('error5');
 
-                  error5.test = function (_Suite4) {
+                  error5.test = t = function (_Suite4) {
                     _inherits(RunnerIterationErrorTest, _Suite4);
 
                     function RunnerIterationErrorTest() {
@@ -1021,7 +1021,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     return RunnerIterationErrorTest;
                   }(Suite);
-                  error5.test = function (_Suite5) {
+                  error5.test = t = function (_Suite5) {
                     _inherits(RunnerIterationErrorTest2, _Suite5);
 
                     function RunnerIterationErrorTest2() {
@@ -1066,7 +1066,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     return RunnerIterationErrorTest2;
                   }(Suite);
-                  error5.test = function (_error5$classes$Runne) {
+                  error5.test = t = function (_error5$classes$Runne) {
                     _inherits(RunnerIterationErrorTest3, _error5$classes$Runne);
 
                     function RunnerIterationErrorTest3() {
@@ -1137,7 +1137,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     return RunnerIterationErrorTest3;
                   }(error5.classes.RunnerIterationErrorTest);
-                  error5.test = function (_Suite6) {
+                  error5.test = t = function (_Suite6) {
                     _inherits(RunnerIterationErrorTest4, _Suite6);
 
                     function RunnerIterationErrorTest4() {
@@ -1194,7 +1194,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     return RunnerIterationErrorTest4;
                   }(Suite);
-                  error5.test = function (_error5$classes$Runne2) {
+                  error5.test = t = function (_error5$classes$Runne2) {
                     _inherits(RunnerIterationErrorTest5, _error5$classes$Runne2);
 
                     function RunnerIterationErrorTest5() {
