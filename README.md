@@ -415,12 +415,47 @@ scope2.test = ...
 - **testClasses(tests)** instance method - Get Array of test classes
   - tests as number - List classes in CSV `this.test[tests]`
   - tests as CSV string - List classes in the CSV
-- **run(classes, target: string)** instance method - Run the specified test classes in the scope; `target` is handed to constructors of target classes
+- **async run(classes, target: string)** instance method - Run the specified test classes in the scope; `target` is handed to constructors of target classes
   - classes as number - Target classes are `testClasses(test[classes])`
   - classes as CSV string - Target classes are `testClasses(classes)`
   - classes as Array of string - Target classes are `classes.map((item) => self.classes[item])`
   - classes as Array of classes - Target classes are `classes`
   - classes as object with class properties - Target classes are properties of `classes`
+  - it can throw MultiError exception, which has Array property `.errors` as `[ [ 'TestClassName', TestClassInstance, Exception ], ... ]`
+```javascript
+    async function runner() {
+      for (let scope in Suite.scopes) {
+        for (let index in Suite.scopes[scope].test) {
+          try {
+            await Suite.scopes[scope].run(index, '#target');
+          }
+          catch (errors) {
+            errors.message === 'Error: Suite.error5.run(Test1,Test2,...): exception(s) thrown. See .errors for details';
+            errors.errors.forEach((item) => {
+              item[0] === 'TestClassName';
+              item[1] === TestClassInstance;
+              item[2] === ErrorOrUndefined; // undefined for successful tests
+            });
+          }
+        }
+      }
+    }()
+```
+```javascript
+    for (var scope in Suite.scopes) {
+      Suite.scopes[scope].test.forEach(function (tests, index) {
+        Suite.scopes[scope].run(index, '#target')
+          .catch(function(errors) {
+            errors.message === 'Error: Suite.error5.run(Test1,Test2,...): exception(s) thrown. See .errors for details';
+            errors.errors.forEach((item) => {
+              item[0] === 'TestClassName';
+              item[1] === TestClassInstance;
+              item[2] === ErrorOrUndefined; // undefined for successful tests
+            });
+          });
+      });
+    }
+```
 
 #### Scope Object Instance Properties other than `test` property setter
 
@@ -483,6 +518,7 @@ scope2.test = ...
 
 - **constructor(target: string)** - Instantiate a test runner; Optional for overriding
 - **async run()** instance method - Run the test; Not for overriding
+  - It can throw an exception. See `exception()` instance method section below.
 - __* scenario()__ instance generator method - Iterate over tests in the reversed order of the prototype chain of the test; Yield `{ name: string, iteration: function, operation: function, checkpoint: function, ctor: function }` for each test class
 
 ```javascript
@@ -518,6 +554,7 @@ scope2.test = ...
 ```
 - **exception(reject: function, exception: Error)** instance method - [Optional] Exception handler for errors outside of test callback function
   - If it calls `reject()`, it must return non-null to tell the runner not to call `resolve()`
+  - The method can be inherited and overridden by subclasses
 ```javascript
     class ExampleTest3 extends ExampleSuite {
       async operation() { ... }

@@ -332,7 +332,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
           (typeof test === 'function' ? test : it)('duplicate mixin name with existing class name', function () {
             assert.throws(function () {
-              error.test = function (_Suite2) {
+              error.test = t = function (_Suite2) {
                 _inherits(DefinedClass1, _Suite2);
 
                 function DefinedClass1() {

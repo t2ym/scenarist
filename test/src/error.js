@@ -160,7 +160,7 @@
 
         (typeof test === 'function' ? test : it)('duplicate mixin name with existing class name', function () {
           assert.throws(function () {
-            error.test = class DefinedClass1 extends Suite {}
+            error.test = t = class DefinedClass1 extends Suite {}
             error.test = (base) => class DefinedMixinBase6 extends base {}
             error.test = (base) => class DefinedMixinBase7 extends base {}
             error.test = {
