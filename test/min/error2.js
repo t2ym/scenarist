@@ -924,7 +924,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 case 5:
                   assert.isOk(false, 'No exception is thrown');
-                  _context31.next = 12;
+                  _context31.next = 14;
                   break;
 
                 case 8:
@@ -932,16 +932,364 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   _context31.t0 = _context31['catch'](2);
 
                   console.log('try { await run(); } catch (e) {}', _context31.t0);
+                  assert.isArray(_context31.t0.errors);
+                  assert.equal(_context31.t0.errors[0][2].message, 'runner description error');
                   assert.throws(function () {
                     throw _context31.t0;
-                  }, /runner description error/);
+                  }, /Suite[.]error4[.]run\(RunnerDescriptionErrorTest\): exception\(s\) thrown. See .errors for details/);
 
-                case 12:
+                case 14:
                 case 'end':
                   return _context31.stop();
               }
             }
           }, null, this, [[2, 8]]);
+        });
+
+        (typeof test === 'function' ? test : it)('Suite runner iteration error', function _callee9() {
+          var error5;
+          return regeneratorRuntime.async(function _callee9$(_context46) {
+            while (1) {
+              switch (_context46.prev = _context46.next) {
+                case 0:
+                  error5 = new Suite('error5');
+
+                  error5.test = function (_Suite4) {
+                    _inherits(RunnerIterationErrorTest, _Suite4);
+
+                    function RunnerIterationErrorTest() {
+                      _classCallCheck(this, RunnerIterationErrorTest);
+
+                      return _possibleConstructorReturn(this, (RunnerIterationErrorTest.__proto__ || Object.getPrototypeOf(RunnerIterationErrorTest)).apply(this, arguments));
+                    }
+
+                    _createClass(RunnerIterationErrorTest, [{
+                      key: 'iteration',
+                      value: regeneratorRuntime.mark(function iteration() {
+                        return regeneratorRuntime.wrap(function iteration$(_context32) {
+                          while (1) {
+                            switch (_context32.prev = _context32.next) {
+                              case 0:
+                                return _context32.delegateYield([1, 2, 3, 4, 5], 't0', 1);
+
+                              case 1:
+                              case 'end':
+                                return _context32.stop();
+                            }
+                          }
+                        }, iteration, this);
+                      })
+                    }, {
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context33) {
+                          while (1) {
+                            switch (_context33.prev = _context33.next) {
+                              case 0:
+                              case 'end':
+                                return _context33.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context34) {
+                          while (1) {
+                            switch (_context34.prev = _context34.next) {
+                              case 0:
+                              case 'end':
+                                return _context34.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'exception',
+                      value: function exception(reject, _exception3) {
+                        // Handle exception by mocha
+                        //(typeof test === 'function' ? test : it)('Exception on scenario', function() { throw exception; });
+                        console.log('rejecting ', _exception3.message);
+                        reject(_exception3);
+                        return true;
+                      }
+                    }]);
+
+                    return RunnerIterationErrorTest;
+                  }(Suite);
+                  error5.test = function (_Suite5) {
+                    _inherits(RunnerIterationErrorTest2, _Suite5);
+
+                    function RunnerIterationErrorTest2() {
+                      _classCallCheck(this, RunnerIterationErrorTest2);
+
+                      return _possibleConstructorReturn(this, (RunnerIterationErrorTest2.__proto__ || Object.getPrototypeOf(RunnerIterationErrorTest2)).apply(this, arguments));
+                    }
+
+                    _createClass(RunnerIterationErrorTest2, [{
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context35) {
+                          while (1) {
+                            switch (_context35.prev = _context35.next) {
+                              case 0:
+                              case 'end':
+                                return _context35.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context36) {
+                          while (1) {
+                            switch (_context36.prev = _context36.next) {
+                              case 0:
+                              case 'end':
+                                return _context36.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'exception',
+                      value: function exception(reject, _exception4) {
+                        reject(_exception4);
+                        return true;
+                      }
+                    }]);
+
+                    return RunnerIterationErrorTest2;
+                  }(Suite);
+                  error5.test = function (_error5$classes$Runne) {
+                    _inherits(RunnerIterationErrorTest3, _error5$classes$Runne);
+
+                    function RunnerIterationErrorTest3() {
+                      _classCallCheck(this, RunnerIterationErrorTest3);
+
+                      return _possibleConstructorReturn(this, (RunnerIterationErrorTest3.__proto__ || Object.getPrototypeOf(RunnerIterationErrorTest3)).apply(this, arguments));
+                    }
+
+                    _createClass(RunnerIterationErrorTest3, [{
+                      key: 'iteration',
+                      value: regeneratorRuntime.mark(function iteration() {
+                        return regeneratorRuntime.wrap(function iteration$(_context37) {
+                          while (1) {
+                            switch (_context37.prev = _context37.next) {
+                              case 0:
+                                _context37.next = 2;
+                                return 1;
+
+                              case 2:
+                                _context37.next = 4;
+                                return 2;
+
+                              case 4:
+                                _context37.next = 6;
+                                return 3;
+
+                              case 6:
+                                _context37.next = 8;
+                                return 4;
+
+                              case 8:
+                                throw new Error('runner iteration error 1');
+
+                              case 9:
+                              case 'end':
+                                return _context37.stop();
+                            }
+                          }
+                        }, iteration, this);
+                      })
+                    }, {
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context38) {
+                          while (1) {
+                            switch (_context38.prev = _context38.next) {
+                              case 0:
+                              case 'end':
+                                return _context38.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context39) {
+                          while (1) {
+                            switch (_context39.prev = _context39.next) {
+                              case 0:
+                              case 'end':
+                                return _context39.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }]);
+
+                    return RunnerIterationErrorTest3;
+                  }(error5.classes.RunnerIterationErrorTest);
+                  error5.test = function (_Suite6) {
+                    _inherits(RunnerIterationErrorTest4, _Suite6);
+
+                    function RunnerIterationErrorTest4() {
+                      _classCallCheck(this, RunnerIterationErrorTest4);
+
+                      return _possibleConstructorReturn(this, (RunnerIterationErrorTest4.__proto__ || Object.getPrototypeOf(RunnerIterationErrorTest4)).apply(this, arguments));
+                    }
+
+                    _createClass(RunnerIterationErrorTest4, [{
+                      key: 'iteration',
+                      value: regeneratorRuntime.mark(function iteration() {
+                        return regeneratorRuntime.wrap(function iteration$(_context40) {
+                          while (1) {
+                            switch (_context40.prev = _context40.next) {
+                              case 0:
+                                return _context40.delegateYield([1, 2, 3, 4, 5].map(function (i) {
+                                  return { name: 'iteration error ' + i };
+                                }), 't0', 1);
+
+                              case 1:
+                              case 'end':
+                                return _context40.stop();
+                            }
+                          }
+                        }, iteration, this);
+                      })
+                    }, {
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context41) {
+                          while (1) {
+                            switch (_context41.prev = _context41.next) {
+                              case 0:
+                              case 'end':
+                                return _context41.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context42) {
+                          while (1) {
+                            switch (_context42.prev = _context42.next) {
+                              case 0:
+                              case 'end':
+                                return _context42.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }]);
+
+                    return RunnerIterationErrorTest4;
+                  }(Suite);
+                  error5.test = function (_error5$classes$Runne2) {
+                    _inherits(RunnerIterationErrorTest5, _error5$classes$Runne2);
+
+                    function RunnerIterationErrorTest5() {
+                      _classCallCheck(this, RunnerIterationErrorTest5);
+
+                      return _possibleConstructorReturn(this, (RunnerIterationErrorTest5.__proto__ || Object.getPrototypeOf(RunnerIterationErrorTest5)).apply(this, arguments));
+                    }
+
+                    _createClass(RunnerIterationErrorTest5, [{
+                      key: 'iteration',
+                      value: regeneratorRuntime.mark(function iteration() {
+                        return regeneratorRuntime.wrap(function iteration$(_context43) {
+                          while (1) {
+                            switch (_context43.prev = _context43.next) {
+                              case 0:
+                                _context43.next = 2;
+                                return 1;
+
+                              case 2:
+                                _context43.next = 4;
+                                return 2;
+
+                              case 4:
+                                _context43.next = 6;
+                                return 3;
+
+                              case 6:
+                                _context43.next = 8;
+                                return 4;
+
+                              case 8:
+                                throw new Error('runner iteration error 2');
+
+                              case 9:
+                              case 'end':
+                                return _context43.stop();
+                            }
+                          }
+                        }, iteration, this);
+                      })
+                    }, {
+                      key: 'operation',
+                      value: function operation() {
+                        return regeneratorRuntime.async(function operation$(_context44) {
+                          while (1) {
+                            switch (_context44.prev = _context44.next) {
+                              case 0:
+                              case 'end':
+                                return _context44.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }, {
+                      key: 'checkpoint',
+                      value: function checkpoint() {
+                        return regeneratorRuntime.async(function checkpoint$(_context45) {
+                          while (1) {
+                            switch (_context45.prev = _context45.next) {
+                              case 0:
+                              case 'end':
+                                return _context45.stop();
+                            }
+                          }
+                        }, null, this);
+                      }
+                    }]);
+
+                    return RunnerIterationErrorTest5;
+                  }(error5.classes.RunnerIterationErrorTest);
+                  _context46.prev = 6;
+                  _context46.next = 9;
+                  return regeneratorRuntime.awrap(error5.run(0, '#target'));
+
+                case 9:
+                  assert.isOk(false, 'No exception is thrown');
+                  _context46.next = 20;
+                  break;
+
+                case 12:
+                  _context46.prev = 12;
+                  _context46.t0 = _context46['catch'](6);
+
+                  console.log(error5.test);
+                  console.log('try { await run(); } catch (e) {}', _context46.t0.constructor.name, _context46.t0, _context46.t0.errors);
+                  assert.isArray(_context46.t0.errors);
+                  assert.equal(_context46.t0.errors[1][2].message, 'runner iteration error 1');
+                  assert.equal(_context46.t0.errors[3][2].message, 'runner iteration error 2');
+                  assert.throws(function () {
+                    throw _context46.t0;
+                  }, /Suite[.]error5[.]run\(RunnerIterationErrorTest2,RunnerIterationErrorTest3,RunnerIterationErrorTest4,RunnerIterationErrorTest5\)/);
+
+                case 20:
+                case 'end':
+                  return _context46.stop();
+              }
+            }
+          }, null, this, [[6, 12]]);
         });
       });
     }

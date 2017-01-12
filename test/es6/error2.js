@@ -338,7 +338,86 @@ Suite.debug = true;
         }
         catch (e) {
           console.log('try { await run(); } catch (e) {}', e);
-          assert.throws(function () { throw e; }, /runner description error/);
+          assert.isArray(e.errors);
+          assert.equal(e.errors[0][2].message, 'runner description error');
+          assert.throws(function () { throw e; }, /Suite[.]error4[.]run\(RunnerDescriptionErrorTest\): exception\(s\) thrown. See .errors for details/);
+        }
+      }())});
+
+      (typeof test === 'function' ? test : it)('Suite runner iteration error', function () {return __async(function*(){
+        let error5 = new Suite('error5');
+        error5.test = class RunnerIterationErrorTest extends Suite {
+          * iteration() {
+            yield * [ 1, 2, 3, 4, 5 ];
+          }
+          operation() {return __async(function*(){
+          }())}
+          checkpoint() {return __async(function*(){
+          }())}
+          exception(reject, exception) {
+            // Handle exception by mocha
+            //(typeof test === 'function' ? test : it)('Exception on scenario', function() { throw exception; });
+            console.log('rejecting ', exception.message);
+            reject(exception);
+            return true;
+          }
+        };
+        error5.test = class RunnerIterationErrorTest2 extends Suite {
+          operation() {return __async(function*(){
+          }())}
+          checkpoint() {return __async(function*(){
+          }())}
+          exception(reject, exception) {
+            reject(exception);
+            return true;
+          }
+        };
+        error5.test = class RunnerIterationErrorTest3 extends error5.classes.RunnerIterationErrorTest {
+          * iteration() {
+            yield 1;
+            yield 2;
+            yield 3;
+            yield 4;
+            throw new Error('runner iteration error 1');
+          }
+          operation() {return __async(function*(){
+          }())}
+          checkpoint() {return __async(function*(){
+          }())}
+        };
+        error5.test = class RunnerIterationErrorTest4 extends Suite {
+          * iteration() {
+            yield * [ 1, 2, 3, 4, 5 ].map(i => ({ name: 'iteration error ' + i }));
+          }
+          operation() {return __async(function*(){
+          }())}
+          checkpoint() {return __async(function*(){
+          }())}
+        };
+        error5.test = class RunnerIterationErrorTest5 extends error5.classes.RunnerIterationErrorTest {
+          * iteration() {
+            yield 1;
+            yield 2;
+            yield 3;
+            yield 4;
+            throw new Error('runner iteration error 2');
+          }
+          operation() {return __async(function*(){
+          }())}
+          checkpoint() {return __async(function*(){
+          }())}
+        };
+        try {
+          yield error5.run(0, '#target');
+          assert.isOk(false, 'No exception is thrown');
+        }
+        catch (e) {
+          console.log(error5.test);
+          console.log('try { await run(); } catch (e) {}', e.constructor.name, e, e.errors);
+          assert.isArray(e.errors);
+          assert.equal(e.errors[1][2].message, 'runner iteration error 1');
+          assert.equal(e.errors[3][2].message, 'runner iteration error 2');
+          assert.throws(function () { throw e; }, /Suite[.]error5[.]run\(RunnerIterationErrorTest2,RunnerIterationErrorTest3,RunnerIterationErrorTest4,RunnerIterationErrorTest5\)/);
         }
       }())});
     });
