@@ -141,9 +141,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         });
 
         (typeof test === 'function' ? test : it)('Suite.permute item error', function () {
-          var targets = { '0': 'a', '1': 'b', '2': 'c', get '3'() {
+          var targets = { '0': 'a', '1': 'b', '2': 'c', length: 4 };
+          Object.defineProperty(targets, '3', {
+            get: function get() {
               throw new Error('target item error');
-            }, length: 4 };
+            }
+          });
           assert.throws(function () {
             try {
               var i = Suite.permute(targets, function () {

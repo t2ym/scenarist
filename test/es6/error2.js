@@ -74,7 +74,12 @@ Suite.debug = true;
       });
 
       (typeof test === 'function' ? test : it)('Suite.permute item error', function () {
-        let targets = { '0': 'a', '1': 'b', '2': 'c', get '3'() { throw new Error('target item error'); }, length: 4 };
+        let targets = { '0': 'a', '1': 'b', '2': 'c', length: 4 };
+        Object.defineProperty(targets, '3', {
+          get: function () {
+            throw new Error('target item error');
+          }
+        });
         assert.throws(function () {
           try {
             let i = Suite.permute(targets, () => 'a');
