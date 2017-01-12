@@ -429,13 +429,19 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 (typeof suite === 'function' ? suite : describe)(self.description || self.scope + ' suite', function () {
                   var _this5 = this;
 
-                  // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
-                  Promise.all(testSuites.map(function _callee(s) {
+                  var testInstances = testSuites.map(function (s) {
+                    return [Suite._name(s), new s(target)];
+                  });
+                  Promise.all(testInstances.map(function _callee(instance, index) {
                     return regeneratorRuntime.async(function _callee$(_context4) {
                       while (1) {
                         switch (_context4.prev = _context4.next) {
                           case 0:
-                            return _context4.abrupt('return', new s(target).run());
+                            return _context4.abrupt('return', instance[1].run().then(function (v) {
+                              return testInstances[index][2] = v;
+                            }).catch(function (e) {
+                              return testInstances[index][2] = e;
+                            }));
 
                           case 1:
                           case 'end':
@@ -443,17 +449,40 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                         }
                       }
                     }, null, _this5);
-                  })).then(function () {
-                    if (self.constructor.debug) {
-                      console.log(self.description + ': loaded for ', classes);
+                  })).then(function (results) {
+                    if (results.filter(function (i) {
+                      return i instanceof Error;
+                    }).length > 0) {
+                      var MultiError = function (_Error) {
+                        _inherits(MultiError, _Error);
+
+                        function MultiError(message, errors) {
+                          _classCallCheck(this, MultiError);
+
+                          var _this6 = _possibleConstructorReturn(this, (MultiError.__proto__ || Object.getPrototypeOf(MultiError)).call(this, message));
+
+                          _this6.errors = errors;
+                          return _this6;
+                        }
+
+                        return MultiError;
+                      }(Error);
+
+                      var errors = new MultiError(self.constructor.name + '.' + self.scope + '.run(' + testInstances.map(function (item) {
+                        return item[0];
+                      }).join(',') + '): ' + 'exception(s) thrown. See .errors for details', testInstances);
+                      if (self.constructor.debug) {
+                        console.log(self.description + ': exception(s) thrown for ', classes, errors, errors.errors);
+                      }
+                      reject(errors); // reject the promise for run()
+                    } else {
+                      if (self.constructor.debug) {
+                        console.log(self.description + ': loaded for ', classes);
+                      }
+                      resolve(); // resolve the promise for run()
                     }
-                    resolve(); // resolve the promise for run()
-                  }).catch(function (e) {
-                    if (self.constructor.debug) {
-                      console.log(self.description + ': exception thrown for ', classes, e);
-                    }
-                    reject(e); // reject the promise for run()
                   });
+                  // no rejections to catch as they have been caught
                 });
               })();
             } catch (e) {

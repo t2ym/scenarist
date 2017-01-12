@@ -447,16 +447,30 @@ class Suite {
             }
           }
           (typeof suite === 'function' ? suite : describe)(self.description || (self.scope + ' suite'), function() {
-            // Note: Not waiting for async forEach so that each subsuite runs under the parent suite
-            Promise.all(testSuites.map(async (s) => (new s(target)).run()))
-              .then(() => {
-                if (self.constructor.debug) { console.log(self.description + ': loaded for ', classes); }
-                resolve(); // resolve the promise for run()
-              })
-              .catch(e => {
-                if (self.constructor.debug) { console.log(self.description + ': exception thrown for ', classes, e); }
-                reject(e); // reject the promise for run()
+            let testInstances = testSuites.map(s => [ Suite._name(s), new s(target) ]);
+            Promise.all(testInstances.map(async (instance, index) => instance[1].run()
+                .then(v => testInstances[index][2] = v)
+                .catch(e => testInstances[index][2] = e)))
+              .then(results => {
+                if (results.filter(i => i instanceof Error).length > 0) {
+                  class MultiError extends Error {
+                    constructor(message, errors) {
+                      super(message);
+                      this.errors = errors;
+                    }
+                  }
+                  let errors = new MultiError(self.constructor.name + '.' + self.scope +
+                    '.run(' + testInstances.map(item => item[0]).join(',') + '): ' +
+                    'exception(s) thrown. See .errors for details', testInstances);
+                  if (self.constructor.debug) { console.log(self.description + ': exception(s) thrown for ', classes, errors, errors.errors); }
+                  reject(errors); // reject the promise for run()
+                }
+                else {
+                  if (self.constructor.debug) { console.log(self.description + ': loaded for ', classes); }
+                  resolve(); // resolve the promise for run()
+                }
               });
+              // no rejections to catch as they have been caught
           });
         }
         catch (e) {
