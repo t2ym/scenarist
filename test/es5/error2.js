@@ -586,7 +586,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }, {
                       key: 'exception',
                       value: function exception(reject, _exception) {
-                        reject(new Error('handled scenario error exception ', _exception.message));
+                        reject(new Error('handled scenario error exception ' + _exception.message));
                         return true;
                       }
                     }]);

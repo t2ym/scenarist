@@ -238,7 +238,7 @@ Suite.debug = true;
           checkpoint() {return __async(function*(){
           }())}
           exception(reject, exception) {
-            reject(new Error('handled scenario error exception ', exception.message));
+            reject(new Error('handled scenario error exception ' + exception.message));
             return true;
           }
         };
