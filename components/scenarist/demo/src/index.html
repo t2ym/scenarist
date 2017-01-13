@@ -38,8 +38,9 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
           maxFontSize: 24,
           wordtree: {
             format: 'implicit',
-            word: 'DemoSuite'
-          }
+            word: 'DemoSuite',
+            wordSeparator: / /
+          },
         };
 
         var chart = new google.visualization.WordTree(document.getElementById('scenario_tree'));
@@ -60,7 +61,8 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       WCT.loadSuites(suites);
       setInterval(function () {
         var div = document.querySelector('div#mocha');
-        if (div) {
+        var passes = document.querySelector('li.passes em');
+        if (div && passes && passes.textContent !== '108') {
           div.scrollTop = 100000;
         }
       }, 200);
