@@ -28,7 +28,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
                 ((i === a.length - 1)
                   ? '(' + (new Suite.scopes.demo.classes[c]()).description.replace(/^.*= ([^=]*)$/, '= $1') + ')'
                   : c);
-            }).join(' ')];
+            }).join(' ').replace(/ 0/g, ' ０')];
           });
         })(Suite.scopes.demo.leafScenarios);
         list.unshift(['Phrases']);
