@@ -307,6 +307,7 @@ var Connect = function (_DemoSuite) {
       'A': ['Ac', 'AC'],
       'B': ['Bs', 'BS']
     };
+    demo.labels = labels;
     for (var ex in labels) {
       demo.test = new Function('demo', function (subclass, label) {
         // generate ES5 class by manipulating transpiled func.toString()
