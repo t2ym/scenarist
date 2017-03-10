@@ -22,6 +22,9 @@ class ExampleSuite extends Suite {
   let t; // temporary variable as a workaround for Edge 15.14986 issue #12
   example.classSyntaxSupport = false;
   example.arrowFunctionSupport = false;
+  if (typeof window !== 'object') {
+    Suite._createClass = function () {};
+  }
   example.test = (base) => class TestA extends base {
     get description() { return 'Description of Test A'; }
     async operation() {
