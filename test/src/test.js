@@ -4,7 +4,7 @@
 const chai = require('chai');
 global.assert = chai.assert;
 global.Suite = require('../../Suite.js');
-Suite.debug = true;
+Suite.debug = false;
 require('./example.js');
 require('./example2.js');
 require('./error.js');
