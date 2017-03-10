@@ -15,6 +15,14 @@ class ExampleSuite extends Suite {
     return this._history.join(',');
   }
 }
+if (typeof window !== 'object') {
+  global.TestX = class TestX extends ExampleSuite {
+    async operation() {
+    }
+    async checkpoint() {
+    }
+  }
+}
 {
   // example scope
   let scope = 'example';
@@ -151,6 +159,11 @@ class ExampleSuite extends Suite {
       }))
     ]
   };
+  if (typeof window !== 'object') {
+    example.test = {
+      TestX: 'TestX'
+    };
+  }
 
   example.expected = {
     "TestCAB": "C,A,B",
