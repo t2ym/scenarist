@@ -330,6 +330,29 @@ Suite.debug = true;
         }
       }())});
 
+      (typeof test === 'function' ? test : it)('Suite description error', function () {return __async(function*(){
+        let error3 = new Suite('error3.2');
+        Object.defineProperty(error3, 'description', {
+          get: function () {
+            return '';
+          }
+        });
+        error3.test = t = class SuiteDescriptionErrorTest extends Suite {
+          operation() {return __async(function*(){
+          }())}
+          checkpoint() {return __async(function*(){
+          }())}
+        };
+        try {
+          yield error3.run(0, '#target');
+          assert.isOk(true, 'No exception is thrown');
+        }
+        catch (e) {
+          console.log('try { await run(); } catch (e) {}', e);
+          throw e;
+        }
+      }())});
+
       (typeof test === 'function' ? test : it)('Suite runner description error', function () {return __async(function*(){
         let error4 = new Suite('error4');
         error4.test = t = class RunnerDescriptionErrorTest extends Suite {
