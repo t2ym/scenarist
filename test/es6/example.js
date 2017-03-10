@@ -60,8 +60,10 @@ class ExampleSuite extends Suite {
       this.history = '2';
       if (typeof window === 'object') {
         let element = document.querySelector(this.target);
+        let child = element.querySelector('div');
         await this.forEvent(element, 'click', () => element.click(), (element, type, event) => type === 'click');
         setTimeout(() => element.click(), 100);
+        setTimeout(() => child.click(), 50);
         await this.forEvent(element, 'click', null, true);
         setTimeout(() => element.click(), 100);
         await this.forEvent(element, 'click', null, false);
