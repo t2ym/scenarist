@@ -9,7 +9,16 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     <meta charset="utf-8">
     <script src="../../../web-component-tester/browser.js"></script>
     <script src="../../node_modules/babel-polyfill/browser.js"></script>
+    <script>
+      // Simulate AMD for coverage
+      window.define = function define() { window.Suite = arguments[arguments.length - 1](); };
+      window.define.amd = true;
+    </script>
     <script src="../../Suite.es5.js"></script>
+    <script>
+      // Stop AMD simulattion
+      delete window.define;
+    </script>
     <script>Suite.debug = true;</script>
     <script src="example.js"></script>
     <script src="example2.js"></script>
