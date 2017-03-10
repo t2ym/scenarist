@@ -111,7 +111,10 @@ gulp.task('es6', () => {
       moduleName: 'Suite',
       plugins: [ async() ]
     }))
-    .pipe(replace(/\nfunction __async\(/, '/* istanbul ignore next: async-to-gen helper function */\nfunction __async('))
+    .pipe(replace('function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g[x?"throw":"next"](a);}catch(e){j(e);return}' +
+      'r.done?s(r.value):Promise.resolve(r.value).then(c,d);}function d(e){c(e,1);}c();})}',
+      'function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g[x?/* istanbul ignore next: async-to-gen helper function */"throw":"next"](a);}catch(e){j(e);return}' +
+      'r.done?s(r.value):Promise.resolve(r.value).then(c,d);}/* istanbul ignore next: async-to-gen helper function */function d(e){c(e,1);}c();})}'))
     .pipe(rename('Suite.es6.js'))
     .pipe(gulp.dest('.'));
 });

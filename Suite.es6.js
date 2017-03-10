@@ -3,8 +3,8 @@
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global.Suite = factory());
 }(this, (function () { 'use strict';
-/* istanbul ignore next: async-to-gen helper function */
-function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g[x?"throw":"next"](a);}catch(e){j(e);return}r.done?s(r.value):Promise.resolve(r.value).then(c,d);}function d(e){c(e,1);}c();})}
+
+function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g[x?/* istanbul ignore next: async-to-gen helper function */"throw":"next"](a);}catch(e){j(e);return}r.done?s(r.value):Promise.resolve(r.value).then(c,d);}/* istanbul ignore next: async-to-gen helper function */function d(e){c(e,1);}c();})}
 
 /*
 @license https://github.com/t2ym/scenarist/blob/master/LICENSE.md
