@@ -22,13 +22,13 @@ addons:
     - g++-4.8
   sauce_connect: true
 script:
-- wct test/es5/index.html
+- wct --compile=never test/es5/index.html
 - cp -vf test/es5-wct.conf.json wct.conf.json
-- wct --skip-plugin=istanbul test/es5/index.html
+- wct --skip-plugin=istanbul --compile=never test/es5/index.html
 - cp -vf test/es6-wct.conf.json wct.conf.json
-- wct test/es6/index.html
+- wct --compile=never test/es6/index.html
 - cp -vf test/src-wct.conf.json wct.conf.json
-- wct --skip-plugin=istanbul test/src/index.html
+- wct --skip-plugin=istanbul --compile=never test/src/index.html
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec
 - cp -vf test/4-min.istanbul.yml .istanbul.yml
 - istanbul cover ./node_modules/mocha/bin/_mocha test/min/test.js --report lcov -- -R spec
