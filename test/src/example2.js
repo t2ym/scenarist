@@ -109,7 +109,7 @@
         { param: 1 },
         { param: 2 },
         { param: 3 }
-      ].map((p) => { p.name = 'Test F ' + p.param; return p; });
+      ].map((p) => { p.name = (_p) => 'Test F ' + _p.param; return p; });
     }
     async operation(parameters) {
       //console.log('Test F operation');

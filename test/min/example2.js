@@ -451,7 +451,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             switch (_context17.prev = _context17.next) {
               case 0:
                 return _context17.delegateYield([{ param: 1 }, { param: 2 }, { param: 3 }].map(function (p) {
-                  p.name = 'Test F ' + p.param;return p;
+                  p.name = function (_p) {
+                    return 'Test F ' + _p.param;
+                  };return p;
                 }), 't0', 1);
 
               case 1:
