@@ -61,6 +61,8 @@ class ExampleSuite extends Suite {
       if (typeof window === 'object') {
         let element = document.querySelector(this.target);
         await this.forEvent(element, 'click', () => element.click(), (element, type, event) => type === 'click');
+        setTimeout(() => element.click(), 100);
+        await this.forEvent(element, 'click', null, true);
       }
     }
     async checkpoint() {

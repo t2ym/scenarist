@@ -33,6 +33,7 @@ Suite.debug = true;
   error.test = 1; // ineffective
   let empty = new Suite(''); // empty suite scope name
   Suite._name({});
+  empty.run(null);
 
   if (typeof window === 'object' &&
       !decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/)) {
