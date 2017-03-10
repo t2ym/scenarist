@@ -30,6 +30,9 @@ Suite.debug = true;
   let isIndexHtml = false;
 
   error.test = t = class DummyTest extends ErrorSuite {};
+  error.test = 1; // ineffective
+  let empty = new Suite(''); // empty suite scope name
+  Suite._name({});
 
   if (typeof window === 'object' &&
       !decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/)) {

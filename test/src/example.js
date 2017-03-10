@@ -21,6 +21,7 @@ class ExampleSuite extends Suite {
   let example = new Suite(scope, 'Description of Example Suite');
   let t; // temporary variable as a workaround for Edge 15.14986 issue #12
   example.classSyntaxSupport = false;
+  example.arrowFunctionSupport = false;
   example.test = (base) => class TestA extends base {
     get description() { return 'Description of Test A'; }
     async operation() {
