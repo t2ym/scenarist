@@ -63,6 +63,8 @@ class ExampleSuite extends Suite {
         await this.forEvent(element, 'click', () => element.click(), (element, type, event) => type === 'click');
         setTimeout(() => element.click(), 100);
         await this.forEvent(element, 'click', null, true);
+        setTimeout(() => element.click(), 100);
+        await this.forEvent(element, 'click', null, false);
       }
     }
     async checkpoint() {
