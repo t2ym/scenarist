@@ -250,79 +250,77 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
             console.log('generateClass mixins.' + name + ' = ' + expression);
           }
         } else {
-          (function () {
-            // class
-            if (_this2.classes[name]) {
-              throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass class ' + name + ' already exists');
-            }
-            if (!self.constructor.allowLooseNaming && _this2.mixins[name] && chain[chain.length - 1] !== name) {
-              throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass mixin ' + name + ' already exists');
-            }
-            chain.forEach(function (c, i) {
-              self._checkIdentifier(c);
-              if (i === 0) {
-                if (self.classes[c]) {
-                  expression = 'self.classes.' + c;
-                } else if (new Function(self.constructor.name, 'return (typeof ' + c + ' === "function" && (new ' + c + '()) instanceof ' + self.constructor.name + ')')(self.constructor)) {
-                  expression = c;
-                } else {
-                  throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass global test class ' + c + ' does not exist');
-                }
-              } else if (self.mixins[c]) {
-                expression = 'self.mixins.' + c + '(' + expression + ')';
+          // class
+          if (this.classes[name]) {
+            throw new Error(this.constructor.name + '.' + this.scope + ':generateClass class ' + name + ' already exists');
+          }
+          if (!self.constructor.allowLooseNaming && this.mixins[name] && chain[chain.length - 1] !== name) {
+            throw new Error(this.constructor.name + '.' + this.scope + ':generateClass mixin ' + name + ' already exists');
+          }
+          chain.forEach(function (c, i) {
+            self._checkIdentifier(c);
+            if (i === 0) {
+              if (self.classes[c]) {
+                expression = 'self.classes.' + c;
+              } else if (new Function(self.constructor.name, 'return (typeof ' + c + ' === "function" && (new ' + c + '()) instanceof ' + self.constructor.name + ')')(self.constructor)) {
+                expression = c;
               } else {
-                throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass mixin ' + c + ' does not exist');
+                throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass global test class ' + c + ' does not exist');
               }
-            });
-            if (description) {
-              description = description.replace(/"/g, '\\"').replace(/\n/g, ' ');
+            } else if (self.mixins[c]) {
+              expression = 'self.mixins.' + c + '(' + expression + ')';
+            } else {
+              throw new Error(_this2.constructor.name + '.' + _this2.scope + ':generateClass mixin ' + c + ' does not exist');
             }
-            var prefix = !_this2.classSyntaxSupport && typeof Suite._createClass === 'function' && (typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== 'object' ? 'self.constructor.' : '';
-            expression = chain.length === 1 && name === expression ? 'return ' + name : name === chain[chain.length - 1] ? 'return ' + expression : self.classSyntaxSupport ? 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description + '"; } }' : ' {}') : function (subclass, base, description) {
-              // generate ES5 class by manipulating transpiled func.toString()
-              return 'return (' + function () {
-                /* istanbul ignore next */
-                return description ? function (__BASE_CLASS__) {
-                  return function (_BASE_CLASS__) {
-                    _inherits(__SUBCLASS__, _BASE_CLASS__);
+          });
+          if (description) {
+            description = description.replace(/"/g, '\\"').replace(/\n/g, ' ');
+          }
+          var prefix = !this.classSyntaxSupport && typeof Suite._createClass === 'function' && (typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== 'object' ? 'self.constructor.' : '';
+          expression = chain.length === 1 && name === expression ? 'return ' + name : name === chain[chain.length - 1] ? 'return ' + expression : self.classSyntaxSupport ? 'return class ' + name + ' extends ' + expression + (description ? ' { get description() { return "' + description + '"; } }' : ' {}') : function (subclass, base, description) {
+            // generate ES5 class by manipulating transpiled func.toString()
+            return 'return (' + function () {
+              /* istanbul ignore next */
+              return description ? function (__BASE_CLASS__) {
+                return function (_BASE_CLASS__) {
+                  _inherits(__SUBCLASS__, _BASE_CLASS__);
 
-                    function __SUBCLASS__() {
-                      _classCallCheck(this, __SUBCLASS__);
+                  function __SUBCLASS__() {
+                    _classCallCheck(this, __SUBCLASS__);
 
-                      return _possibleConstructorReturn(this, (__SUBCLASS__.__proto__ || Object.getPrototypeOf(__SUBCLASS__)).apply(this, arguments));
+                    return _possibleConstructorReturn(this, (__SUBCLASS__.__proto__ || Object.getPrototypeOf(__SUBCLASS__)).apply(this, arguments));
+                  }
+
+                  _createClass(__SUBCLASS__, [{
+                    key: 'description',
+                    get: function get() {
+                      return 314159265358;
                     }
+                  }]);
 
-                    _createClass(__SUBCLASS__, [{
-                      key: 'description',
-                      get: function get() {
-                        return 314159265358;
-                      }
-                    }]);
+                  return __SUBCLASS__;
+                }(__BASE_CLASS__);
+              } : function (__BASE_CLASS__) {
+                return function (_BASE_CLASS__2) {
+                  _inherits(__SUBCLASS__, _BASE_CLASS__2);
 
-                    return __SUBCLASS__;
-                  }(__BASE_CLASS__);
-                } : function (__BASE_CLASS__) {
-                  return function (_BASE_CLASS__2) {
-                    _inherits(__SUBCLASS__, _BASE_CLASS__2);
+                  function __SUBCLASS__() {
+                    _classCallCheck(this, __SUBCLASS__);
 
-                    function __SUBCLASS__() {
-                      _classCallCheck(this, __SUBCLASS__);
+                    return _possibleConstructorReturn(this, (__SUBCLASS__.__proto__ || Object.getPrototypeOf(__SUBCLASS__)).apply(this, arguments));
+                  }
 
-                      return _possibleConstructorReturn(this, (__SUBCLASS__.__proto__ || Object.getPrototypeOf(__SUBCLASS__)).apply(this, arguments));
-                    }
-
-                    return __SUBCLASS__;
-                  }(__BASE_CLASS__);
-                };
-              }().toString().replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
-              .replace(/__SUBCLASS__/g, subclass).replace(/_inherits|_classCallCheck|_createClass|_possibleConstructorReturn/g, prefix + '$&').replace(/ 314159265358;?/g, ' "' + description + '";') + ')(' + base + ');';
-            }(name, expression, description);
-            self.classes[name] = new Function('self', expression)(self);
-            self.updateLeafClasses(self.classes[name]);
-            if (self.constructor.debug) {
-              console.log('generateClass classes.' + name + ' = ' + expression);
-            }
-          })();
+                  return __SUBCLASS__;
+                }(__BASE_CLASS__);
+              };
+            }().toString().replace(/__cov_[^. ]*[.][a-z]\[\'[0-9]*\'\](\[[0-9]*\])?\+\+[;,]?/g, '') // trim istanbul coverage counters
+            .replace(/__SUBCLASS__/g, subclass).replace(/_inherits|_classCallCheck|_createClass|_possibleConstructorReturn/g, prefix + '$&').replace(/ 314159265358;?/g, ' "' + description + '";') + ')(' + base + ');';
+          }(name, expression, description);
+          self.classes[name] = new Function('self', expression)(self);
+          self.updateLeafClasses(self.classes[name]);
+          if (self.constructor.debug) {
+            console.log('generateClass classes.' + name + ' = ' + expression);
+          }
         }
       }
     }, {
@@ -405,86 +403,84 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
         if (Suite._name(self.constructor) === 'Suite') {
           return new Promise(function (resolve, reject) {
             try {
-              (function () {
-                // Suite Runner
-                var testSuites = [];
-                if (typeof classes === 'number' || typeof classes === 'string') {
-                  // Number 0
-                  // Number string '0'
-                  // CSV string 'Test1,Test2'
-                  testSuites = self.testClasses(classes);
-                } else if ((typeof classes === 'undefined' ? 'undefined' : _typeof(classes)) === 'object' && Array.isArray(classes)) {
-                  // String Array [ 'Test1', 'Test2' ]
-                  // Class Array [ Test1, Test2 ]
-                  // TODO: handle errors if item is neither a string nor a class
-                  testSuites = classes.map(function (item) {
-                    return typeof item === 'string' ? self.classes[item] : item;
-                  });
-                } else if ((typeof classes === 'undefined' ? 'undefined' : _typeof(classes)) === 'object' && !Array.isArray(classes) && classes) {
-                  // Object { Test1: Test1, Test2: Test2 } - property names are discarded
-                  for (var c in classes) {
-                    testSuites.push(classes[c]);
-                  }
-                }
-                (typeof suite === 'function' ? suite : describe)(self.description || self.scope + ' suite', function () {
-                  var _this5 = this;
-
-                  var testInstances = testSuites.map(function (s) {
-                    return [Suite._name(s), new s(target)];
-                  });
-                  Promise.all(testInstances.map(function _callee(instance, index) {
-                    return regeneratorRuntime.async(function _callee$(_context4) {
-                      while (1) {
-                        switch (_context4.prev = _context4.next) {
-                          case 0:
-                            return _context4.abrupt('return', instance[1].run().then(function (v) {
-                              return testInstances[index][2] = v;
-                            }).catch(function (e) {
-                              return testInstances[index][2] = e;
-                            }));
-
-                          case 1:
-                          case 'end':
-                            return _context4.stop();
-                        }
-                      }
-                    }, null, _this5);
-                  })).then(function (results) {
-                    if (results.filter(function (i) {
-                      return i instanceof Error;
-                    }).length > 0) {
-                      var MultiError = function (_Error) {
-                        _inherits(MultiError, _Error);
-
-                        function MultiError(message, errors) {
-                          _classCallCheck(this, MultiError);
-
-                          var _this6 = _possibleConstructorReturn(this, (MultiError.__proto__ || Object.getPrototypeOf(MultiError)).call(this, message));
-
-                          _this6.errors = errors;
-                          return _this6;
-                        }
-
-                        return MultiError;
-                      }(Error);
-
-                      var errors = new MultiError(self.constructor.name + '.' + self.scope + '.run(' + testInstances.map(function (item) {
-                        return item[0];
-                      }).join(',') + '): ' + 'exception(s) thrown. See .errors for details', testInstances);
-                      if (self.constructor.debug) {
-                        console.log(self.description + ': exception(s) thrown for ', classes, errors, errors.errors);
-                      }
-                      reject(errors); // reject the promise for run()
-                    } else {
-                      if (self.constructor.debug) {
-                        console.log(self.description + ': loaded for ', classes);
-                      }
-                      resolve(); // resolve the promise for run()
-                    }
-                  });
-                  // no rejections to catch as they have been caught
+              // Suite Runner
+              var testSuites = [];
+              if (typeof classes === 'number' || typeof classes === 'string') {
+                // Number 0
+                // Number string '0'
+                // CSV string 'Test1,Test2'
+                testSuites = self.testClasses(classes);
+              } else if ((typeof classes === 'undefined' ? 'undefined' : _typeof(classes)) === 'object' && Array.isArray(classes)) {
+                // String Array [ 'Test1', 'Test2' ]
+                // Class Array [ Test1, Test2 ]
+                // TODO: handle errors if item is neither a string nor a class
+                testSuites = classes.map(function (item) {
+                  return typeof item === 'string' ? self.classes[item] : item;
                 });
-              })();
+              } else if ((typeof classes === 'undefined' ? 'undefined' : _typeof(classes)) === 'object' && !Array.isArray(classes) && classes) {
+                // Object { Test1: Test1, Test2: Test2 } - property names are discarded
+                for (var c in classes) {
+                  testSuites.push(classes[c]);
+                }
+              }
+              (typeof suite === 'function' ? suite : describe)(self.description || self.scope + ' suite', function () {
+                var _this5 = this;
+
+                var testInstances = testSuites.map(function (s) {
+                  return [Suite._name(s), new s(target)];
+                });
+                Promise.all(testInstances.map(function _callee(instance, index) {
+                  return regeneratorRuntime.async(function _callee$(_context4) {
+                    while (1) {
+                      switch (_context4.prev = _context4.next) {
+                        case 0:
+                          return _context4.abrupt('return', instance[1].run().then(function (v) {
+                            return testInstances[index][2] = v;
+                          }).catch(function (e) {
+                            return testInstances[index][2] = e;
+                          }));
+
+                        case 1:
+                        case 'end':
+                          return _context4.stop();
+                      }
+                    }
+                  }, null, _this5);
+                })).then(function (results) {
+                  if (results.filter(function (i) {
+                    return i instanceof Error;
+                  }).length > 0) {
+                    var MultiError = function (_Error) {
+                      _inherits(MultiError, _Error);
+
+                      function MultiError(message, errors) {
+                        _classCallCheck(this, MultiError);
+
+                        var _this6 = _possibleConstructorReturn(this, (MultiError.__proto__ || Object.getPrototypeOf(MultiError)).call(this, message));
+
+                        _this6.errors = errors;
+                        return _this6;
+                      }
+
+                      return MultiError;
+                    }(Error);
+
+                    var errors = new MultiError(self.constructor.name + '.' + self.scope + '.run(' + testInstances.map(function (item) {
+                      return item[0];
+                    }).join(',') + '): ' + 'exception(s) thrown. See .errors for details', testInstances);
+                    if (self.constructor.debug) {
+                      console.log(self.description + ': exception(s) thrown for ', classes, errors, errors.errors);
+                    }
+                    reject(errors); // reject the promise for run()
+                  } else {
+                    if (self.constructor.debug) {
+                      console.log(self.description + ': loaded for ', classes);
+                    }
+                    resolve(); // resolve the promise for run()
+                  }
+                });
+                // no rejections to catch as they have been caught
+              });
             } catch (e) {
               // catch exceptions outside of the Promise.all()
               reject(e); // reject the promise for run()
@@ -497,241 +493,239 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
               return typeof self.exception === 'function' ? self.exception(reject, exception) : (reject(exception), true);
             };
             try {
-              (function () {
-                // Scenario Runner
-                var overrideToString = function overrideToString(func, ctor) {
-                  func.toString = function () {
-                    return ctor.toString();
-                  };return func;
-                };
-                (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), function _callee6() {
-                  var _loop, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, step;
+              // Scenario Runner
+              var overrideToString = function overrideToString(func, ctor) {
+                func.toString = function () {
+                  return ctor.toString();
+                };return func;
+              };
+              (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), function _callee6() {
+                var _loop, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, step;
 
-                  return regeneratorRuntime.async(function _callee6$(_context9) {
-                    while (1) {
-                      switch (_context9.prev = _context9.next) {
-                        case 0:
-                          (typeof suiteSetup === 'function' ? suiteSetup : before)(function _callee2() {
-                            return regeneratorRuntime.async(function _callee2$(_context5) {
-                              while (1) {
-                                switch (_context5.prev = _context5.next) {
-                                  case 0:
-                                    _context5.next = 2;
-                                    return regeneratorRuntime.awrap(self.setup());
+                return regeneratorRuntime.async(function _callee6$(_context9) {
+                  while (1) {
+                    switch (_context9.prev = _context9.next) {
+                      case 0:
+                        (typeof suiteSetup === 'function' ? suiteSetup : before)(function _callee2() {
+                          return regeneratorRuntime.async(function _callee2$(_context5) {
+                            while (1) {
+                              switch (_context5.prev = _context5.next) {
+                                case 0:
+                                  _context5.next = 2;
+                                  return regeneratorRuntime.awrap(self.setup());
 
-                                  case 2:
-                                  case 'end':
-                                    return _context5.stop();
-                                }
+                                case 2:
+                                case 'end':
+                                  return _context5.stop();
                               }
-                            }, null, this);
-                          });
+                            }
+                          }, null, this);
+                        });
 
-                          _context9.prev = 1;
+                        _context9.prev = 1;
 
-                          _loop = function _loop(step) {
-                            if (step.operation || step.checkpoint) {
-                              if (step.iteration) {
-                                var _loop2 = function _loop2(parameters) {
-                                  (typeof test === 'function' ? test : it)(parameters.name ? typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name : step.name, overrideToString(function _callee3() {
-                                    return regeneratorRuntime.async(function _callee3$(_context6) {
-                                      while (1) {
-                                        switch (_context6.prev = _context6.next) {
-                                          case 0:
-                                            if (!(self.constructor.skipAfterFailure && self.__failed)) {
-                                              _context6.next = 4;
-                                              break;
-                                            }
-
-                                            return _context6.abrupt('return', this.skip());
-
-                                          case 4:
-                                            self.__failed = true;
-
-                                            if (!step.operation) {
-                                              _context6.next = 8;
-                                              break;
-                                            }
-
-                                            _context6.next = 8;
-                                            return regeneratorRuntime.awrap(step.operation.call(self, parameters));
-
-                                          case 8:
-                                            if (!step.checkpoint) {
-                                              _context6.next = 11;
-                                              break;
-                                            }
-
-                                            _context6.next = 11;
-                                            return regeneratorRuntime.awrap(step.checkpoint.call(self, parameters));
-
-                                          case 11:
-                                            self.__failed = false;
-
-                                          case 12:
-                                          case 'end':
-                                            return _context6.stop();
-                                        }
-                                      }
-                                    }, null, this);
-                                  }, step.ctor));
-                                };
-
-                                var _iteratorNormalCompletion2 = true;
-                                var _didIteratorError2 = false;
-                                var _iteratorError2 = undefined;
-
-                                try {
-                                  for (var _iterator2 = step.iteration.apply(self)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                                    var parameters = _step2.value;
-
-                                    _loop2(parameters);
-                                  }
-                                } catch (err) {
-                                  _didIteratorError2 = true;
-                                  _iteratorError2 = err;
-                                } finally {
-                                  try {
-                                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                                      _iterator2.return();
-                                    }
-                                  } finally {
-                                    if (_didIteratorError2) {
-                                      throw _iteratorError2;
-                                    }
-                                  }
-                                }
-                              } else {
-                                (typeof test === 'function' ? test : it)(step.name, overrideToString(function _callee4() {
-                                  return regeneratorRuntime.async(function _callee4$(_context7) {
+                        _loop = function _loop(step) {
+                          if (step.operation || step.checkpoint) {
+                            if (step.iteration) {
+                              var _loop2 = function _loop2(parameters) {
+                                (typeof test === 'function' ? test : it)(parameters.name ? typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name : step.name, overrideToString(function _callee3() {
+                                  return regeneratorRuntime.async(function _callee3$(_context6) {
                                     while (1) {
-                                      switch (_context7.prev = _context7.next) {
+                                      switch (_context6.prev = _context6.next) {
                                         case 0:
                                           if (!(self.constructor.skipAfterFailure && self.__failed)) {
-                                            _context7.next = 4;
+                                            _context6.next = 4;
                                             break;
                                           }
 
-                                          return _context7.abrupt('return', this.skip());
+                                          return _context6.abrupt('return', this.skip());
 
                                         case 4:
                                           self.__failed = true;
 
                                           if (!step.operation) {
-                                            _context7.next = 8;
+                                            _context6.next = 8;
                                             break;
                                           }
 
-                                          _context7.next = 8;
-                                          return regeneratorRuntime.awrap(step.operation.call(self));
+                                          _context6.next = 8;
+                                          return regeneratorRuntime.awrap(step.operation.call(self, parameters));
 
                                         case 8:
                                           if (!step.checkpoint) {
-                                            _context7.next = 11;
+                                            _context6.next = 11;
                                             break;
                                           }
 
-                                          _context7.next = 11;
-                                          return regeneratorRuntime.awrap(step.checkpoint.call(self));
+                                          _context6.next = 11;
+                                          return regeneratorRuntime.awrap(step.checkpoint.call(self, parameters));
 
                                         case 11:
                                           self.__failed = false;
 
                                         case 12:
                                         case 'end':
-                                          return _context7.stop();
+                                          return _context6.stop();
                                       }
                                     }
                                   }, null, this);
                                 }, step.ctor));
-                              }
-                            }
-                          };
+                              };
 
-                          _iteratorNormalCompletion = true;
-                          _didIteratorError = false;
-                          _iteratorError = undefined;
-                          _context9.prev = 6;
+                              var _iteratorNormalCompletion2 = true;
+                              var _didIteratorError2 = false;
+                              var _iteratorError2 = undefined;
 
-                          for (_iterator = self.scenario()[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                            step = _step.value;
+                              try {
+                                for (var _iterator2 = step.iteration.apply(self)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                                  var parameters = _step2.value;
 
-                            _loop(step);
-                          }
-                          _context9.next = 14;
-                          break;
-
-                        case 10:
-                          _context9.prev = 10;
-                          _context9.t0 = _context9['catch'](6);
-                          _didIteratorError = true;
-                          _iteratorError = _context9.t0;
-
-                        case 14:
-                          _context9.prev = 14;
-                          _context9.prev = 15;
-
-                          if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
-                          }
-
-                        case 17:
-                          _context9.prev = 17;
-
-                          if (!_didIteratorError) {
-                            _context9.next = 20;
-                            break;
-                          }
-
-                          throw _iteratorError;
-
-                        case 20:
-                          return _context9.finish(17);
-
-                        case 21:
-                          return _context9.finish(14);
-
-                        case 22:
-                          _context9.next = 27;
-                          break;
-
-                        case 24:
-                          _context9.prev = 24;
-                          _context9.t1 = _context9['catch'](1);
-
-                          // catch exceptions within suite callback but outside of test callbacks
-                          exception = checkExceptionHandler(reject, _context9.t1);
-
-                        case 27:
-
-                          (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function _callee5() {
-                            return regeneratorRuntime.async(function _callee5$(_context8) {
-                              while (1) {
-                                switch (_context8.prev = _context8.next) {
-                                  case 0:
-                                    _context8.next = 2;
-                                    return regeneratorRuntime.awrap(self.teardown());
-
-                                  case 2:
-                                  case 'end':
-                                    return _context8.stop();
+                                  _loop2(parameters);
+                                }
+                              } catch (err) {
+                                _didIteratorError2 = true;
+                                _iteratorError2 = err;
+                              } finally {
+                                try {
+                                  if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                    _iterator2.return();
+                                  }
+                                } finally {
+                                  if (_didIteratorError2) {
+                                    throw _iteratorError2;
+                                  }
                                 }
                               }
-                            }, null, this);
-                          });
+                            } else {
+                              (typeof test === 'function' ? test : it)(step.name, overrideToString(function _callee4() {
+                                return regeneratorRuntime.async(function _callee4$(_context7) {
+                                  while (1) {
+                                    switch (_context7.prev = _context7.next) {
+                                      case 0:
+                                        if (!(self.constructor.skipAfterFailure && self.__failed)) {
+                                          _context7.next = 4;
+                                          break;
+                                        }
 
-                        case 28:
-                        case 'end':
-                          return _context9.stop();
-                      }
+                                        return _context7.abrupt('return', this.skip());
+
+                                      case 4:
+                                        self.__failed = true;
+
+                                        if (!step.operation) {
+                                          _context7.next = 8;
+                                          break;
+                                        }
+
+                                        _context7.next = 8;
+                                        return regeneratorRuntime.awrap(step.operation.call(self));
+
+                                      case 8:
+                                        if (!step.checkpoint) {
+                                          _context7.next = 11;
+                                          break;
+                                        }
+
+                                        _context7.next = 11;
+                                        return regeneratorRuntime.awrap(step.checkpoint.call(self));
+
+                                      case 11:
+                                        self.__failed = false;
+
+                                      case 12:
+                                      case 'end':
+                                        return _context7.stop();
+                                    }
+                                  }
+                                }, null, this);
+                              }, step.ctor));
+                            }
+                          }
+                        };
+
+                        _iteratorNormalCompletion = true;
+                        _didIteratorError = false;
+                        _iteratorError = undefined;
+                        _context9.prev = 6;
+
+                        for (_iterator = self.scenario()[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                          step = _step.value;
+
+                          _loop(step);
+                        }
+                        _context9.next = 14;
+                        break;
+
+                      case 10:
+                        _context9.prev = 10;
+                        _context9.t0 = _context9['catch'](6);
+                        _didIteratorError = true;
+                        _iteratorError = _context9.t0;
+
+                      case 14:
+                        _context9.prev = 14;
+                        _context9.prev = 15;
+
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                          _iterator.return();
+                        }
+
+                      case 17:
+                        _context9.prev = 17;
+
+                        if (!_didIteratorError) {
+                          _context9.next = 20;
+                          break;
+                        }
+
+                        throw _iteratorError;
+
+                      case 20:
+                        return _context9.finish(17);
+
+                      case 21:
+                        return _context9.finish(14);
+
+                      case 22:
+                        _context9.next = 27;
+                        break;
+
+                      case 24:
+                        _context9.prev = 24;
+                        _context9.t1 = _context9['catch'](1);
+
+                        // catch exceptions within suite callback but outside of test callbacks
+                        exception = checkExceptionHandler(reject, _context9.t1);
+
+                      case 27:
+
+                        (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function _callee5() {
+                          return regeneratorRuntime.async(function _callee5$(_context8) {
+                            while (1) {
+                              switch (_context8.prev = _context8.next) {
+                                case 0:
+                                  _context8.next = 2;
+                                  return regeneratorRuntime.awrap(self.teardown());
+
+                                case 2:
+                                case 'end':
+                                  return _context8.stop();
+                              }
+                            }
+                          }, null, this);
+                        });
+
+                      case 28:
+                      case 'end':
+                        return _context9.stop();
                     }
-                  }, null, this, [[1, 24], [6, 10, 14, 22], [15,, 17, 21]]);
-                });
+                  }
+                }, null, this, [[1, 24], [6, 10, 14, 22], [15,, 17, 21]]);
+              });
 
-                if (!exception) {
-                  resolve(); // resolve the promise for run()
-                }
-              })();
+              if (!exception) {
+                resolve(); // resolve the promise for run()
+              }
             } catch (e) {
               // catch exceptions outside of suite() callback
               exception = checkExceptionHandler(reject, e);
