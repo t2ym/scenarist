@@ -1,7 +1,7 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (factory());
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(factory());
 }(this, (function () { 'use strict';
 
 function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g[x?"throw":"next"](a);}catch(e){j(e);return}r.done?s(r.value):Promise.resolve(r.value).then(c,d);}function d(e){c(e,1);}c();})}
@@ -330,7 +330,7 @@ Suite.debug = true;
         }
       }())});
 
-      (typeof test === 'function' ? test : it)('Suite description error', function () {return __async(function*(){
+      (typeof test === 'function' ? test : it)('Suite description error 2', function () {return __async(function*(){
         let error3 = new Suite('error3.2');
         Object.defineProperty(error3, 'description', {
           get: function () {

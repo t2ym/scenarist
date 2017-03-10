@@ -61,697 +61,695 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   return ErrorSuite;
 }(Suite);
 {
-  (function () {
-    // error scope
-    var scope = 'error';
-    var error = new Suite(scope, 'Description of Error Suite');
-    var t = void 0; // temporary variable as a workaround for Edge 15.14986 issue #12
-    var isIndexHtml = false;
+  // error scope
+  var scope = 'error';
+  var error = new Suite(scope, 'Description of Error Suite');
+  var t = void 0; // temporary variable as a workaround for Edge 15.14986 issue #12
+  var isIndexHtml = false;
 
-    error.test = t = function (_ErrorSuite) {
-      _inherits(DummyTest, _ErrorSuite);
+  error.test = t = function (_ErrorSuite) {
+    _inherits(DummyTest, _ErrorSuite);
 
-      function DummyTest() {
-        _classCallCheck(this, DummyTest);
+    function DummyTest() {
+      _classCallCheck(this, DummyTest);
 
-        return _possibleConstructorReturn(this, (DummyTest.__proto__ || Object.getPrototypeOf(DummyTest)).apply(this, arguments));
-      }
-
-      return DummyTest;
-    }(ErrorSuite);
-
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' && !decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/)) {
-      isIndexHtml = true;
+      return _possibleConstructorReturn(this, (DummyTest.__proto__ || Object.getPrototypeOf(DummyTest)).apply(this, arguments));
     }
 
-    if (!isIndexHtml) {
-      (typeof suite === 'function' ? suite : describe)('Suite error test', function () {
-        (typeof suite === 'function' ? suite : describe)('.test setter error test', function () {
-          (typeof test === 'function' ? test : it)('duplicate class names', function () {
-            assert.throws(function () {
-              error.test = t = function (_ErrorSuite2) {
-                _inherits(DuplicateClass, _ErrorSuite2);
-
-                function DuplicateClass() {
-                  _classCallCheck(this, DuplicateClass);
-
-                  return _possibleConstructorReturn(this, (DuplicateClass.__proto__ || Object.getPrototypeOf(DuplicateClass)).apply(this, arguments));
-                }
-
-                return DuplicateClass;
-              }(ErrorSuite);
-              error.test = t = function (_ErrorSuite3) {
-                _inherits(DuplicateClass, _ErrorSuite3);
-
-                function DuplicateClass() {
-                  _classCallCheck(this, DuplicateClass);
-
-                  return _possibleConstructorReturn(this, (DuplicateClass.__proto__ || Object.getPrototypeOf(DuplicateClass)).apply(this, arguments));
-                }
-
-                return DuplicateClass;
-              }(ErrorSuite);
-            }, /Suite[.]error: class DuplicateClass already exists/);
-          });
-
-          (typeof test === 'function' ? test : it)('duplicate class mixin names', function () {
-            assert.throws(function () {
-              error.test = function (base) {
-                return function (_base) {
-                  _inherits(DuplicateMixin, _base);
-
-                  function DuplicateMixin() {
-                    _classCallCheck(this, DuplicateMixin);
-
-                    return _possibleConstructorReturn(this, (DuplicateMixin.__proto__ || Object.getPrototypeOf(DuplicateMixin)).apply(this, arguments));
-                  }
-
-                  return DuplicateMixin;
-                }(base);
-              };
-              error.test = function (base) {
-                return function (_base2) {
-                  _inherits(DuplicateMixin, _base2);
-
-                  function DuplicateMixin() {
-                    _classCallCheck(this, DuplicateMixin);
-
-                    return _possibleConstructorReturn(this, (DuplicateMixin.__proto__ || Object.getPrototypeOf(DuplicateMixin)).apply(this, arguments));
-                  }
-
-                  return DuplicateMixin;
-                }(base);
-              };
-            }, /Suite[.]error: class mixin DuplicateMixin already exists/);
-          });
-
-          (typeof test === 'function' ? test : it)('no class mixin name', function () {
-            assert.throws(function () {
-              error.test = function (base) {
-                return function (_base3) {
-                  _inherits(_class, _base3);
-
-                  function _class() {
-                    _classCallCheck(this, _class);
-
-                    return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
-                  }
-
-                  return _class;
-                }(base);
-              };
-            }, /Suite[.]error: class mixin has no name /);
-          });
-
-          (typeof test === 'function' ? test : it)('null object', function () {
-            assert.throws(function () {
-              error.test = null;
-            }, /Suite[.]error: null object is not expected/);
-          });
-        });
-
-        (typeof suite === 'function' ? suite : describe)('testClass error test', function () {
-          (typeof test === 'function' ? test : it)('inexistent class name', function () {
-            assert.throws(function () {
-              error.testClasses('InexistentClass,InexistentClass2');
-            }, /Suite[.]error: Test InexistentClass is not defined/);
-          });
-        });
-
-        (typeof suite === 'function' ? suite : describe)('generateClasses error test', function () {
-          (typeof test === 'function' ? test : it)('unknown branch type', function () {
-            assert.throws(function () {
-              error.test = { '': 1 };
-            }, /Suite[.]error: unknown branch type number/);
-          });
-        });
-
-        (typeof suite === 'function' ? suite : describe)('generateClass error test', function () {
-          (typeof test === 'function' ? test : it)('invalid chain.length', function () {
-            assert.throws(function () {
-              error.test = { '': 'InvalidMixin' };
-            }, /Suite[.]error:generateClass invalid chain[.]length 1/);
-          });
-
-          (typeof test === 'function' ? test : it)('duplicate mixin', function () {
-            assert.throws(function () {
-              error.test = function (base) {
-                return function (_base4) {
-                  _inherits(DuplicateMixinBase, _base4);
-
-                  function DuplicateMixinBase() {
-                    _classCallCheck(this, DuplicateMixinBase);
-
-                    return _possibleConstructorReturn(this, (DuplicateMixinBase.__proto__ || Object.getPrototypeOf(DuplicateMixinBase)).apply(this, arguments));
-                  }
-
-                  return DuplicateMixinBase;
-                }(base);
-              };
-              error.test = {
-                '': [{
-                  DuplicateMixinBase: 'DuplicateMixin'
-                }, {
-                  DuplicateMixinBase: 'DuplicateMixin'
-                }]
-              };
-            }, /Suite[.]error:generateClass mixin DuplicateMixin already exists/);
-          });
-
-          (typeof test === 'function' ? test : it)('duplicate class', function () {
-            assert.throws(function () {
-              error.test = function (base) {
-                return function (_base5) {
-                  _inherits(DuplicateMixinBase2, _base5);
-
-                  function DuplicateMixinBase2() {
-                    _classCallCheck(this, DuplicateMixinBase2);
-
-                    return _possibleConstructorReturn(this, (DuplicateMixinBase2.__proto__ || Object.getPrototypeOf(DuplicateMixinBase2)).apply(this, arguments));
-                  }
-
-                  return DuplicateMixinBase2;
-                }(base);
-              };
-              error.test = {
-                DummyTest: [{
-                  DuplicateMixinBase2: 'DuplicateClass'
-                }, {
-                  DuplicateMixinBase2: 'DuplicateClass'
-                }]
-              };
-            }, /Suite[.]error:generateClass class DuplicateClass already exists/);
-          });
-
-          (typeof test === 'function' ? test : it)('inexistent global test class', function () {
-            assert.throws(function () {
-              error.test = {
-                InexistentGlobalClass: 'InexistentGlobalClassAlias'
-              };
-            }, /Suite[.]error:generateClass global test class InexistentGlobalClass does not exist/);
-          });
-
-          (typeof test === 'function' ? test : it)('inexistent mixin', function () {
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  InexistentMixin: 'InexistentMixinName'
-                }
-              };
-            }, /Suite[.]error:generateClass mixin InexistentMixin does not exist/);
-          });
-
-          (typeof test === 'function' ? test : it)('inexistent mixin for class', function () {
-            assert.throws(function () {
-              error.test = {
-                DummyTest: {
-                  InexistentMixin2: 'InexistentMixinName2'
-                }
-              };
-            }, /Suite[.]error:generateClass mixin InexistentMixin2 does not exist/);
-          });
-
-          (typeof test === 'function' ? test : it)('duplicate class name with existing mixin name', function () {
-            assert.throws(function () {
-              error.test = function (base) {
-                return function (_base6) {
-                  _inherits(DefinedMixinBase3, _base6);
-
-                  function DefinedMixinBase3() {
-                    _classCallCheck(this, DefinedMixinBase3);
-
-                    return _possibleConstructorReturn(this, (DefinedMixinBase3.__proto__ || Object.getPrototypeOf(DefinedMixinBase3)).apply(this, arguments));
-                  }
-
-                  return DefinedMixinBase3;
-                }(base);
-              };
-              error.test = function (base) {
-                return function (_base7) {
-                  _inherits(DefinedMixinBase4, _base7);
-
-                  function DefinedMixinBase4() {
-                    _classCallCheck(this, DefinedMixinBase4);
-
-                    return _possibleConstructorReturn(this, (DefinedMixinBase4.__proto__ || Object.getPrototypeOf(DefinedMixinBase4)).apply(this, arguments));
-                  }
-
-                  return DefinedMixinBase4;
-                }(base);
-              };
-              error.test = function (base) {
-                return function (_base8) {
-                  _inherits(DefinedMixinBase5, _base8);
-
-                  function DefinedMixinBase5() {
-                    _classCallCheck(this, DefinedMixinBase5);
-
-                    return _possibleConstructorReturn(this, (DefinedMixinBase5.__proto__ || Object.getPrototypeOf(DefinedMixinBase5)).apply(this, arguments));
-                  }
-
-                  return DefinedMixinBase5;
-                }(base);
-              };
-              error.test = {
-                DummyTest: {
-                  DefinedMixinBase3: 'DefinedMixinBase3' // no error
-                }
-              };
-              error.test = {
-                DummyTest: {
-                  DefinedMixinBase5: '' // no error
-                }
-              };
-              error.test = {
-                DummyTest: {
-                  DefinedMixinBase3: 'DefinedMixinBase4'
-                }
-              };
-            }, /Suite[.]error:generateClass mixin DefinedMixinBase4 already exists/);
-          });
-
-          (typeof test === 'function' ? test : it)('duplicate mixin name with existing class name', function () {
-            assert.throws(function () {
-              error.test = t = function (_Suite2) {
-                _inherits(DefinedClass1, _Suite2);
-
-                function DefinedClass1() {
-                  _classCallCheck(this, DefinedClass1);
-
-                  return _possibleConstructorReturn(this, (DefinedClass1.__proto__ || Object.getPrototypeOf(DefinedClass1)).apply(this, arguments));
-                }
-
-                return DefinedClass1;
-              }(Suite);
-              error.test = function (base) {
-                return function (_base9) {
-                  _inherits(DefinedMixinBase6, _base9);
-
-                  function DefinedMixinBase6() {
-                    _classCallCheck(this, DefinedMixinBase6);
-
-                    return _possibleConstructorReturn(this, (DefinedMixinBase6.__proto__ || Object.getPrototypeOf(DefinedMixinBase6)).apply(this, arguments));
-                  }
-
-                  return DefinedMixinBase6;
-                }(base);
-              };
-              error.test = function (base) {
-                return function (_base10) {
-                  _inherits(DefinedMixinBase7, _base10);
-
-                  function DefinedMixinBase7() {
-                    _classCallCheck(this, DefinedMixinBase7);
-
-                    return _possibleConstructorReturn(this, (DefinedMixinBase7.__proto__ || Object.getPrototypeOf(DefinedMixinBase7)).apply(this, arguments));
-                  }
-
-                  return DefinedMixinBase7;
-                }(base);
-              };
-              error.test = {
-                '': {
-                  DefinedMixinBase6: {
-                    DefinedMixinBase7: 'DefinedClass1'
-                  }
-                }
-              };
-            }, /Suite[.]error:generateClass class DefinedClass1 already exists/);
-          });
-
-          (typeof test === 'function' ? test : it)('illegal class name', function () {
-            assert.throws(function () {
-              error.test = {
-                DummyTest: 'Illegal Class Name'
-              };
-            }, /Suite[.]error:_checkIdentifier Illegal Class Name is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                DummyTest: 'IllegalClassNameあ'
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalClassNameあ is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                DummyTest: 'IllegalClassName≡'
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalClassName≡ is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                DummyTest: 'IllegalClassName='
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalClassName= is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                DummyTest: 1
-              };
-            }, /Suite[.]error: unknown branch type number/);
-
-            assert.throws(function () {
-              error.test = {
-                'Illegal Class Name': 'IllegalClassName'
-              };
-            }, /Suite[.]error:_checkIdentifier Illegal Class Name is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                'IllegalClassNameあ': 'IllegalClassName'
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalClassNameあ is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                'IllegalClassName≡': 'IllegalClassName'
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalClassName≡ is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                'IllegalClassName=': 'IllegalClassName'
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalClassName= is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                1: 'IllegalClassName'
-              };
-            }, /Suite.error:_checkIdentifier 1 is not a valid identifier/);
-          });
-
-          (typeof test === 'function' ? test : it)('illegal mixin class name', function () {
-            error.test = function (base) {
-              return function (_base11) {
-                _inherits(MixinBase1, _base11);
-
-                function MixinBase1() {
-                  _classCallCheck(this, MixinBase1);
-
-                  return _possibleConstructorReturn(this, (MixinBase1.__proto__ || Object.getPrototypeOf(MixinBase1)).apply(this, arguments));
-                }
-
-                return MixinBase1;
-              }(base);
-            };
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  MixinBase1: 'Illegal Mixin Class Name'
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier Illegal Mixin Class Name is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  MixinBase1: 'IllegalMixinClassNameあ'
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalMixinClassNameあ is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  MixinBase1: 'IllegalMixinClassName≡'
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalMixinClassName≡ is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  MixinBase1: 'IllegalMixinClassName='
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalMixinClassName= is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  MixinBase1: 1
-                }
-              };
-            }, /Suite.error: unknown branch type/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  'Illegal Mixin Class Name': 'IllegalMixinClassName'
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier Illegal Mixin Class Name is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  'IllegalMixinClassNameあ': 'IllegalMixinClassName'
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalMixinClassNameあ is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  'IllegalMixinClassName≡': 'IllegalMixinClassName'
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalMixinClassName≡ is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  'IllegalMixinClassName=': 'IllegalMixinClassName'
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier IllegalMixinClassName= is not a valid identifier/);
-
-            assert.throws(function () {
-              error.test = {
-                '': {
-                  1: 'IllegalMixinClassName'
-                }
-              };
-            }, /Suite[.]error:_checkIdentifier 1 is not a valid identifier/);
-          });
-        });
-      });
-
-      (typeof suite === 'function' ? suite : describe)('Scenario test', function () {
-        (typeof suite === 'function' ? suite : describe)('skipAfterFailure test', function () {
-          (typeof test === 'function' ? test : it)('skipAfterFailure', function () {
-            error.test = t = function (_Suite3) {
-              _inherits(SkipAfterFailureSuite, _Suite3);
-
-              function SkipAfterFailureSuite() {
-                _classCallCheck(this, SkipAfterFailureSuite);
-
-                return _possibleConstructorReturn(this, (SkipAfterFailureSuite.__proto__ || Object.getPrototypeOf(SkipAfterFailureSuite)).apply(this, arguments));
-              }
-
-              _createClass(SkipAfterFailureSuite, [{
-                key: 'setup',
-                value: function setup() {
-                  return regeneratorRuntime.async(function setup$(_context3) {
-                    while (1) {
-                      switch (_context3.prev = _context3.next) {
-                        case 0:
-                          _context3.next = 2;
-                          return regeneratorRuntime.awrap(_get(SkipAfterFailureSuite.prototype.__proto__ || Object.getPrototypeOf(SkipAfterFailureSuite.prototype), 'setup', this).call(this));
-
-                        case 2:
-                          this.__failed = true;
-
-                        case 3:
-                        case 'end':
-                          return _context3.stop();
-                      }
-                    }
-                  }, null, this);
-                }
-              }], [{
-                key: 'skipAfterFailure',
-                get: function get() {
-                  return true;
-                }
-              }]);
-
-              return SkipAfterFailureSuite;
-            }(Suite);
-            error.test = function (base) {
-              return function (_base12) {
-                _inherits(SkippedTest, _base12);
-
-                function SkippedTest() {
-                  _classCallCheck(this, SkippedTest);
-
-                  return _possibleConstructorReturn(this, (SkippedTest.__proto__ || Object.getPrototypeOf(SkippedTest)).apply(this, arguments));
-                }
-
-                _createClass(SkippedTest, [{
-                  key: 'operation',
-                  value: function operation() {
-                    return regeneratorRuntime.async(function operation$(_context4) {
-                      while (1) {
-                        switch (_context4.prev = _context4.next) {
-                          case 0:
-                          case 'end':
-                            return _context4.stop();
-                        }
-                      }
-                    }, null, this);
-                  }
-                }, {
-                  key: 'checkpoint',
-                  value: function checkpoint() {
-                    return regeneratorRuntime.async(function checkpoint$(_context5) {
-                      while (1) {
-                        switch (_context5.prev = _context5.next) {
-                          case 0:
-                            assert.isOk(false, 'SkippedTest must be skipped');
-
-                          case 1:
-                          case 'end':
-                            return _context5.stop();
-                        }
-                      }
-                    }, null, this);
-                  }
-                }]);
-
-                return SkippedTest;
-              }(base);
-            };
-            error.test = {
-              SkipAfterFailureSuite: {
-                SkippedTest: 'SkipAfterFailureTest'
-              }
-            };
-            console.log(error.leafClasses);
-            new error.leafClasses.SkipAfterFailureTest().run();
-          });
-
-          (typeof test === 'function' ? test : it)('skipAfterFailure with iteration', function () {
-            error.test = t = function (_Suite4) {
-              _inherits(SkipAfterFailureSuite2, _Suite4);
-
-              function SkipAfterFailureSuite2() {
-                _classCallCheck(this, SkipAfterFailureSuite2);
-
-                return _possibleConstructorReturn(this, (SkipAfterFailureSuite2.__proto__ || Object.getPrototypeOf(SkipAfterFailureSuite2)).apply(this, arguments));
-              }
-
-              _createClass(SkipAfterFailureSuite2, [{
-                key: 'setup',
-                value: function setup() {
-                  return regeneratorRuntime.async(function setup$(_context6) {
-                    while (1) {
-                      switch (_context6.prev = _context6.next) {
-                        case 0:
-                          _context6.next = 2;
-                          return regeneratorRuntime.awrap(_get(SkipAfterFailureSuite2.prototype.__proto__ || Object.getPrototypeOf(SkipAfterFailureSuite2.prototype), 'setup', this).call(this));
-
-                        case 2:
-                          this.__failed = true;
-
-                        case 3:
-                        case 'end':
-                          return _context6.stop();
-                      }
-                    }
-                  }, null, this);
-                }
-              }], [{
-                key: 'skipAfterFailure',
-                get: function get() {
-                  return true;
-                }
-              }]);
-
-              return SkipAfterFailureSuite2;
-            }(Suite);
-            error.test = function (base) {
-              return function (_base13) {
-                _inherits(SkippedTest2, _base13);
-
-                function SkippedTest2() {
-                  _classCallCheck(this, SkippedTest2);
-
-                  return _possibleConstructorReturn(this, (SkippedTest2.__proto__ || Object.getPrototypeOf(SkippedTest2)).apply(this, arguments));
-                }
-
-                _createClass(SkippedTest2, [{
-                  key: 'iteration',
-                  value: regeneratorRuntime.mark(function iteration() {
-                    return regeneratorRuntime.wrap(function iteration$(_context7) {
-                      while (1) {
-                        switch (_context7.prev = _context7.next) {
-                          case 0:
-                            return _context7.delegateYield([1, 2, 3], 't0', 1);
-
-                          case 1:
-                          case 'end':
-                            return _context7.stop();
-                        }
-                      }
-                    }, iteration, this);
-                  })
-                }, {
-                  key: 'operation',
-                  value: function operation(parameters) {
-                    return regeneratorRuntime.async(function operation$(_context8) {
-                      while (1) {
-                        switch (_context8.prev = _context8.next) {
-                          case 0:
-                          case 'end':
-                            return _context8.stop();
-                        }
-                      }
-                    }, null, this);
-                  }
-                }, {
-                  key: 'checkpoint',
-                  value: function checkpoint(parameters) {
-                    return regeneratorRuntime.async(function checkpoint$(_context9) {
-                      while (1) {
-                        switch (_context9.prev = _context9.next) {
-                          case 0:
-                            assert.isOk(false, 'SkippedTest2 must be skipped');
-
-                          case 1:
-                          case 'end':
-                            return _context9.stop();
-                        }
-                      }
-                    }, null, this);
-                  }
-                }]);
-
-                return SkippedTest2;
-              }(base);
-            };
-            error.test = {
-              SkipAfterFailureSuite2: {
-                SkippedTest2: 'SkipAfterFailureTest2'
-              },
-              ErrorSuite: Suite.repeat('SkippedTest2', 0, 'ErrorSuiteAlias')
-            };
-            console.log(error.branchScenarios);
-            new error.leafClasses.SkipAfterFailureTest2().run();
-          });
-        });
-      });
-
-      (typeof suite === 'function' ? suite : describe)('Suite utilities error test', function () {
-        (typeof test === 'function' ? test : it)('Suite.permute error', function () {
+    return DummyTest;
+  }(ErrorSuite);
+
+  if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' && !decodeURIComponent(window.location.href).match(/^.*[^_a-zA-Z0-9]TestSuites=([_a-zA-Z0-9,]*).*$/)) {
+    isIndexHtml = true;
+  }
+
+  if (!isIndexHtml) {
+    (typeof suite === 'function' ? suite : describe)('Suite error test', function () {
+      (typeof suite === 'function' ? suite : describe)('.test setter error test', function () {
+        (typeof test === 'function' ? test : it)('duplicate class names', function () {
           assert.throws(function () {
-            Suite.permute(null, function () {
-              return 'a';
-            });
-          }, /null/);
+            error.test = t = function (_ErrorSuite2) {
+              _inherits(DuplicateClass, _ErrorSuite2);
+
+              function DuplicateClass() {
+                _classCallCheck(this, DuplicateClass);
+
+                return _possibleConstructorReturn(this, (DuplicateClass.__proto__ || Object.getPrototypeOf(DuplicateClass)).apply(this, arguments));
+              }
+
+              return DuplicateClass;
+            }(ErrorSuite);
+            error.test = t = function (_ErrorSuite3) {
+              _inherits(DuplicateClass, _ErrorSuite3);
+
+              function DuplicateClass() {
+                _classCallCheck(this, DuplicateClass);
+
+                return _possibleConstructorReturn(this, (DuplicateClass.__proto__ || Object.getPrototypeOf(DuplicateClass)).apply(this, arguments));
+              }
+
+              return DuplicateClass;
+            }(ErrorSuite);
+          }, /Suite[.]error: class DuplicateClass already exists/);
+        });
+
+        (typeof test === 'function' ? test : it)('duplicate class mixin names', function () {
+          assert.throws(function () {
+            error.test = function (base) {
+              return function (_base) {
+                _inherits(DuplicateMixin, _base);
+
+                function DuplicateMixin() {
+                  _classCallCheck(this, DuplicateMixin);
+
+                  return _possibleConstructorReturn(this, (DuplicateMixin.__proto__ || Object.getPrototypeOf(DuplicateMixin)).apply(this, arguments));
+                }
+
+                return DuplicateMixin;
+              }(base);
+            };
+            error.test = function (base) {
+              return function (_base2) {
+                _inherits(DuplicateMixin, _base2);
+
+                function DuplicateMixin() {
+                  _classCallCheck(this, DuplicateMixin);
+
+                  return _possibleConstructorReturn(this, (DuplicateMixin.__proto__ || Object.getPrototypeOf(DuplicateMixin)).apply(this, arguments));
+                }
+
+                return DuplicateMixin;
+              }(base);
+            };
+          }, /Suite[.]error: class mixin DuplicateMixin already exists/);
+        });
+
+        (typeof test === 'function' ? test : it)('no class mixin name', function () {
+          assert.throws(function () {
+            error.test = function (base) {
+              return function (_base3) {
+                _inherits(_class, _base3);
+
+                function _class() {
+                  _classCallCheck(this, _class);
+
+                  return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+                }
+
+                return _class;
+              }(base);
+            };
+          }, /Suite[.]error: class mixin has no name /);
+        });
+
+        (typeof test === 'function' ? test : it)('null object', function () {
+          assert.throws(function () {
+            error.test = null;
+          }, /Suite[.]error: null object is not expected/);
         });
       });
-    }
-  })();
+
+      (typeof suite === 'function' ? suite : describe)('testClass error test', function () {
+        (typeof test === 'function' ? test : it)('inexistent class name', function () {
+          assert.throws(function () {
+            error.testClasses('InexistentClass,InexistentClass2');
+          }, /Suite[.]error: Test InexistentClass is not defined/);
+        });
+      });
+
+      (typeof suite === 'function' ? suite : describe)('generateClasses error test', function () {
+        (typeof test === 'function' ? test : it)('unknown branch type', function () {
+          assert.throws(function () {
+            error.test = { '': 1 };
+          }, /Suite[.]error: unknown branch type number/);
+        });
+      });
+
+      (typeof suite === 'function' ? suite : describe)('generateClass error test', function () {
+        (typeof test === 'function' ? test : it)('invalid chain.length', function () {
+          assert.throws(function () {
+            error.test = { '': 'InvalidMixin' };
+          }, /Suite[.]error:generateClass invalid chain[.]length 1/);
+        });
+
+        (typeof test === 'function' ? test : it)('duplicate mixin', function () {
+          assert.throws(function () {
+            error.test = function (base) {
+              return function (_base4) {
+                _inherits(DuplicateMixinBase, _base4);
+
+                function DuplicateMixinBase() {
+                  _classCallCheck(this, DuplicateMixinBase);
+
+                  return _possibleConstructorReturn(this, (DuplicateMixinBase.__proto__ || Object.getPrototypeOf(DuplicateMixinBase)).apply(this, arguments));
+                }
+
+                return DuplicateMixinBase;
+              }(base);
+            };
+            error.test = {
+              '': [{
+                DuplicateMixinBase: 'DuplicateMixin'
+              }, {
+                DuplicateMixinBase: 'DuplicateMixin'
+              }]
+            };
+          }, /Suite[.]error:generateClass mixin DuplicateMixin already exists/);
+        });
+
+        (typeof test === 'function' ? test : it)('duplicate class', function () {
+          assert.throws(function () {
+            error.test = function (base) {
+              return function (_base5) {
+                _inherits(DuplicateMixinBase2, _base5);
+
+                function DuplicateMixinBase2() {
+                  _classCallCheck(this, DuplicateMixinBase2);
+
+                  return _possibleConstructorReturn(this, (DuplicateMixinBase2.__proto__ || Object.getPrototypeOf(DuplicateMixinBase2)).apply(this, arguments));
+                }
+
+                return DuplicateMixinBase2;
+              }(base);
+            };
+            error.test = {
+              DummyTest: [{
+                DuplicateMixinBase2: 'DuplicateClass'
+              }, {
+                DuplicateMixinBase2: 'DuplicateClass'
+              }]
+            };
+          }, /Suite[.]error:generateClass class DuplicateClass already exists/);
+        });
+
+        (typeof test === 'function' ? test : it)('inexistent global test class', function () {
+          assert.throws(function () {
+            error.test = {
+              InexistentGlobalClass: 'InexistentGlobalClassAlias'
+            };
+          }, /Suite[.]error:generateClass global test class InexistentGlobalClass does not exist/);
+        });
+
+        (typeof test === 'function' ? test : it)('inexistent mixin', function () {
+          assert.throws(function () {
+            error.test = {
+              '': {
+                InexistentMixin: 'InexistentMixinName'
+              }
+            };
+          }, /Suite[.]error:generateClass mixin InexistentMixin does not exist/);
+        });
+
+        (typeof test === 'function' ? test : it)('inexistent mixin for class', function () {
+          assert.throws(function () {
+            error.test = {
+              DummyTest: {
+                InexistentMixin2: 'InexistentMixinName2'
+              }
+            };
+          }, /Suite[.]error:generateClass mixin InexistentMixin2 does not exist/);
+        });
+
+        (typeof test === 'function' ? test : it)('duplicate class name with existing mixin name', function () {
+          assert.throws(function () {
+            error.test = function (base) {
+              return function (_base6) {
+                _inherits(DefinedMixinBase3, _base6);
+
+                function DefinedMixinBase3() {
+                  _classCallCheck(this, DefinedMixinBase3);
+
+                  return _possibleConstructorReturn(this, (DefinedMixinBase3.__proto__ || Object.getPrototypeOf(DefinedMixinBase3)).apply(this, arguments));
+                }
+
+                return DefinedMixinBase3;
+              }(base);
+            };
+            error.test = function (base) {
+              return function (_base7) {
+                _inherits(DefinedMixinBase4, _base7);
+
+                function DefinedMixinBase4() {
+                  _classCallCheck(this, DefinedMixinBase4);
+
+                  return _possibleConstructorReturn(this, (DefinedMixinBase4.__proto__ || Object.getPrototypeOf(DefinedMixinBase4)).apply(this, arguments));
+                }
+
+                return DefinedMixinBase4;
+              }(base);
+            };
+            error.test = function (base) {
+              return function (_base8) {
+                _inherits(DefinedMixinBase5, _base8);
+
+                function DefinedMixinBase5() {
+                  _classCallCheck(this, DefinedMixinBase5);
+
+                  return _possibleConstructorReturn(this, (DefinedMixinBase5.__proto__ || Object.getPrototypeOf(DefinedMixinBase5)).apply(this, arguments));
+                }
+
+                return DefinedMixinBase5;
+              }(base);
+            };
+            error.test = {
+              DummyTest: {
+                DefinedMixinBase3: 'DefinedMixinBase3' // no error
+              }
+            };
+            error.test = {
+              DummyTest: {
+                DefinedMixinBase5: '' // no error
+              }
+            };
+            error.test = {
+              DummyTest: {
+                DefinedMixinBase3: 'DefinedMixinBase4'
+              }
+            };
+          }, /Suite[.]error:generateClass mixin DefinedMixinBase4 already exists/);
+        });
+
+        (typeof test === 'function' ? test : it)('duplicate mixin name with existing class name', function () {
+          assert.throws(function () {
+            error.test = t = function (_Suite2) {
+              _inherits(DefinedClass1, _Suite2);
+
+              function DefinedClass1() {
+                _classCallCheck(this, DefinedClass1);
+
+                return _possibleConstructorReturn(this, (DefinedClass1.__proto__ || Object.getPrototypeOf(DefinedClass1)).apply(this, arguments));
+              }
+
+              return DefinedClass1;
+            }(Suite);
+            error.test = function (base) {
+              return function (_base9) {
+                _inherits(DefinedMixinBase6, _base9);
+
+                function DefinedMixinBase6() {
+                  _classCallCheck(this, DefinedMixinBase6);
+
+                  return _possibleConstructorReturn(this, (DefinedMixinBase6.__proto__ || Object.getPrototypeOf(DefinedMixinBase6)).apply(this, arguments));
+                }
+
+                return DefinedMixinBase6;
+              }(base);
+            };
+            error.test = function (base) {
+              return function (_base10) {
+                _inherits(DefinedMixinBase7, _base10);
+
+                function DefinedMixinBase7() {
+                  _classCallCheck(this, DefinedMixinBase7);
+
+                  return _possibleConstructorReturn(this, (DefinedMixinBase7.__proto__ || Object.getPrototypeOf(DefinedMixinBase7)).apply(this, arguments));
+                }
+
+                return DefinedMixinBase7;
+              }(base);
+            };
+            error.test = {
+              '': {
+                DefinedMixinBase6: {
+                  DefinedMixinBase7: 'DefinedClass1'
+                }
+              }
+            };
+          }, /Suite[.]error:generateClass class DefinedClass1 already exists/);
+        });
+
+        (typeof test === 'function' ? test : it)('illegal class name', function () {
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 'Illegal Class Name'
+            };
+          }, /Suite[.]error:_checkIdentifier Illegal Class Name is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 'IllegalClassNameあ'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassNameあ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 'IllegalClassName≡'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 'IllegalClassName='
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassName= is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              DummyTest: 1
+            };
+          }, /Suite[.]error: unknown branch type number/);
+
+          assert.throws(function () {
+            error.test = {
+              'Illegal Class Name': 'IllegalClassName'
+            };
+          }, /Suite[.]error:_checkIdentifier Illegal Class Name is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              'IllegalClassNameあ': 'IllegalClassName'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassNameあ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              'IllegalClassName≡': 'IllegalClassName'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              'IllegalClassName=': 'IllegalClassName'
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalClassName= is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              1: 'IllegalClassName'
+            };
+          }, /Suite.error:_checkIdentifier 1 is not a valid identifier/);
+        });
+
+        (typeof test === 'function' ? test : it)('illegal mixin class name', function () {
+          error.test = function (base) {
+            return function (_base11) {
+              _inherits(MixinBase1, _base11);
+
+              function MixinBase1() {
+                _classCallCheck(this, MixinBase1);
+
+                return _possibleConstructorReturn(this, (MixinBase1.__proto__ || Object.getPrototypeOf(MixinBase1)).apply(this, arguments));
+              }
+
+              return MixinBase1;
+            }(base);
+          };
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 'Illegal Mixin Class Name'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier Illegal Mixin Class Name is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 'IllegalMixinClassNameあ'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassNameあ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 'IllegalMixinClassName≡'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 'IllegalMixinClassName='
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassName= is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                MixinBase1: 1
+              }
+            };
+          }, /Suite.error: unknown branch type/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                'Illegal Mixin Class Name': 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier Illegal Mixin Class Name is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                'IllegalMixinClassNameあ': 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassNameあ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                'IllegalMixinClassName≡': 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassName≡ is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                'IllegalMixinClassName=': 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier IllegalMixinClassName= is not a valid identifier/);
+
+          assert.throws(function () {
+            error.test = {
+              '': {
+                1: 'IllegalMixinClassName'
+              }
+            };
+          }, /Suite[.]error:_checkIdentifier 1 is not a valid identifier/);
+        });
+      });
+    });
+
+    (typeof suite === 'function' ? suite : describe)('Scenario test', function () {
+      (typeof suite === 'function' ? suite : describe)('skipAfterFailure test', function () {
+        (typeof test === 'function' ? test : it)('skipAfterFailure', function () {
+          error.test = t = function (_Suite3) {
+            _inherits(SkipAfterFailureSuite, _Suite3);
+
+            function SkipAfterFailureSuite() {
+              _classCallCheck(this, SkipAfterFailureSuite);
+
+              return _possibleConstructorReturn(this, (SkipAfterFailureSuite.__proto__ || Object.getPrototypeOf(SkipAfterFailureSuite)).apply(this, arguments));
+            }
+
+            _createClass(SkipAfterFailureSuite, [{
+              key: 'setup',
+              value: function setup() {
+                return regeneratorRuntime.async(function setup$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        _context3.next = 2;
+                        return regeneratorRuntime.awrap(_get(SkipAfterFailureSuite.prototype.__proto__ || Object.getPrototypeOf(SkipAfterFailureSuite.prototype), 'setup', this).call(this));
+
+                      case 2:
+                        this.__failed = true;
+
+                      case 3:
+                      case 'end':
+                        return _context3.stop();
+                    }
+                  }
+                }, null, this);
+              }
+            }], [{
+              key: 'skipAfterFailure',
+              get: function get() {
+                return true;
+              }
+            }]);
+
+            return SkipAfterFailureSuite;
+          }(Suite);
+          error.test = function (base) {
+            return function (_base12) {
+              _inherits(SkippedTest, _base12);
+
+              function SkippedTest() {
+                _classCallCheck(this, SkippedTest);
+
+                return _possibleConstructorReturn(this, (SkippedTest.__proto__ || Object.getPrototypeOf(SkippedTest)).apply(this, arguments));
+              }
+
+              _createClass(SkippedTest, [{
+                key: 'operation',
+                value: function operation() {
+                  return regeneratorRuntime.async(function operation$(_context4) {
+                    while (1) {
+                      switch (_context4.prev = _context4.next) {
+                        case 0:
+                        case 'end':
+                          return _context4.stop();
+                      }
+                    }
+                  }, null, this);
+                }
+              }, {
+                key: 'checkpoint',
+                value: function checkpoint() {
+                  return regeneratorRuntime.async(function checkpoint$(_context5) {
+                    while (1) {
+                      switch (_context5.prev = _context5.next) {
+                        case 0:
+                          assert.isOk(false, 'SkippedTest must be skipped');
+
+                        case 1:
+                        case 'end':
+                          return _context5.stop();
+                      }
+                    }
+                  }, null, this);
+                }
+              }]);
+
+              return SkippedTest;
+            }(base);
+          };
+          error.test = {
+            SkipAfterFailureSuite: {
+              SkippedTest: 'SkipAfterFailureTest'
+            }
+          };
+          console.log(error.leafClasses);
+          new error.leafClasses.SkipAfterFailureTest().run();
+        });
+
+        (typeof test === 'function' ? test : it)('skipAfterFailure with iteration', function () {
+          error.test = t = function (_Suite4) {
+            _inherits(SkipAfterFailureSuite2, _Suite4);
+
+            function SkipAfterFailureSuite2() {
+              _classCallCheck(this, SkipAfterFailureSuite2);
+
+              return _possibleConstructorReturn(this, (SkipAfterFailureSuite2.__proto__ || Object.getPrototypeOf(SkipAfterFailureSuite2)).apply(this, arguments));
+            }
+
+            _createClass(SkipAfterFailureSuite2, [{
+              key: 'setup',
+              value: function setup() {
+                return regeneratorRuntime.async(function setup$(_context6) {
+                  while (1) {
+                    switch (_context6.prev = _context6.next) {
+                      case 0:
+                        _context6.next = 2;
+                        return regeneratorRuntime.awrap(_get(SkipAfterFailureSuite2.prototype.__proto__ || Object.getPrototypeOf(SkipAfterFailureSuite2.prototype), 'setup', this).call(this));
+
+                      case 2:
+                        this.__failed = true;
+
+                      case 3:
+                      case 'end':
+                        return _context6.stop();
+                    }
+                  }
+                }, null, this);
+              }
+            }], [{
+              key: 'skipAfterFailure',
+              get: function get() {
+                return true;
+              }
+            }]);
+
+            return SkipAfterFailureSuite2;
+          }(Suite);
+          error.test = function (base) {
+            return function (_base13) {
+              _inherits(SkippedTest2, _base13);
+
+              function SkippedTest2() {
+                _classCallCheck(this, SkippedTest2);
+
+                return _possibleConstructorReturn(this, (SkippedTest2.__proto__ || Object.getPrototypeOf(SkippedTest2)).apply(this, arguments));
+              }
+
+              _createClass(SkippedTest2, [{
+                key: 'iteration',
+                value: regeneratorRuntime.mark(function iteration() {
+                  return regeneratorRuntime.wrap(function iteration$(_context7) {
+                    while (1) {
+                      switch (_context7.prev = _context7.next) {
+                        case 0:
+                          return _context7.delegateYield([1, 2, 3], 't0', 1);
+
+                        case 1:
+                        case 'end':
+                          return _context7.stop();
+                      }
+                    }
+                  }, iteration, this);
+                })
+              }, {
+                key: 'operation',
+                value: function operation(parameters) {
+                  return regeneratorRuntime.async(function operation$(_context8) {
+                    while (1) {
+                      switch (_context8.prev = _context8.next) {
+                        case 0:
+                        case 'end':
+                          return _context8.stop();
+                      }
+                    }
+                  }, null, this);
+                }
+              }, {
+                key: 'checkpoint',
+                value: function checkpoint(parameters) {
+                  return regeneratorRuntime.async(function checkpoint$(_context9) {
+                    while (1) {
+                      switch (_context9.prev = _context9.next) {
+                        case 0:
+                          assert.isOk(false, 'SkippedTest2 must be skipped');
+
+                        case 1:
+                        case 'end':
+                          return _context9.stop();
+                      }
+                    }
+                  }, null, this);
+                }
+              }]);
+
+              return SkippedTest2;
+            }(base);
+          };
+          error.test = {
+            SkipAfterFailureSuite2: {
+              SkippedTest2: 'SkipAfterFailureTest2'
+            },
+            ErrorSuite: Suite.repeat('SkippedTest2', 0, 'ErrorSuiteAlias')
+          };
+          console.log(error.branchScenarios);
+          new error.leafClasses.SkipAfterFailureTest2().run();
+        });
+      });
+    });
+
+    (typeof suite === 'function' ? suite : describe)('Suite utilities error test', function () {
+      (typeof test === 'function' ? test : it)('Suite.permute error', function () {
+        assert.throws(function () {
+          Suite.permute(null, function () {
+            return 'a';
+          });
+        }, /null/);
+      });
+    });
+  }
 } // error scope
