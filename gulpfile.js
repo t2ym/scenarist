@@ -111,6 +111,7 @@ gulp.task('es6', () => {
       moduleName: 'Suite',
       plugins: [ async() ]
     }))
+    .pipe(replace(/\nfunction __async\(/, '/* istanbul ignore next: async-to-gen helper function */\nfunction __async('))
     .pipe(rename('Suite.es6.js'))
     .pipe(gulp.dest('.'));
 });
