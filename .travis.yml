@@ -35,7 +35,8 @@ script:
 - nvm install 7
 - node --version
 - mocha --harmony_async_await test/src/test.js
-- mocha --harmony_async_await test/es6/test.js
+- istanbul cover ./node_modules/mocha/bin/_mocha test/es6/test.js --report lcov -- -R spec
+- cp -vf test/7-testerror2.istanbul.yml .istanbul.yml
 - istanbul cover ./node_modules/mocha/bin/_mocha test/es6/testerror2.js --report lcov -- -R spec
 - mocha --harmony_async_await test/min/test.js
 - if [ "${TRAVIS_BRANCH}" != "" ]; then lcov-result-merger 'test/coverage*/lcov.info' | ./node_modules/coveralls/bin/coveralls.js; fi
