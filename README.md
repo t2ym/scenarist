@@ -264,7 +264,7 @@ scope2.test = ...
 
 | Version      | Chrome | Firefox | IE/Edge | Safari | Opera | Node        | ECMAScript           |
 |:-------------|:------:|:-------:|:-------:|:------:|:-----:|:-----------:|:--------------------:|
-| Suite.js     | 55+    | 52+     | 15+     | 10 TP+ | 42+   | 7+ w/ async | ES6 + async/await    |
+| Suite.js     | 55+    | 52+     | 15+     | 10.1+  | 42+   | 7+ w/ async | ES6 + async/await    |
 | Suite.min.js | 55+    | 50+     | 11+     | 10+    | 42+   | 4+ w/ babel | ES5 + babel-polyfill |
 
 ## API
