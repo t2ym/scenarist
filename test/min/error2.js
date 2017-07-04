@@ -143,6 +143,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, /target length error/);
       });
 
+      (typeof test === 'function' ? test : it)('Suite.permute length error 2', function () {
+        assert.throws(function () {
+          try {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+              for (var _iterator2 = Suite._permute(null)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator2.next()).done); _iteratorNormalCompletion = true) {
+                var item = _step.value;
+              }
+            } catch (err) {
+              _didIteratorError = true;
+              _iteratorError = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion && _iterator2.return) {
+                  _iterator2.return();
+                }
+              } finally {
+                if (_didIteratorError) {
+                  throw _iteratorError;
+                }
+              }
+            }
+          } catch (e) {
+            //console.log('catching', e);
+            throw e;
+          }
+        }, /null/);
+      });
+
       (typeof test === 'function' ? test : it)('Suite.permute item error', function () {
         var targets = { '0': 'a', '1': 'b', '2': 'c', length: 4 };
         Object.defineProperty(targets, '3', {

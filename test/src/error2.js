@@ -70,6 +70,18 @@ Suite.debug = true;
         }, /target length error/);
       });
 
+      (typeof test === 'function' ? test : it)('Suite.permute length error 2', function () {
+        assert.throws(function () {
+          try {
+            for (let item of Suite._permute(null)) {}
+          }
+          catch (e) {
+            //console.log('catching', e);
+            throw e;
+          }
+        }, /null/);
+      });
+
       (typeof test === 'function' ? test : it)('Suite.permute item error', function () {
         let targets = { '0': 'a', '1': 'b', '2': 'c', length: 4 };
         Object.defineProperty(targets, '3', {
