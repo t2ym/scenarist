@@ -20,6 +20,11 @@
         {
           "browserName":  "microsoftedge",
           "platform":     "Windows 10",
+          "version":      "15"
+        },
+        {
+          "browserName":  "microsoftedge",
+          "platform":     "Windows 10",
           "version":      "14"
         },
         {
@@ -29,7 +34,7 @@
         },
         {
           "browserName":  "safari",
-          "platform":     "OS X 10.11",
+          "platform":     "OS X 10.12",
           "version":      "10"
         },
         {
@@ -45,7 +50,7 @@
       ]
     },
     "istanbul": {
-      "dir": "test/coverage-web",
+      "dir": "test/coverage-es5-web",
       "reporters": [ "text-summary", "lcov" ],
       "include": [
         "**/Suite.js",

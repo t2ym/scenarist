@@ -18,19 +18,6 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
     // only CommonJS-like enviroments that support module.exports,
     // like Node.
     module.exports = factory();
-    try {
-      new Function('return class $$A$$ {}');
-      if (!module.exports.toString().match(/^class /)) {
-        throw new Error('Suite.min.js requires babel-runtime');
-      }
-    }
-    catch (e) {
-      // Supply Babel runtime helpers
-      module.exports._createClass = module.exports._createClass || require('babel-runtime/helpers/_create-class.js').default;
-      module.exports._classCallCheck = module.exports._classCallCheck || require('babel-runtime/helpers/_class-call-check.js').default;
-      module.exports._possibleConstructorReturn = module.exports._possibleConstructorReturn || require('babel-runtime/helpers/_possible-constructor-return.js').default;
-      module.exports._inherits = module.exports._inherits || require('babel-runtime/helpers/_inherits.js').default;
-    }
   } else {
     // Browser globals
     root.Suite = root.Suite || factory();

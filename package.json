@@ -6,7 +6,7 @@
   "module": "Suite.mjs",
   "jsnext:main": "Suite.mjs",
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha test/es5/test.js --report lcov -- -R spec && wct test/es5/index.html",
+    "test": "nyc mocha test/src/test.js && nyc report --reporter=lcov --report-dir=test/coverage && wct test/src/index.html",
     "build": "gulp"
   },
   "repository": {
@@ -39,12 +39,12 @@
     "gulp-rollup": "^2.9.0",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-uglify": "^2.0.0",
-    "istanbul": "^0.4.5",
     "lcov-result-merger": "^1.2.0",
     "mocha": "^3.2.0",
+    "nyc": "^11.0.3",
     "rollup-plugin-async": "^1.2.0",
     "run-sequence": "^1.2.2",
     "@t2ym/web-component-tester": "^6.0.0",
-    "wct-istanbul": "^0.11.1"
+    "wct-istanbul": "^0.12.1"
   }
 }

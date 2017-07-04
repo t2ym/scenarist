@@ -1,16 +1,45 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.Suite = factory());
-}(this, (function () { 'use strict';
-
-function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g[x?"throw":"next"](a);}catch(e){j(e);return}r.done?s(r.value):Promise.resolve(r.value).then(c,d);}function d(e){c(e,1);}c();})}
-(function () {return __async(function*(){yield Promise.reject(1);}())})()
-
 /*
 @license https://github.com/t2ym/scenarist/blob/master/LICENSE.md
 Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
 */
+
+(function (root, factory) {
+
+  'use strict';
+
+  /* istanbul ignore if: AMD is not tested */
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define([], function () {
+      return (root.Suite = root.Suite || factory());
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like enviroments that support module.exports,
+    // like Node.
+    module.exports = factory();
+    try {
+      new Function('return class $$A$$ {}');
+      if (!module.exports.toString().match(/^class /)) {
+        throw new Error('Suite.min.js requires babel-runtime');
+      }
+    }
+    catch (e) {
+      // Supply Babel runtime helpers
+      module.exports._createClass = module.exports._createClass || require('babel-runtime/helpers/_create-class.js').default;
+      module.exports._classCallCheck = module.exports._classCallCheck || require('babel-runtime/helpers/_class-call-check.js').default;
+      module.exports._possibleConstructorReturn = module.exports._possibleConstructorReturn || require('babel-runtime/helpers/_possible-constructor-return.js').default;
+      module.exports._inherits = module.exports._inherits || require('babel-runtime/helpers/_inherits.js').default;
+    }
+  } else {
+    // Browser globals
+    root.Suite = root.Suite || factory();
+  }
+
+}(this, function () {
+// UMD Definition above, do not remove this line
+  'use strict';
+
 class Suite {
   static get reconnectable() { return true; }
   static get skipAfterFailure() { return false; }
@@ -357,8 +386,8 @@ class Suite {
     for (let chain of this._permute(targets, 0, result, subclass)) {}
     return result;
   }
-  setup() {return __async(function*(){
-  }())}
+  async setup() {
+  }
   forEvent(element, type, trigger, condition) {
     return new Promise(resolve => {
       element.addEventListener(type, function onEvent(event) {
@@ -390,8 +419,8 @@ class Suite {
     }
     yield * steps;
   }
-  teardown() {return __async(function*(){
-  }())}
+  async teardown() {
+  }
   run(classes, target) { // async method
     let self = this;
     if (Suite._name(self.constructor) === 'Suite') {
@@ -419,9 +448,9 @@ class Suite {
           }
           (typeof suite === 'function' ? suite : describe)(self.description || (self.scope + ' suite'), function() {
             let testInstances = testSuites.map(s => [ Suite._name(s), new s(target) ]);
-            Promise.all(testInstances.map((instance, index) =>__async(function*(){ return instance[1].run()
+            Promise.all(testInstances.map(async (instance, index) => instance[1].run()
                 .then(v => testInstances[index][2] = v)
-                .catch(e => testInstances[index][2] = e)}())))
+                .catch(e => testInstances[index][2] = e)))
               .then(results => {
                 if (results.filter(i => i instanceof Error).length > 0) {
                   class MultiError extends Error {
@@ -457,10 +486,10 @@ class Suite {
         try {
           // Scenario Runner
           let overrideToString = (func, ctor) => { func.toString = () => ctor.toString(); return func; };
-          (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), function () {return __async(function*(){
-            (typeof suiteSetup === 'function' ? suiteSetup : before)(function () {return __async(function*(){
-              yield self.setup();
-            }())});
+          (typeof suite === 'function' ? suite : describe)(Object.getOwnPropertyDescriptor(Object.getPrototypeOf(self), 'description') ? self.description : self.uncamel(Suite._name(self.constructor)), async function () {
+            (typeof suiteSetup === 'function' ? suiteSetup : before)(async function () {
+              await self.setup();
+            });
 
             try {
               for (let step of self.scenario()) {
@@ -469,39 +498,39 @@ class Suite {
                     for (let parameters of step.iteration.apply(self)) {
                       (typeof test === 'function' ? test : it)(parameters.name ?
                             (typeof parameters.name === 'function' ? parameters.name(parameters) : parameters.name)
-                            : step.name, overrideToString(function() {return __async(function*(){
+                            : step.name, overrideToString(async function() {
                         if (self.constructor.skipAfterFailure && self.__failed) {
                           return this.skip();
                         }
                         else {
                           self.__failed = true;
                           if (step.operation) {
-                            yield step.operation.call(self, parameters);
+                            await step.operation.call(self, parameters);
                           }
                           if (step.checkpoint) {
-                            yield step.checkpoint.call(self, parameters);
+                            await step.checkpoint.call(self, parameters);
                           }
                           self.__failed = false;
                         }
-                      }.call(this))}, step.ctor));
+                      }, step.ctor));
                     }
                   }
                   else {
-                    (typeof test === 'function' ? test : it)(step.name, overrideToString(function() {return __async(function*(){
+                    (typeof test === 'function' ? test : it)(step.name, overrideToString(async function() {
                       if (self.constructor.skipAfterFailure && self.__failed) {
                         return this.skip();
                       }
                       else {
                         self.__failed = true;
                         if (step.operation) {
-                          yield step.operation.call(self);
+                          await step.operation.call(self);
                         }
                         if (step.checkpoint) {
-                          yield step.checkpoint.call(self);
+                          await step.checkpoint.call(self);
                         }
                         self.__failed = false;
                       }
-                    }.call(this))}, step.ctor));
+                    }, step.ctor));
                   }
                 }
               }
@@ -511,10 +540,10 @@ class Suite {
               exception = checkExceptionHandler(reject, e);
             }
 
-            (typeof suiteTeardown === 'function' ? suiteTeardown : after)(function () {return __async(function*(){
-              yield self.teardown();
-            }())});
-          }())});
+            (typeof suiteTeardown === 'function' ? suiteTeardown : after)(async function () {
+              await self.teardown();
+            });
+          });
 
           if (!exception) {
             resolve(); // resolve the promise for run()
@@ -529,6 +558,5 @@ class Suite {
   }
 }
 
-return Suite;
-
-})));
+  return Suite;
+})); // UMD Definition

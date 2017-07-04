@@ -31,6 +31,45 @@ gulp.task('umd', () => {
     // only CommonJS-like enviroments that support module.exports,
     // like Node.
     module.exports = factory();
+  } else {
+    // Browser globals
+    root.${name} = root.${name} || factory();
+  }
+
+}(this, function () {
+// UMD Definition above, do not remove this line
+  'use strict';
+
+class ${name} {`
+    ))
+    .pipe(replace(`export default ${name};`, `
+  return ${name};
+})); // UMD Definition
+`
+    ))
+    .pipe(rename('Suite.js'))
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('es6', () => {
+  const name = 'Suite';
+  return gulp.src([ 'Suite.mjs' ])
+    .pipe(replace(`class ${name} {`, `
+(function (root, factory) {
+
+  'use strict';
+
+  /* istanbul ignore if: AMD is not tested */
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define([], function () {
+      return (root.${name} = root.${name} || factory());
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like enviroments that support module.exports,
+    // like Node.
+    module.exports = factory();
     try {
       new Function('return class $$A$$ {}');
       if (!module.exports.toString().match(/^class /)) {
@@ -60,12 +99,12 @@ class ${name} {`
 })); // UMD Definition
 `
     ))
-    .pipe(rename('Suite.js'))
+    .pipe(rename('Suite.es6.js'))
     .pipe(gulp.dest('.'));
 });
 
 gulp.task('es5', () => {
-  return gulp.src([ 'Suite.js' ])
+  return gulp.src([ 'Suite.es6.js' ])
     .pipe(sourcemaps.init())
     .pipe(replace(/\/[*] istanbul ignore next: only for ES6 [*]\//g, ''))
     .pipe(babel({
@@ -102,7 +141,7 @@ gulp.task('es5', () => {
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('es6', () => {
+gulp.task('es6-unused', () => {
   return gulp.src('Suite.mjs')
     .pipe(rollup({
       allowRealFiles: true,
@@ -215,5 +254,5 @@ gulp.task('build:demo', () => {
 });
 
 gulp.task('default', (done) => {
-  runSequence('umd', 'es5', 'es6', 'build:test', 'build:testes6', 'build:testes6error2', 'build:demo', done);
+  runSequence('umd', 'es6', 'es5', 'build:test', 'build:demo', done);
 });
