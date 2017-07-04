@@ -654,7 +654,7 @@ scope2.test = ...
 
 ## Complex Examples
 
-### Test Class Mixin with Parameterized Iterations
+### Test Class Mixin with Parameterized Iterations in [dialog-test.js](https://github.com/t2ym/live-localizer/blob/master/test/src/dialog-test.js) for [live-localizer test suites](https://github.com/t2ym/live-localizer/tree/master/test)
 
 ```javascript
 {
