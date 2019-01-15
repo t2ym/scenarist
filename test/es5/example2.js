@@ -238,7 +238,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
       _createClass(Test2, [{
         key: 'iteration',
-        value: regeneratorRuntime.mark(function iteration() {
+        value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
           return regeneratorRuntime.wrap(function iteration$(_context9) {
             while (1) {
               switch (_context9.prev = _context9.next) {
@@ -445,7 +445,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
     _createClass(TestF, [{
       key: 'iteration',
-      value: regeneratorRuntime.mark(function iteration() {
+      value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
         return regeneratorRuntime.wrap(function iteration$(_context17) {
           while (1) {
             switch (_context17.prev = _context17.next) {

@@ -280,7 +280,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(IterationErrorTest, [{
                     key: 'iteration',
-                    value: regeneratorRuntime.mark(function iteration() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
                       return regeneratorRuntime.wrap(function iteration$(_context3) {
                         while (1) {
                           switch (_context3.prev = _context3.next) {
@@ -377,7 +377,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(IterationErrorTest2, [{
                     key: 'iteration',
-                    value: regeneratorRuntime.mark(function iteration() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
                       return regeneratorRuntime.wrap(function iteration$(_context7) {
                         while (1) {
                           switch (_context7.prev = _context7.next) {
@@ -495,7 +495,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(ScenarioErrorTest, [{
                     key: 'scenario',
-                    value: regeneratorRuntime.mark(function scenario() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function scenario() {
                       return regeneratorRuntime.wrap(function scenario$(_context11) {
                         while (1) {
                           switch (_context11.prev = _context11.next) {
@@ -581,7 +581,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(ScenarioErrorTest2, [{
                     key: 'scenario',
-                    value: regeneratorRuntime.mark(function scenario() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function scenario() {
                       return regeneratorRuntime.wrap(function scenario$(_context15) {
                         while (1) {
                           switch (_context15.prev = _context15.next) {
@@ -673,7 +673,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(ScenarioErrorTest3, [{
                     key: 'scenario',
-                    value: regeneratorRuntime.mark(function scenario() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function scenario() {
                       return regeneratorRuntime.wrap(function scenario$(_context19) {
                         while (1) {
                           switch (_context19.prev = _context19.next) {
@@ -1079,7 +1079,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(RunnerIterationErrorTest, [{
                     key: 'iteration',
-                    value: regeneratorRuntime.mark(function iteration() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
                       return regeneratorRuntime.wrap(function iteration$(_context35) {
                         while (1) {
                           switch (_context35.prev = _context35.next) {
@@ -1188,7 +1188,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(RunnerIterationErrorTest3, [{
                     key: 'iteration',
-                    value: regeneratorRuntime.mark(function iteration() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
                       return regeneratorRuntime.wrap(function iteration$(_context40) {
                         while (1) {
                           switch (_context40.prev = _context40.next) {
@@ -1259,7 +1259,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(RunnerIterationErrorTest4, [{
                     key: 'iteration',
-                    value: regeneratorRuntime.mark(function iteration() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
                       return regeneratorRuntime.wrap(function iteration$(_context43) {
                         while (1) {
                           switch (_context43.prev = _context43.next) {
@@ -1316,7 +1316,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                   _createClass(RunnerIterationErrorTest5, [{
                     key: 'iteration',
-                    value: regeneratorRuntime.mark(function iteration() {
+                    value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
                       return regeneratorRuntime.wrap(function iteration$(_context46) {
                         while (1) {
                           switch (_context46.prev = _context46.next) {

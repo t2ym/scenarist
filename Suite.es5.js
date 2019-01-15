@@ -353,7 +353,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       }
     }, {
       key: 'scenario',
-      value: regeneratorRuntime.mark(function scenario() {
+      value: /*#__PURE__*/regeneratorRuntime.mark(function scenario() {
         var steps, proto;
         return regeneratorRuntime.wrap(function scenario$(_context2) {
           while (1) {
@@ -810,7 +810,7 @@ Copyright (c) 2016, Tetsuya Mori <t2y3141592@gmail.com>. All rights reserved.
       }
     }, {
       key: '_permute',
-      value: regeneratorRuntime.mark(function _permute(targets) {
+      value: /*#__PURE__*/regeneratorRuntime.mark(function _permute(targets) {
         var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
         var result = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         var subclass = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function (list) {

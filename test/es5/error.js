@@ -682,7 +682,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
               _createClass(SkippedTest2, [{
                 key: 'iteration',
-                value: regeneratorRuntime.mark(function iteration() {
+                value: /*#__PURE__*/regeneratorRuntime.mark(function iteration() {
                   return regeneratorRuntime.wrap(function iteration$(_context7) {
                     while (1) {
                       switch (_context7.prev = _context7.next) {

@@ -12,6 +12,12 @@ const rollup = require('gulp-rollup');
 const async = require('rollup-plugin-async');
 const fs = require('fs');
 
+gulp.task('esm', () => {
+  return gulp.src([ 'Suite.mjs' ])
+    .pipe(rename('Suite.esm.js'))
+    .pipe(gulp.dest('.'))
+});
+
 gulp.task('umd', () => {
   const name = 'Suite';
   return gulp.src([ 'Suite.mjs' ])
@@ -254,5 +260,5 @@ gulp.task('build:demo', () => {
 });
 
 gulp.task('default', (done) => {
-  runSequence('umd', 'es6', 'es5', 'build:test', 'build:demo', done);
+  runSequence('esm', 'umd', 'es6', 'es5', 'build:test', 'build:demo', done);
 });
