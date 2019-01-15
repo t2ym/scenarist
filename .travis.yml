@@ -22,7 +22,7 @@ addons:
       - google-chrome-stable
   sauce_connect: true
 script:
-- wct --configFile=test/src-wct.conf.json --root=. test/src/index.html
+- wct --configFile=test/src-wct.conf.json --root=. --compile=never test/src/index.html
 - nyc mocha test/src/test.js
 - nyc report --reporter=lcov --report-dir=test/coverage
 - nyc mocha test/src/testerror2.js
