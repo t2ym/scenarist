@@ -173,7 +173,13 @@ Initial -(setup op)-> First checkpoint -(op)-> 2nd CP -> ... -> Final CP for sce
 
 ### Browsers
 
-#### Raw ES6 class version
+#### Raw ES module class version
+
+```js
+  import Suite from 'scenarist/Suite.esm.js';
+```
+
+#### UMD ES6 class version
 
 ```html
   <script src="path/to/bower_components/scenarist/Suite.js"></script>
@@ -190,11 +196,11 @@ Initial -(setup op)-> First checkpoint -(op)-> 2nd CP -> ... -> Final CP for sce
 
 ### NodeJS
 
-#### Node 7.x with --harmony_async_await option
+#### Node 8.x or later
 
 ##### Command Line
 ```sh
-mocha --harmony_async_await test.js
+mocha test.js
 ```
 
 ##### Test Script
@@ -264,10 +270,11 @@ scope2.test = ...
 
 | Version      | Chrome | Firefox | IE/Edge | Safari | Opera | Node        | ECMAScript           |
 |:-------------|:------:|:-------:|:-------:|:------:|:-----:|:-----------:|:--------------------:|
-| Suite.js     | 55+    | 52+     | ~~15+~~ | 10.1+  | 42+   | 7+ w/ async | ES6 + async/await    |
+| Suite.esm.js | 61+    | 60      | 17+     | 10.1+  | 47+   | 10+ w/ esm  | ES6 + ES modules     |
+| Suite.js     | 55+    | 52+     | 17+     | 10.1+  | 42+   | 7+ w/ async | ES6 + async/await    |
 | Suite.min.js | 55+    | 50+     | 11+     | 10+    | 42+   | 4+ w/ babel | ES5 + babel-polyfill |
 
-- Edge 15+ browsers cannot handle class expression properly. See [Issue #12](https://github.com/t2ym/scenarist/issues/12) for the status.
+- Suite.mjs and Suite.esm.js have the same contents but have different file name extensions.
 
 ## API
 
